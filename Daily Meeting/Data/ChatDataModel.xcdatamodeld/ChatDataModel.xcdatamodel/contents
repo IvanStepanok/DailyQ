@@ -2,13 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CDChatSettings" representedClassName="CDChatSettings" syncable="YES" codeGenerationType="class">
         <attribute name="agenda" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="isPurchaced" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="voiceOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="isPurchaced"/>
-                <constraint value="voiceOver"/>
-                <constraint value="agenda"/>
+                <constraint value="id"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>

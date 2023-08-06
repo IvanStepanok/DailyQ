@@ -169,18 +169,18 @@
 				0274BF642A7BBBAC00DA7849 /* Elements */,
 				0274BF8F2A7C121B00DA7849 /* SettingsView */,
 				0274BF5F2A7BBAE900DA7849 /* UserSettingsView */,
-				0274BF592A7BB67300DA7849 /* ChatView */,
+				0274BF592A7BB67300DA7849 /* ChatScreenView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		0274BF592A7BB67300DA7849 /* ChatView */ = {
+		0274BF592A7BB67300DA7849 /* ChatScreenView */ = {
 			isa = PBXGroup;
 			children = (
 				022528632A7ABA2C0048BEDD /* ChatScreenView.swift */,
 				02266E022A7EA1D400941B87 /* ChatScreenViewModel.swift */,
 			);
-			path = ChatView;
+			path = ChatScreenView;
 			sourceTree = "<group>";
 		};
 		0274BF5A2A7BB6C100DA7849 /* Data */ = {

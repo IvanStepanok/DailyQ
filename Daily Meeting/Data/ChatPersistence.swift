@@ -68,6 +68,7 @@ class ChatPersistence: ChatPersistenceProtocol {
                 chatSettings.agenda = settings.agenda
                 chatSettings.isPurchaced = settings.isPurchaced
                 chatSettings.voiceOver = settings.voiceOver
+                chatSettings.id = "123"
                 do {
                     try self.context.save()
                     continuation.resume()

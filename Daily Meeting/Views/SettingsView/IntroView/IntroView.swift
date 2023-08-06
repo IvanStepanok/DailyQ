@@ -168,7 +168,7 @@ struct IntroView: View {
                         .multilineTextAlignment(.center)
 
                         VStack(alignment: .leading) {
-                            Text("Ми згенерували для вас опис проєкту, можете залишити його, або ж написати власноруч. Бажано англійською:")
+                            Text("Ми згенерували для вас опис проєкту, можете залишити його, або ж написати власноруч.")
                                 .padding(.leading, 12)
                                 .padding(.bottom, -2)
                                 .font(.system(size: 14, weight: .thin, design: .default))
@@ -196,7 +196,7 @@ struct IntroView: View {
                             HStack {
                                 Spacer()
                                 CustomButton(text: "Продовжити", action: {
-                                    viewModel.saveUser()
+                                    viewModel.saveAgenda()
                                     viewModel.index = 0
                                     viewModel.showWorkDescription = false
                                     viewModel.currentMessagesIndex = 3
