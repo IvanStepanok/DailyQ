@@ -66,7 +66,7 @@ struct UserSettingsView: View {
                             .foregroundColor(Color.white)
                         Text(viewModel.userSettings.userRole.rawValue)
                             .scaleEffect(1.4)
-                            .fontWeight(.thin)
+                            .font(.system(size: 18, weight: .thin, design: .default))
                             .foregroundColor(Color.white.opacity(0.5))
                         
                         Spacer(minLength: 20)
@@ -78,7 +78,7 @@ struct UserSettingsView: View {
                                     .padding(.leading, 12)
                                     .padding(.bottom, -2)
                                     .foregroundStyle(.white)
-                                    .fontWeight(.thin)
+                                    .font(.system(size: 18, weight: .thin, design: .default))
                                 LazyVGrid(columns: columns) {
                                     ForEach(viewModel.avatars, id: \.self) { avatar in
                                         Button(action: {
@@ -120,7 +120,7 @@ struct UserSettingsView: View {
                                 Text("user name:")
                                     .padding(.leading, 12)
                                     .padding(.bottom, -2)
-                                    .fontWeight(.thin)
+                                    .font(.system(size: 18, weight: .thin, design: .default))
                                 HStack {
                                     TextField("", text: $viewModel.userSettings.userName)
                                         
@@ -150,7 +150,7 @@ struct UserSettingsView: View {
                                     Text("user role:")
                                         .padding(.leading, 12)
                                         .padding(.bottom, -2)
-                                        .fontWeight(.thin)
+                                        .font(.system(size: 18, weight: .thin, design: .default))
                                     HStack {
                                         Text(viewModel.userSettings.userRole.rawValue)
                                         Spacer()
@@ -167,7 +167,7 @@ struct UserSettingsView: View {
                             if !viewModel.userSettings.isBot {
                                 Menu {
                                     Picker(selection: $viewModel.userSettings.englishLevel) {
-                                        ForEach(EnglishLevel.allCases, id: \.self) { level in
+                                        ForEach(EnglishLevel.allCases.reversed(), id: \.self) { level in
                                             Text(level.rawValue).tag(level)
                                         }
                                     } label: {}
@@ -176,7 +176,7 @@ struct UserSettingsView: View {
                                         Text("english level:")
                                             .padding(.leading, 12)
                                             .padding(.bottom, -2)
-                                            .fontWeight(.thin)
+                                            .font(.system(size: 18, weight: .thin, design: .default))
                                         HStack {
                                             Text(viewModel.userSettings.englishLevel.rawValue)
                                             Spacer()
@@ -190,31 +190,31 @@ struct UserSettingsView: View {
                                     }.foregroundStyle(.white)
                                 }
                             }
-                            
-                            Menu {
-                                Picker(selection: $viewModel.userSettings.gender) {
-                                    ForEach(UserGender.allCases, id: \.self) { gender in
-                                        Text(gender.rawValue).tag(gender)
-                                    }
-                                } label: {}
-                            } label: {
-                                VStack(alignment: .leading) {
-                                    Text("User gender:")
-                                        .padding(.leading, 12)
-                                        .padding(.bottom, -2)
-                                        .fontWeight(.thin)
-                                    HStack {
-                                        Text(viewModel.userSettings.gender.rawValue)
-                                        Spacer()
-                                        Image(systemName: "chevron.down")
-                                    }.padding(13)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(lineWidth: 1)
-                                                .fill(.white.opacity(0.1))
-                                        )
-                                }.foregroundStyle(.white)
-                            }
+                            // MARK: Maybe in Future
+//                            Menu {
+//                                Picker(selection: $viewModel.userSettings.gender) {
+//                                    ForEach(UserGender.allCases, id: \.self) { gender in
+//                                        Text(gender.rawValue).tag(gender)
+//                                    }
+//                                } label: {}
+//                            } label: {
+//                                VStack(alignment: .leading) {
+//                                    Text("User gender:")
+//                                        .padding(.leading, 12)
+//                                        .padding(.bottom, -2)
+//                                        .font(.system(size: 18, weight: .thin, design: .default))
+//                                    HStack {
+//                                        Text(viewModel.userSettings.gender.rawValue)
+//                                        Spacer()
+//                                        Image(systemName: "chevron.down")
+//                                    }.padding(13)
+//                                        .overlay(
+//                                            RoundedRectangle(cornerRadius: 12)
+//                                                .stroke(lineWidth: 1)
+//                                                .fill(.white.opacity(0.1))
+//                                        )
+//                                }.foregroundStyle(.white)
+//                            }
                             
                         }
                         
@@ -223,7 +223,7 @@ struct UserSettingsView: View {
                 }
                 Spacer(minLength: 160)
             }
-        }.toolbar(.visible)
+        }.navigationBarHidden(false)
             .navigationTitle("")
     }
 }
@@ -231,13 +231,15 @@ struct UserSettingsView: View {
 struct UserSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         
-        let userSetting = UserSettings(id: "1",
+        let userSetting = UserSettings(id: 1,
                                        isBot: false,
                                        userName: "Igor Kondratuk",
                                        gender: .male,
                                        userRole: .mobile,
                                        englishLevel: .preIntermediate)
         
-        UserSettingsView(isUser: true, viewModel: UserSettingsViewModel(userSettings: userSetting))
+        UserSettingsView(isUser: true, viewModel: UserSettingsViewModel(userSettings: userSetting,
+                                                                        persistence: ChatPersistence(),
+                                                                        updatedUser: {_ in }))
     }
 }

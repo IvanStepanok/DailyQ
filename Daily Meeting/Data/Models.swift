@@ -31,8 +31,8 @@ enum UserGender: String, CaseIterable {
     case female = "Female"
 }
 
-struct UserSettings {
-    var id: String
+struct UserSettings: Equatable {
+    var id: Int
     var isBot: Bool
     var userName: String
     var avatarName: String?
@@ -51,9 +51,22 @@ struct UserSettings {
            }
            let finalHash = abs(hash) % (256*256*256);
            let color = UIColor(hue:CGFloat(finalHash)/255.0 , saturation: 0.40, brightness: 0.75, alpha: 1.0)
-//           let color = UIColor(red: CGFloat((finalHash & 0xFF0000) >> 16) / 255.0,
-//                               green: CGFloat((finalHash & 0xFF00) >> 8) / 255.0,
-//                               blue: CGFloat((finalHash & 0xFF)) / 255.0, alpha: 1.0)
            return color
     }
+}
+
+struct ChatSettings {
+    var agenda: String?
+    var voiceOver: Bool
+    var isPurchaced: Bool
+}
+
+struct Random {
+    static let events: [String] = [
+    "Сломался сервер",
+    "Был день рождения у ",
+    "Заказчику одобрил дизайн",
+    "Вчера был новый год",
+    "",
+    ]
 }

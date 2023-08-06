@@ -28,9 +28,8 @@ struct CustomButton: View {
                     .foregroundColor(.white)
                     .padding(12)
                     .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fixedSize(horizontal: false, vertical: false)
-                            .foregroundColor(bgColor)
+                        VisualEffectView(effect: UIBlurEffect(style: .dark))
+                                                        .cornerRadius(12)
                     )
             })
         }

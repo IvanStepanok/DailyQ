@@ -9,40 +9,12 @@ import Foundation
 
 class SettingsViewModel: ObservableObject {
     
-    let router: Router
+    let router: RouterProtocol
 
-    @Published var users: [UserSettings] = [
-        UserSettings(id: "0",
-                     isBot: false,
-                     userName: "Ivan Stepanok",
-                     avatarName: "avatar_0",
-                     gender: .male,
-                     userRole: .teamLead,
-                     englishLevel: .preIntermediate),
-        UserSettings(id: "1",
-                     isBot: true,
-                     userName: "Igor Kondratuk",
-                     avatarName: "avatar_5",
-                     gender: .male,
-                     userRole: .teamLead,
-                     englishLevel: .preIntermediate),
-        UserSettings(id: "2",
-                     isBot: true,
-                     userName: "Natalie Kovalengo",
-                     avatarName: "avatar_4",
-                     gender: .female,
-                     userRole: .backend,
-                     englishLevel: .preIntermediate),
-        UserSettings(id: "3",
-                     isBot: true,
-                     userName: "Serhii Dorozhny",
-                     avatarName: "avatar_11",
-                     gender: .male,
-                     userRole: .designer,
-                     englishLevel: .preIntermediate)
-    ]
+    @Published var users: [UserSettings]
     
-    init(router: Router) {
+    init(users: [UserSettings], router: RouterProtocol) {
+        self.users = users
         self.router = router
     }
 }

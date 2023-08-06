@@ -22,11 +22,50 @@ struct AvatarView: View {
             VisualEffectView(effect: UIBlurEffect(style: .dark))
                                             .cornerRadius(15)
                 .scaledToFit()
-
+                .overlay {
+                    if !user.isBot {
+                        ZStack(alignment: .topLeading) {
+                            VStack {
+                                HStack(spacing: 3) {
+                                    Image(systemName: "person.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 10)
+                                    Text("YOU")
+                                        .font(.system(size: 12, weight: .regular, design: .default))
+                                    Spacer()
+                                }.padding(.top, 8)
+                                    .padding(.leading, 12)
+                                    .opacity(0.3)
+                                Spacer()
+                            }
+                        }
+                    } else if user.id == 1 {
+                        ZStack(alignment: .topLeading) {
+                            VStack {
+                                HStack {
+                                    Image(systemName: "crown.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 12)
+                                    Spacer()
+                                }.padding(.top, 8)
+                                    .padding(.leading, 12)
+                                    .opacity(0.3)
+                                Spacer()
+                            }
+                        }
+                    }
+                }
         VStack {
             ZStack {
                 if isSpeaking {
-                    TalkingIndicatorView()
+//                    TalkingIndicatorView()
+                    Group {
+                        SiriIndicatorView(offsetX: 0, offsetY: -7, color: Color.cyan, opacity: 1)
+                        SiriIndicatorView(offsetX: 7, offsetY: 7, color: .blue, opacity: 1)
+                        SiriIndicatorView(offsetX: -7, offsetY: 7, color: .purple, opacity: 0.7)
+                    }.opacity(0.5)
                 }
                 if let avatarName = user.avatarName {
                     Image(avatarName)
@@ -38,16 +77,16 @@ struct AvatarView: View {
                     Circle()
                         .foregroundColor(Color(uiColor: user.color))
                     Text(user.userName.prefix(1))
-                        .fontWeight(.medium)
+                        .font(.system(size: 16, weight: .medium, design: .default))
                         .scaledToFit()
-                        .scaleEffect(2)
                         .foregroundColor(Color.white)
                 }
             }.frame(width: 60, height: 60)
             Text(user.userName)
+                .padding(.top, 8)
                 .foregroundColor(Color.white)
             Text(user.userRole.rawValue)
-                    .fontWeight(.thin)
+                .font(.system(size: 12, weight: .thin, design: .default))
                     .foregroundColor(Color.gray)
             }
         }
@@ -57,8 +96,8 @@ struct AvatarView: View {
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
         
-        let userSetting = UserSettings(id: "1",
-                                       isBot: true,
+        let userSetting = UserSettings(id: 1,
+                                       isBot: false,
                                        userName: "Igor Kondratuk",
                                        gender: .male,
                                        userRole: .mobile,
@@ -116,6 +155,59 @@ struct TalkingIndicatorView: View {
         let randomScale = CGFloat.random(in: 1.1...1.5)
         withAnimation(Animation.easeInOut(duration: 0.2)) {
             scale = randomScale
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.randomizeScale()
+        }
+    }
+}
+
+struct SiriIndicatorView: View {
+    @State private var isAnimating = false
+    @State private var scale: CGFloat = 1.0
+    var offsetX: CGFloat
+    var offsetY: CGFloat
+    
+    let color: Color
+    let opacity: CGFloat
+
+    var body: some View {
+        Circle()
+            .offset(x: offsetX, y: offsetY)
+            .blur(radius: 7)
+            .foregroundColor(color.opacity(opacity)) // Цвет круга
+            .frame(width: 60, height: 60)
+            .scaleEffect(scale) // Используем переменную scale для масштабирования
+            .onAppear {
+                animate()
+            }
+    }
+
+    func animate() {
+        withAnimation(Animation.easeInOut(duration: 0.2)) {
+            isAnimating = true
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.randomizeScale()
+        }
+    }
+    
+    func randomizeScale() {
+        let randomScale = CGFloat.random(in: 0.7...1.5)
+        withAnimation(Animation.easeInOut(duration: 0.5)) {
+            scale = randomScale
+        }
+        
+        let randomOffsetX = CGFloat.random(in:-3...3)
+        withAnimation(Animation.easeInOut(duration: 0.5)) {
+//            offsetX = randomOffsetX
+        }
+        
+        let randomOffsetY = CGFloat.random(in: -3...3)
+        withAnimation(Animation.easeInOut(duration: 0.5)) {
+//            offsetY = randomOffsetY
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

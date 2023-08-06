@@ -13,15 +13,18 @@ import Speech
 
 struct ChatScreenView: View {
     
+    @ObservedObject var viewModel: ChatScreenViewModel
+    @ObservedObject var openAI: OpenAiManager
+
+    
     private let columns = [GridItem(.adaptive(minimum: 140, maximum: 200))]
     @State var chatResponse: String = ""
     @State var userMessage: String = ""
     @State var chatExpanded: Bool = false
     @State var openVoiceRecognizer: Bool = false
     @State var isSpeaking: Bool = false
-    private let router: Router
+    @State var whoSpeak: String = ""
     
-    @ObservedObject private var openAI: OpenAiManager
     
     private static func randomColor() -> Color {
         [Color.yellow,
@@ -80,36 +83,9 @@ struct ChatScreenView: View {
         ].randomElement()!
     }
     
-    private let user1: UserSettings
-    private let user2: UserSettings
-    private let user3: UserSettings
-    
-    init(router: Router) {
-        self.router = router
-        self.openAI = OpenAiManager()
-        self.user1 = UserSettings(id: "1",
-                                  isBot: true,
-                                  userName: "Igor Kondratuk",
-                                  avatarName: "avatar_5",
-                                  gender: .male,
-                                  userRole: .teamLead,
-                                  englishLevel: .preIntermediate)
-        
-        self.user2 = UserSettings(id: "2",
-                                  isBot: true,
-                                  userName: "Natalie Kovalengo",
-                                  avatarName: "avatar_4",
-                                  gender: .female,
-                                  userRole: .backend,
-                                  englishLevel: .preIntermediate)
-        
-        self.user3 = UserSettings(id: "3",
-                                  isBot: true,
-                                  userName: "Serhii Dorozhny",
-                                  avatarName: "avatar_11",
-                                  gender: .male,
-                                  userRole: .designer,
-                                  englishLevel: .preIntermediate)
+    init(viewModel: ChatScreenViewModel, openAI: OpenAiManager) {
+        self.viewModel = viewModel
+        self.openAI = openAI
     }
     
     var body: some View {
@@ -122,11 +98,11 @@ struct ChatScreenView: View {
                     ZStack {
                         Text("Daily Meeting")
                             .foregroundStyle(.white)
-                            .fontWeight(.semibold)
+                            .font(.system(size: 18, weight: .semibold, design: .default))
                         HStack {
                             Spacer()
                                 Button(action: {
-                                    router.showSettingsView()
+                                    viewModel.router.showSettingsView()
                                 }, label: {
                                     ZStack {
                                 Circle()
@@ -143,17 +119,16 @@ struct ChatScreenView: View {
                     }
                     
                     LazyVGrid(columns: columns, spacing: 6) {
-                        AvatarView(user: user1, isSpeaking: $isSpeaking)
-                        AvatarView(user: user2, isSpeaking: .constant(false))
-                        AvatarView(user: user3, isSpeaking: .constant(false))
-                        AvatarView(user: user3, isSpeaking: .constant(false))
+                        ForEach(viewModel.members.sorted(by: {$0.id < $1.id}), id: \.id) { user in
+                                AvatarView(user: user, isSpeaking: whoSpeak == user.userName ? $isSpeaking : .constant(false))
+                        }
                     }.padding(.horizontal, 16)
                 }
                 VStack {
                     Spacer()
-                    ChatView(chatResponse: $chatResponse,
-                             userMessage: $userMessage,
+                    ChatView(chatHistory: $openAI.chatHistory,
                              chatExpanded: $chatExpanded,
+                             whoSpeak: { whoSpeak = $0 },
                              isClicked: {
                         openVoiceRecognizer = true
                     }).frame(height: chatExpanded ? reader.size.height : reader.size.height / 2.3)
@@ -184,7 +159,7 @@ struct ChatScreenView: View {
             })
             
             //.background(Color("bgColor"))
-        }.toolbar(.hidden)
+        }.navigationBarHidden(true) //.toolbar(.hidden)
         .sheet(isPresented: $openVoiceRecognizer, content: {
             VoiceRecordView(viewModel: VoiceRecordViewModel(),
                             recognitiedText: { message in
@@ -200,25 +175,44 @@ struct ChatScreenView: View {
 
 struct ChatScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatScreenView(router: Router())
+        ChatScreenView(viewModel: ChatScreenViewModel(users: [],
+                                                      router: RouterMock(),
+                                                      persistence: ChatPersistence()),
+                       openAI: OpenAiManager(persistence: ChatPersistence()))
     }
 }
 
 struct ChatView: View {
     
-    @Binding var chatResponse: String
-    @Binding var userMessage: String
+//    @Binding var chatResponse: String
+    @Binding var chatHistory: [ChatMessage]
     @Binding var chatExpanded: Bool
+    var whoSpeak: (String) -> Void
     var isClicked: () -> Void
+    
 
-    init(chatResponse: Binding<String>,
-         userMessage: Binding<String>,
+    init(chatHistory: Binding<[ChatMessage]>,
          chatExpanded: Binding<Bool>,
+         whoSpeak:  @escaping (String) -> Void,
          isClicked: @escaping () -> Void) {
-        self._chatResponse = chatResponse
-        self._userMessage = userMessage
+        self._chatHistory = chatHistory
         self._chatExpanded = chatExpanded
+        self.whoSpeak = whoSpeak
         self.isClicked = isClicked
+    }
+    
+    func getName(_ content: String) -> String? {
+        if content.first == "#" {
+            let namePattern = "#(.*?)#"
+            let regex = try! NSRegularExpression(pattern: namePattern)
+            let range = NSRange(location: 0, length: content.utf16.count)
+            if let match = regex.firstMatch(in: content, options: [], range: range) {
+                let name = (content as NSString).substring(with: match.range(at: 1))
+                whoSpeak(name)
+                return name
+            }
+        }
+        return nil
     }
     
     var body: some View {
@@ -229,21 +223,39 @@ struct ChatView: View {
                         .foregroundColor(Color.white)
                         .ignoresSafeArea()
                         
-                    VStack {
                         ScrollViewReader { reader in
                             ScrollView {
-                                Text(chatResponse)
-                                    .multilineTextAlignment(.leading)
-                                    .foregroundColor(.black)
-                                    .padding(26)
-                                VStack{}.id(1)
+                                VStack(alignment: .leading, spacing: 10) {
+                                ForEach(chatHistory.filter({ $0.role != .system })) { history in
+                                        if history.content != "You: Start" {
+                                            if let name = getName(history.content) {
+                                                Text(name)
+                                                    .font(.system(size: 16, weight: .semibold, design: .default))
+                                                    .foregroundColor(.black)
+                                                    .onAppear {
+                                                        withAnimation {
+                                                            reader.scrollTo(1, anchor: .bottom)
+                                                        }
+                                                    }
+                                                Text(
+                                                    history.content
+                                                        .replacingOccurrences(of: "#\(name)# ", with: "")
+                                                        .replacingOccurrences(of: "#", with: "")
+                                                )
+                                                .font(.system(size: 16, weight: .regular, design: .default))
+                                                .foregroundColor(.black)
+                                                .multilineTextAlignment(.leading)
+                                            } else {
+                                                Text(history.content)
+                                                    .font(.system(size: 16, weight: .regular, design: .default))
+                                                    .foregroundColor(.black)
+                                                    .multilineTextAlignment(.leading)
+                                            }
+                                        }
+                                    }
+                                    VStack{}.id(1)
+                                }.padding(26)
                             }
-                            .onChange(of: chatResponse.publisher, perform: { _ in
-                                withAnimation {
-                                    reader.scrollTo(1, anchor: .bottom)
-                                }
-                            })
-                        }
 
                         HStack(spacing: 0) {
                             Button(action: {
