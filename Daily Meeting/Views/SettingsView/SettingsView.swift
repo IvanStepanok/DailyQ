@@ -10,9 +10,11 @@ import SwiftUI
 struct SettingsView: View {
     
     @ObservedObject var viewModel: SettingsViewModel
+    @State var voiceOverOn: Bool = true
      
     private static var avatarSize: CGFloat = 120
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    
 
     init(viewModel: SettingsViewModel) {
         self.viewModel = viewModel
@@ -28,13 +30,13 @@ struct SettingsView: View {
                     VStack(spacing: 20) {
                         VStack {}.frame(height: 30)
                         VStack(alignment: .leading) {
-                            Text("Customize your team:")
+                            Text("Налаштуйте свою команду:")
                                 .padding(.leading, 12)
                                 .padding(.bottom, -2)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 18, weight: .thin, design: .default))
+                                .font(.system(size: 18, weight: .light, design: .default))
                             LazyVGrid(columns: columns, spacing: 8) {
-                                ForEach(Array(viewModel.users.enumerated()), id: \.offset) { _, user in
+                                ForEach(viewModel.users.sorted(by: {$0.id < $1.id}), id: \.id) { user in
                                     Button(action: {
                                         viewModel.router.showUserSettingsView(userSettings: user,
                                                                               updatedUser: { updatedData in
@@ -48,6 +50,20 @@ struct SettingsView: View {
                                 }
                             }
                         }
+                        ZStack {
+                            Color.clear
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(lineWidth: 1)
+                                        .fill(.white.opacity(0.1))
+                                )
+                            HStack {
+                                Toggle("Озвучувати голосом", isOn: $voiceOverOn)
+                                    .font(.system(size: 15, weight: .regular, design: .default))
+                            }.padding(16)
+                        }
+                        Spacer(minLength: 100)
                     }.padding(.horizontal, 16)
                 }
             }
@@ -125,13 +141,19 @@ struct RainbowBackgroundView: View {
     
     var body: some View {
         ZStack {
-            images[imageIndex]
-                .resizable()
-                .clipped()
-                .scaledToFit()
-                .ignoresSafeArea()
-                .blur(radius: 100)
+            GeometryReader { reader in
+                images[imageIndex]
+                    .resizable()
+                    .clipped()
+                    .scaledToFit()
+                    .blur(radius: 100)
+                    .frame(height: reader.size.height / 1)
+                    .offset(y: -reader.size.height / 4)
+                    .clipped()
+            }
         }.onAppear(perform: updateImageIndex)
+            .ignoresSafeArea()
+
             
     }
 }

@@ -12,16 +12,11 @@ class VoiceRecordViewModel: ObservableObject {
     
     @Published var isRecording = false
     @Published var recognizedText = ""
+    
     var previewRecognizedText: String {
-        var text = ""
-        for part in recognizedParts { text += part }
-        text += recognizedText
-        finalRecognizedText = text
-        return text
+        return bufferRecognizedText + recognizedText
     }
-    var finalRecognizedText = ""
-
-    @Published var recognizedParts: [String] = []
+    var bufferRecognizedText = ""
     
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
     

@@ -14,6 +14,7 @@ enum UserRole: String, CaseIterable {
     case qa = "Quality Assurance"
     case frontend = "Frontend Developer"
     case backend = "Backend Developer"
+    case humanResourse = "Human Resourse"
 }
 
 enum EnglishLevel: String, CaseIterable {
@@ -56,9 +57,14 @@ struct UserSettings: Equatable {
 }
 
 struct ChatSettings {
-    var agenda: String?
+    var companyDetails: String?
     var voiceOver: Bool
-    var isPurchaced: Bool
+    var isPremium: Bool
+    var meetingsVisited: Int
+    var lastMeetingDate: Date?
+    var userCanVisit: Bool {
+        (isPremium && meetingsVisited < 10) || (!isPremium && meetingsVisited < 1)
+    }
 }
 
 struct Random {

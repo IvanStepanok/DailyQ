@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CDChallengeDate" representedClassName="CDChallengeDate" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="date"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="CDChatSettings" representedClassName="CDChatSettings" syncable="YES" codeGenerationType="class">
-        <attribute name="agenda" optional="YES" attributeType="String"/>
+        <attribute name="companyDetails" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="isPurchaced" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isPremium" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastMeetingDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="meetingsVisited" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="voiceOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>

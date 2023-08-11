@@ -90,7 +90,7 @@ class IntroViewModel: ObservableObject {
                 }
                 self.workDescription = description
             }
-            userSettings.agenda = description
+            userSettings.companyDetails = description
             await persistence.saveSettings(userSettings)
         }
     }
@@ -179,9 +179,9 @@ class IntroViewModel: ObservableObject {
         teamSettings.append(userSettings)
     }
     
-    func saveAgenda() {
+    func saveCompanyDetails() {
         var userSettings = persistence.loadSettings()
-        userSettings.agenda = workDescription
+        userSettings.companyDetails = workDescription
         let settings = userSettings
         Task {
            await persistence.saveSettings(settings)

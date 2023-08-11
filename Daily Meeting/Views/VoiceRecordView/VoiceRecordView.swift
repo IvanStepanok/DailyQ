@@ -29,9 +29,9 @@ struct VoiceRecordView: View {
             
             VStack {
                 
-                TextEditor(text: $viewModel.finalRecognizedText)
-                    .hideScrollContentBackground()
-//                Text(viewModel.previewRecognizedText)
+                //                TextEditor(text: $viewModel.finalRecognizedText)
+                //                    .hideScrollContentBackground()
+                Text(viewModel.previewRecognizedText)
                     .frame(height: 200)
                     .padding(.top, 20)
                     .padding(.bottom, -30)
@@ -85,34 +85,39 @@ struct VoiceRecordView: View {
                                 ForEach(Array([".", ",", "!", "?", "erase"].enumerated()), id: \.offset ) { index, symbol in
                                     Button(action: {
                                         if symbol != "erase" {
-                                            viewModel.recognizedText.append("\(symbol) ")
-                                            viewModel.recognizedParts.append(viewModel.recognizedText)
-                                            viewModel.recognizedText = ""
                                             viewModel.stopRecording()
+                                            viewModel.recognizedText.append("\(symbol) ")
+//                                            viewModel.recognizedParts.append(viewModel.recognizedText)
+                                            viewModel.bufferRecognizedText.append(viewModel.recognizedText)
+//                                            viewModel.bufferRecognizedText.append("\(symbol) ")
+                                            viewModel.recognizedText = ""
                                             viewModel.startRecording()
                                         } else {
-                                            viewModel.recognizedParts.append(viewModel.recognizedText)
-                                            viewModel.recognizedText = ""
-                                            viewModel.recognizedParts.popLast()
                                             viewModel.stopRecording()
+                                            viewModel.bufferRecognizedText.append(viewModel.recognizedText)
+                                            viewModel.recognizedText = ""
+                                            if !viewModel.bufferRecognizedText.isEmpty {
+                                                viewModel.bufferRecognizedText.deleteLastWord()
+                                            }
+                                            viewModel.startRecording()
                                         }
                                     }, label: {
-                                    ZStack {
-                                        Circle()
-                                            .foregroundColor(Color("secondaryColor"))
-                                        if symbol != "erase" {
-                                            Text(symbol)
-                                                .foregroundColor(.white)
-                                                .font(Font.system(size: 24))
-                                        } else {
-                                            Image(systemName: "delete.backward")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 24)
-                                                .foregroundStyle(.red)
-                                                .offset(x: -2)
+                                        ZStack {
+                                            Circle()
+                                                .foregroundColor(Color("secondaryColor"))
+                                            if symbol != "erase" {
+                                                Text(symbol)
+                                                    .foregroundColor(.white)
+                                                    .font(Font.system(size: 24))
+                                            } else {
+                                                Image(systemName: "delete.backward")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 24)
+                                                    .foregroundStyle(.red)
+                                                    .offset(x: -2)
+                                            }
                                         }
-                                    }
                                     })
                                 }
                                 
@@ -123,9 +128,9 @@ struct VoiceRecordView: View {
                                          bgColor: Color.green,
                                          action: {
                                 viewModel.stopRecording()
-                                recognitiedText(viewModel.finalRecognizedText)
+                                recognitiedText(viewModel.previewRecognizedText)
                                 viewModel.recognizedText = ""
-                                viewModel.recognizedParts = []
+//                                viewModel.recognizedParts = []
                             })
                             .offset(y: viewModel.previewRecognizedText.isEmpty ? 200 : 50)
                             .animation(.easeInOut, value: viewModel.previewRecognizedText.isEmpty)
@@ -186,3 +191,11 @@ struct CircleView: View {
 }
 
 
+extension String {
+    mutating func deleteLastWord() {
+        guard let range = self.range(of: #"[^\s]+\s*$"#, options: .regularExpression) else {
+            return
+        }
+        self.removeSubrange(range)
+    }
+}

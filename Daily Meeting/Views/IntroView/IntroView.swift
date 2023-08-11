@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import OpenAISwift
+import Swinject
 
 struct IntroView: View {
     
@@ -196,7 +198,7 @@ struct IntroView: View {
                             HStack {
                                 Spacer()
                                 CustomButton(text: "Продовжити", action: {
-                                    viewModel.saveAgenda()
+                                    viewModel.saveCompanyDetails()
                                     viewModel.index = 0
                                     viewModel.showWorkDescription = false
                                     viewModel.currentMessagesIndex = 3
@@ -233,7 +235,10 @@ struct IntroView: View {
                             }
                         }
                         CustomButton(text: "Розпочати перший мітинг", action: {
-                            viewModel.router.showMeetingView(users: viewModel.teamSettings)
+                            let openAI = Container.shared.resolve(OpenAISwift.self)!
+                            let meeting = Container.shared.resolve(DailyMeeting.self)!
+                            //DailyMeeting(persistence: self.viewModel.persistence, openAI: openAI)
+                            viewModel.router.showMeetingView(meeting: meeting)
                         })
                     }.padding(.horizontal, 16)
                         .opacity(viewModel.animation ? 1 : 0).padding(24)
@@ -265,9 +270,9 @@ struct IntroView_Previews: PreviewProvider {
                 gender: .male,
                 userRole: .mobile,
                 englishLevel: .advanced
-            ), persistence: ChatPersistence(),
+            ), persistence: ChatPersistenceMock(),
             router: RouterMock(),
-            openAI: OpenAiManager(persistence: ChatPersistence()))
+            openAI: OpenAiManager(meeting: DailyMeeting(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))))
         )
     }
 }

@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import OSSSpeechKit
 import Speech
 
 class ChatScreenViewModel: ObservableObject {
@@ -21,6 +20,7 @@ class ChatScreenViewModel: ObservableObject {
     @Published var isSpeaking: Bool = false
     let router: RouterProtocol
     let persistence: ChatPersistenceProtocol
+    let synthesizer = AVSpeechSynthesizer() // TODO: Hide to DI
     
     init(users: [UserSettings], router: RouterProtocol, persistence: ChatPersistenceProtocol) {
         self.userSettings = users.first(where: {$0.isBot == false}) ?? UserSettings(id: 9,
@@ -34,11 +34,20 @@ class ChatScreenViewModel: ObservableObject {
         self.persistence = persistence
     }
     
-    func readTextWithSpeech(_ text: String) {
-        let speechKit = OSSSpeech.shared
-        speechKit.voice = OSSVoice(quality: .enhanced, language: .UnitedStatesEnglish)
+    func readTextWithSpeech(_ text: String, gender: UserGender) {
+        let voice: AVSpeechSynthesisVoice?
         
-        speechKit.speakText(text)
+        switch gender {
+        case .male:
+            voice = AVSpeechSynthesisVoice(language: "en-US")
+        case .female:
+            voice = AVSpeechSynthesisVoice(language: "en-GB")
+        }
+        
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.rate = AVSpeechUtteranceMaximumSpeechRate / 2.0
+        utterance.voice = voice
+        synthesizer.speak(utterance)
         imitateSpeaking(text: text, value: isSpeaking, completion: { self.isSpeaking = $0 })
     }
     

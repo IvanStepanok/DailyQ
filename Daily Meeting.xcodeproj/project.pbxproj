@@ -14,10 +14,10 @@
 		022528692A7ABA2E0048BEDD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 022528682A7ABA2E0048BEDD /* Preview Assets.xcassets */; };
 		022528742A7AEDF90048BEDD /* OpenAiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022528732A7AEDF90048BEDD /* OpenAiManager.swift */; };
 		022528772A7B03250048BEDD /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 022528762A7B03250048BEDD /* OpenAISwift */; };
-		022528802A7B2FFA0048BEDD /* OSSSpeechKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0225287F2A7B2FFA0048BEDD /* OSSSpeechKit */; };
 		02266DFE2A7E6CD500941B87 /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02266DFD2A7E6CD500941B87 /* IntroView.swift */; };
 		02266E002A7E92D700941B87 /* IntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02266DFF2A7E92D600941B87 /* IntroViewModel.swift */; };
 		02266E032A7EA1D400941B87 /* ChatScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02266E022A7EA1D400941B87 /* ChatScreenViewModel.swift */; };
+		02529E642A8037FF00233857 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02529E632A8037FF00233857 /* MainView.swift */; };
 		0274BF5C2A7BB6E500DA7849 /* ChatPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF5B2A7BB6E500DA7849 /* ChatPersistence.swift */; };
 		0274BF5E2A7BB71A00DA7849 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF5D2A7BB71A00DA7849 /* Models.swift */; };
 		0274BF612A7BBAFA00DA7849 /* UserSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF602A7BBAFA00DA7849 /* UserSettingsView.swift */; };
@@ -43,6 +43,17 @@
 		0274BF962A7C54CE00DA7849 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF952A7C54CE00DA7849 /* Router.swift */; };
 		0274BF992A7C559900DA7849 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 0274BF982A7C559900DA7849 /* Swinject */; };
 		0274BF9C2A7C55E700DA7849 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF9B2A7C55E700DA7849 /* AppAssembly.swift */; };
+		0277E94E2A83ECA000DD0DA2 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 0277E94D2A83ECA000DD0DA2 /* SwiftUIIntrospect */; };
+		0285A7EE2A80F83D00E4BA7B /* MeetingCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0285A7ED2A80F83D00E4BA7B /* MeetingCompleted.swift */; };
+		0285A7F02A80F8B400E4BA7B /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0285A7EF2A80F8B400E4BA7B /* RatingView.swift */; };
+		0285A7F32A80FB4000E4BA7B /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0285A7F22A80FB4000E4BA7B /* ConfettiSwiftUI */; };
+		0285A7F52A812FCA00E4BA7B /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0285A7F42A812FCA00E4BA7B /* AlertView.swift */; };
+		0287FDD92A851F2F00C97FD6 /* MeetingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDD82A851F2F00C97FD6 /* MeetingProtocol.swift */; };
+		0287FDDB2A851F9300C97FD6 /* DailyMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDA2A851F9300C97FD6 /* DailyMeeting.swift */; };
+		0287FDDD2A85224E00C97FD6 /* TechInterview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDC2A85224E00C97FD6 /* TechInterview.swift */; };
+		0287FDDF2A85358100C97FD6 /* SalaryReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDE2A85358100C97FD6 /* SalaryReview.swift */; };
+		02E701A62A823B76003C6B40 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E701A52A823B76003C6B40 /* CalendarView.swift */; };
+		02E8307A2A80491B009C8AE2 /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E830792A80491B009C8AE2 /* PremiumView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +67,7 @@
 		02266DFD2A7E6CD500941B87 /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 		02266DFF2A7E92D600941B87 /* IntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewModel.swift; sourceTree = "<group>"; };
 		02266E022A7EA1D400941B87 /* ChatScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatScreenViewModel.swift; sourceTree = "<group>"; };
+		02529E632A8037FF00233857 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0274BF5B2A7BB6E500DA7849 /* ChatPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPersistence.swift; sourceTree = "<group>"; };
 		0274BF5D2A7BB71A00DA7849 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		0274BF602A7BBAFA00DA7849 /* UserSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsView.swift; sourceTree = "<group>"; };
@@ -80,6 +92,15 @@
 		0274BF922A7C130F00DA7849 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		0274BF952A7C54CE00DA7849 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		0274BF9B2A7C55E700DA7849 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
+		0285A7ED2A80F83D00E4BA7B /* MeetingCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCompleted.swift; sourceTree = "<group>"; };
+		0285A7EF2A80F8B400E4BA7B /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
+		0285A7F42A812FCA00E4BA7B /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		0287FDD82A851F2F00C97FD6 /* MeetingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingProtocol.swift; sourceTree = "<group>"; };
+		0287FDDA2A851F9300C97FD6 /* DailyMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMeeting.swift; sourceTree = "<group>"; };
+		0287FDDC2A85224E00C97FD6 /* TechInterview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechInterview.swift; sourceTree = "<group>"; };
+		0287FDDE2A85358100C97FD6 /* SalaryReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalaryReview.swift; sourceTree = "<group>"; };
+		02E701A52A823B76003C6B40 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		02E830792A80491B009C8AE2 /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,8 +109,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				022528772A7B03250048BEDD /* OpenAISwift in Frameworks */,
-				022528802A7B2FFA0048BEDD /* OSSSpeechKit in Frameworks */,
+				0285A7F32A80FB4000E4BA7B /* ConfettiSwiftUI in Frameworks */,
 				0274BF992A7C559900DA7849 /* Swinject in Frameworks */,
+				0277E94E2A83ECA000DD0DA2 /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,12 +184,24 @@
 			path = IntroView;
 			sourceTree = "<group>";
 		};
+		02529E622A8037EE00233857 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				02529E632A8037FF00233857 /* MainView.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
 		0274BF582A7BB66900DA7849 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0274BF6A2A7BD98800DA7849 /* VoiceRecordView */,
 				0274BF642A7BBBAC00DA7849 /* Elements */,
+				02529E622A8037EE00233857 /* MainView */,
+				0285A7EC2A80F82700E4BA7B /* MeetingCompleted */,
+				02E830782A80487E009C8AE2 /* PremiumView */,
+				0274BF6A2A7BD98800DA7849 /* VoiceRecordView */,
 				0274BF8F2A7C121B00DA7849 /* SettingsView */,
+				02266E012A7E92DC00941B87 /* IntroView */,
 				0274BF5F2A7BBAE900DA7849 /* UserSettingsView */,
 				0274BF592A7BB67300DA7849 /* ChatScreenView */,
 			);
@@ -186,6 +220,7 @@
 		0274BF5A2A7BB6C100DA7849 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				0287FDD72A851F1E00C97FD6 /* Meetings */,
 				0274BF5B2A7BB6E500DA7849 /* ChatPersistence.swift */,
 				021187402A7D28F7008C69F1 /* ChatDataModel.xcdatamodeld */,
 				0274BF5D2A7BB71A00DA7849 /* Models.swift */,
@@ -207,6 +242,9 @@
 			children = (
 				0274BF662A7BBBF400DA7849 /* AvatarView.swift */,
 				0274BF682A7BCECC00DA7849 /* CustomButton.swift */,
+				0285A7EF2A80F8B400E4BA7B /* RatingView.swift */,
+				0285A7F42A812FCA00E4BA7B /* AlertView.swift */,
+				02E701A52A823B76003C6B40 /* CalendarView.swift */,
 			);
 			path = Elements;
 			sourceTree = "<group>";
@@ -283,7 +321,6 @@
 			children = (
 				0274BF902A7C122900DA7849 /* SettingsView.swift */,
 				0274BF922A7C130F00DA7849 /* SettingsViewModel.swift */,
-				02266E012A7E92DC00941B87 /* IntroView */,
 			);
 			path = SettingsView;
 			sourceTree = "<group>";
@@ -304,6 +341,33 @@
 			path = DI;
 			sourceTree = "<group>";
 		};
+		0285A7EC2A80F82700E4BA7B /* MeetingCompleted */ = {
+			isa = PBXGroup;
+			children = (
+				0285A7ED2A80F83D00E4BA7B /* MeetingCompleted.swift */,
+			);
+			path = MeetingCompleted;
+			sourceTree = "<group>";
+		};
+		0287FDD72A851F1E00C97FD6 /* Meetings */ = {
+			isa = PBXGroup;
+			children = (
+				0287FDD82A851F2F00C97FD6 /* MeetingProtocol.swift */,
+				0287FDDA2A851F9300C97FD6 /* DailyMeeting.swift */,
+				0287FDDC2A85224E00C97FD6 /* TechInterview.swift */,
+				0287FDDE2A85358100C97FD6 /* SalaryReview.swift */,
+			);
+			path = Meetings;
+			sourceTree = "<group>";
+		};
+		02E830782A80487E009C8AE2 /* PremiumView */ = {
+			isa = PBXGroup;
+			children = (
+				02E830792A80491B009C8AE2 /* PremiumView.swift */,
+			);
+			path = PremiumView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -322,8 +386,9 @@
 			name = "Daily Meeting";
 			packageProductDependencies = (
 				022528762A7B03250048BEDD /* OpenAISwift */,
-				0225287F2A7B2FFA0048BEDD /* OSSSpeechKit */,
 				0274BF982A7C559900DA7849 /* Swinject */,
+				0285A7F22A80FB4000E4BA7B /* ConfettiSwiftUI */,
+				0277E94D2A83ECA000DD0DA2 /* SwiftUIIntrospect */,
 			);
 			productName = "Daily Meeting";
 			productReference = 0225285E2A7ABA2C0048BEDD /* Daily Meeting.app */;
@@ -355,8 +420,9 @@
 			mainGroup = 022528552A7ABA2C0048BEDD;
 			packageReferences = (
 				0225286F2A7AE9500048BEDD /* XCRemoteSwiftPackageReference "OpenAISwift" */,
-				0225287E2A7B2FFA0048BEDD /* XCRemoteSwiftPackageReference "OSSSpeechKit" */,
 				0274BF972A7C559900DA7849 /* XCRemoteSwiftPackageReference "Swinject" */,
+				0285A7F12A80FB4000E4BA7B /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
+				0277E94C2A83ECA000DD0DA2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 0225285F2A7ABA2C0048BEDD /* Products */;
 			projectDirPath = "";
@@ -389,13 +455,18 @@
 				0274BF5C2A7BB6E500DA7849 /* ChatPersistence.swift in Sources */,
 				0274BF852A7BEA9800DA7849 /* KeyboardState.swift in Sources */,
 				0274BF692A7BCECC00DA7849 /* CustomButton.swift in Sources */,
+				0287FDD92A851F2F00C97FD6 /* MeetingProtocol.swift in Sources */,
 				0274BF8B2A7BEA9800DA7849 /* DismissKeyboardTapViewModifier.swift in Sources */,
 				022528622A7ABA2C0048BEDD /* Daily_MeetingApp.swift in Sources */,
 				02266E002A7E92D700941B87 /* IntroViewModel.swift in Sources */,
 				022528742A7AEDF90048BEDD /* OpenAiManager.swift in Sources */,
+				02E701A62A823B76003C6B40 /* CalendarView.swift in Sources */,
+				0287FDDF2A85358100C97FD6 /* SalaryReview.swift in Sources */,
+				02529E642A8037FF00233857 /* MainView.swift in Sources */,
 				0274BF632A7BBB3700DA7849 /* UserSettingsViewModel.swift in Sources */,
 				0274BF9C2A7C55E700DA7849 /* AppAssembly.swift in Sources */,
 				0274BF912A7C122900DA7849 /* SettingsView.swift in Sources */,
+				0285A7F02A80F8B400E4BA7B /* RatingView.swift in Sources */,
 				0274BF932A7C130F00DA7849 /* SettingsViewModel.swift in Sources */,
 				0274BF862A7BEA9800DA7849 /* Publishers+KeyboardState.swift in Sources */,
 				0274BF962A7C54CE00DA7849 /* Router.swift in Sources */,
@@ -406,15 +477,20 @@
 				0274BF6C2A7BD99600DA7849 /* VoiceRecordView.swift in Sources */,
 				0274BF882A7BEA9800DA7849 /* KeyboardScrollerOptions.swift in Sources */,
 				0274BF892A7BEA9800DA7849 /* KeyboardScroller.swift in Sources */,
+				02E8307A2A80491B009C8AE2 /* PremiumView.swift in Sources */,
 				0274BF672A7BBBF400DA7849 /* AvatarView.swift in Sources */,
 				0274BF832A7BEA9800DA7849 /* KeyboardAvoidingViewControllerRepr.swift in Sources */,
 				02266DFE2A7E6CD500941B87 /* IntroView.swift in Sources */,
 				0274BF612A7BBAFA00DA7849 /* UserSettingsView.swift in Sources */,
+				0285A7F52A812FCA00E4BA7B /* AlertView.swift in Sources */,
 				0274BF842A7BEA9800DA7849 /* KeyboardAvoidingViewController.swift in Sources */,
 				0274BF872A7BEA9800DA7849 /* KeyboardStateObserver.swift in Sources */,
 				02266E032A7EA1D400941B87 /* ChatScreenViewModel.swift in Sources */,
 				0274BF8E2A7C058000DA7849 /* StringExtension.swift in Sources */,
 				0274BF5E2A7BB71A00DA7849 /* Models.swift in Sources */,
+				0287FDDB2A851F9300C97FD6 /* DailyMeeting.swift in Sources */,
+				0285A7EE2A80F83D00E4BA7B /* MeetingCompleted.swift in Sources */,
+				0287FDDD2A85224E00C97FD6 /* TechInterview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +630,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -586,6 +663,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -632,20 +710,28 @@
 				minimumVersion = 1.2.0;
 			};
 		};
-		0225287E2A7B2FFA0048BEDD /* XCRemoteSwiftPackageReference "OSSSpeechKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AppDevGuy/OSSSpeechKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.3;
-			};
-		};
 		0274BF972A7C559900DA7849 /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
+			};
+		};
+		0277E94C2A83ECA000DD0DA2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.0;
+			};
+		};
+		0285A7F12A80FB4000E4BA7B /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -656,15 +742,20 @@
 			package = 0225286F2A7AE9500048BEDD /* XCRemoteSwiftPackageReference "OpenAISwift" */;
 			productName = OpenAISwift;
 		};
-		0225287F2A7B2FFA0048BEDD /* OSSSpeechKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0225287E2A7B2FFA0048BEDD /* XCRemoteSwiftPackageReference "OSSSpeechKit" */;
-			productName = OSSSpeechKit;
-		};
 		0274BF982A7C559900DA7849 /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0274BF972A7C559900DA7849 /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		0277E94D2A83ECA000DD0DA2 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0277E94C2A83ECA000DD0DA2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = SwiftUIIntrospect;
+		};
+		0285A7F22A80FB4000E4BA7B /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0285A7F12A80FB4000E4BA7B /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -221,6 +221,9 @@ struct UserSettingsView: View {
                     }.padding(.horizontal, 16)
                         .padding(.top, 24)
                 }
+                .onDisappear {
+                    viewModel.updateUserName(viewModel.userSettings.userName)
+                }
                 Spacer(minLength: 160)
             }
         }.navigationBarHidden(false)
