@@ -14,8 +14,9 @@ class OpenAiManager: ObservableObject {
 //    private var openAI = OpenAISwift(config: .makeDefaultOpenAI(apiKey: "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"))
     private var openAI: OpenAISwift
     @Published var chatHistory: [ChatMessage] = []
+    private var oneTry: Bool = false
                                             
-    let meeting: MeetingProtocol
+    var meeting: MeetingProtocol
     
     init(meeting: MeetingProtocol) {
         self.meeting = meeting
@@ -53,14 +54,21 @@ Language: English.
     }
     
     func getFeedback() async -> String {
-        let messages = chatHistory.filter({ $0.role == .user }).map { $0.content }.joined(separator: " \n ")
+        let messages = chatHistory.filter({ $0.role == .user }).enumerated().map { index, message in
+            if index != 0 {
+               return "\(index)) " + message.content.removeUsernameAndHashtags()
+            } else {
+                return ""
+            }
+        }.joined(separator: " \n \n")
         
         let promt = """
-I am studying English, tell me what mistakes I made in this text? \(messages). Your response in Ukrainian language.
+Розкажи мені будь-ласка дуже детально, які я допустив помилки в кожному з цих речень і чому? \(messages).
 """
         print(">>>>>", promt)
         do {
-            let result = try await openAI.sendChat(with: [ChatMessage(role: .user, content: promt)], maxTokens: 500)
+            let result = try await openAI.sendChat(with: [ChatMessage(role: .assistant, content: promt), ChatMessage(role: .user, content: " ")])
+            print(result)
             return result.choices.first?.message.content ?? "Content creation error"
         } catch {
             print(">>>> 🤡", error.localizedDescription)
@@ -73,18 +81,20 @@ I am studying English, tell me what mistakes I made in this text? \(messages). Y
         let userMessage = ChatMessage(role: .user, content: "#You# " + message)
             self.chatHistory.append(userMessage)
         do {
-//            openAI.sendCompletion(with: message) { result in
-//                switch result {
-//                   case .success(let success):
-//                    print(success.choices?.first?.text ?? "")
-//                   case .failure(let failure):
-//                       print(failure.localizedDescription)
-//                   }
-//            }
-            let result = try await openAI.sendChat(with: chatHistory)
+            let result = try await openAI.sendChat(with: chatHistory, maxTokens: 200)
             print("result ", result)
             guard let response = result.choices.first?.message else { return }
+            print(">>>> count", response.content.count)
+            if !oneTry {
+                if response.content.count < 300 {
+                    self.chatHistory.append(response)
+                } else {
+                    oneTry = true
+                    await sendMessage(message: message)
+                }
+            } else {
                 self.chatHistory.append(response)
+            }
         } catch {
             print(">>>> 🤡", error.localizedDescription)
         }

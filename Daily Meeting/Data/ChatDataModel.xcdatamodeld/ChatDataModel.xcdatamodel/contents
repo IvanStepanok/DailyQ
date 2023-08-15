@@ -12,8 +12,7 @@
         <attribute name="companyDetails" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="isPremium" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="lastMeetingDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="meetingsVisited" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="userOnboarded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="voiceOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>

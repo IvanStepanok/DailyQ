@@ -8,18 +8,21 @@
 import SwiftUI
 import Swinject
 import OpenAISwift
+import KeychainSwift
 
 class MainViewModel: ObservableObject {
     
     @Published var timeLeftString: String?
     let targetTime: TimeInterval = 24 * 60 * 60
     @Published private var timer: Timer?
+    @Published var refreshPage: Bool = true
     let persistence: ChatPersistenceProtocol
     let router: RouterProtocol
     let currentUser: UserSettings?
     let members: [UserSettings]
     let meetings: [LessonType] = [.dailyMeeting, .techInterview, .salaryReview]
     let openAI: OpenAISwift
+    var settings: ChatSettings
     
     // DELETE ME
     var bgImages: [String] = [
@@ -45,10 +48,8 @@ class MainViewModel: ObservableObject {
         self.members = persistence.loadAllUsersSettings()
         self.currentUser = members.first(where: {$0.isBot == false})
         self.openAI = openAI
+        self.settings = persistence.loadSettings()
         startTimer()
-        print(">>>>> SETTINGS", persistence.loadSettings())
-        print(">>>>> SETTINGS", persistence.loadSettings().userCanVisit)
-
     }
     
     enum LessonType {
@@ -57,25 +58,36 @@ class MainViewModel: ObservableObject {
         case salaryReview
         
         func meeting(persistence: ChatPersistenceProtocol, openAI: OpenAISwift) -> MeetingProtocol {
-#if DEBUG
-            switch self {
-            case .dailyMeeting:
-                return DailyMeeting(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))
-            case .techInterview:
-                return TechInterview(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))
-            case .salaryReview:
-                return SalaryReview(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))
-            }
-#else
-            switch self {
-            case .dailyMeeting:
-                return Container.shared.resolve(DailyMeeting.self)!
-            case .techInterview:
-                return Container.shared.resolve(TechInterview.self)!
-            case .salaryReview:
-                return Container.shared.resolve(SalaryReview.self)!
-            }
-#endif
+//#if DEBUG
+//            switch self {
+//            case .dailyMeeting:
+//                return DailyMeeting(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))
+//            case .techInterview:
+//                return TechInterview(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))
+//            case .salaryReview:
+//                return SalaryReview(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))
+//            }
+//#else
+//            if updater {
+                switch self {
+                case .dailyMeeting:
+                    return Container.shared.resolve(DailyMeeting.self)!
+                case .techInterview:
+                    return Container.shared.resolve(TechInterview.self)!
+                case .salaryReview:
+                    return Container.shared.resolve(SalaryReview.self)!
+                }
+////            } else {
+//                switch self {
+//                case .dailyMeeting:
+//                    return Container.shared.resolve(DailyMeeting.self)!
+//                case .techInterview:
+//                    return Container.shared.resolve(TechInterview.self)!
+//                case .salaryReview:
+//                    return Container.shared.resolve(SalaryReview.self)!
+//                }
+//            }
+//#endif
         }
         
         func title() -> String {
@@ -97,17 +109,6 @@ class MainViewModel: ObservableObject {
                 return "Підготуйся до технічного інтервʼю і дізнайся про свої сильні і слабкі сторони."
             case .salaryReview:
                 return "Давай перевіримо, чи готові ви до підвищення?"
-            }
-        }
-        
-        func members(currentUser: UserSettings?) -> [String] {
-            switch self {
-            case .dailyMeeting:
-                return ["avatar_0", "avatar_1", "avatar_2", "avatar_3"]
-            case .techInterview:
-                return [currentUser?.avatarName ?? "avatar_12", "avatar_12"]
-            case .salaryReview:
-                return ["avatar_0", "avatar_1", "avatar_2"]
             }
         }
         
@@ -135,13 +136,7 @@ class MainViewModel: ObservableObject {
     }
     
     func visitFreeMeeting() {
-        var settings = persistence.loadSettings()
-        settings.meetingsVisited += 1
-        settings.lastMeetingDate = Date()
-        let save = settings
-        Task {
-            await persistence.saveSettings(save)
-        }
+        persistence.saveNewMeetingVisiting()
     }
 
     private var timeFormatter: DateComponentsFormatter {
@@ -153,7 +148,7 @@ class MainViewModel: ObservableObject {
     }
     
     private func startTimer() {
-        if !persistence.loadSettings().userCanVisit {
+        if !persistence.loadSettings().isPremium && persistence.getTodayMeetingVisited() > 1 {
             let now = Date().timeIntervalSince1970
             let calendar = Calendar.current
             
@@ -217,37 +212,38 @@ struct MainView: View {
                                            endPoint: .bottom)
                         }
                         .padding(.bottom, -200)
-                    Button(action: {
-                        
-                    }, label: {
-                        HStack {
-                            Text("Доступні нові цілі!")
-                                .font(.system(size: 15, weight: .semibold, design: .default))
-                                .shadow(color: .black, radius: 20, x: 0, y: 0)
-                            Text("⭐️")
-                                .font(.system(size: 18, weight: .regular, design: .default))
-                                .font(.headline)
-                                .frame(width: 36, height: 36)
-                                .background(.white.opacity(0.1))
-                                .foregroundColor(.white)
-                                .clipShape(Circle())
-                                .overlay(
-                                    Circle()
-                                        .stroke(lineWidth: 1)
-                                        .fill(.white.opacity(0.2))
-                                )
-                                .overlay {
-                                    ZStack {
+                    VStack(alignment: .trailing) {
+                        Button(action: {
+                            
+                        }, label: {
+                            HStack {
+                                Text("Доступні нові цілі!")
+                                    .font(.system(size: 15, weight: .semibold, design: .default))
+                                    .shadow(color: .black, radius: 20, x: 0, y: 0)
+                                Text("⭐️")
+                                    .font(.system(size: 18, weight: .regular, design: .default))
+                                    .font(.headline)
+                                    .frame(width: 36, height: 36)
+                                    .background(.white.opacity(0.1))
+                                    .foregroundColor(.white)
+                                    .clipShape(Circle())
+                                    .overlay(
                                         Circle()
-                                            .frame(width: 16)
-                                            .foregroundColor(.red)
-                                        Text("1")
-                                            .font(.system(size: 12, weight: .semibold, design: .default))
-                                    }.offset(x: 15, y: -15)
-                                }
-                        }
-                    })
-                    
+                                            .stroke(lineWidth: 1)
+                                            .fill(.white.opacity(0.2))
+                                    )
+                                    .overlay {
+                                        ZStack {
+                                            Circle()
+                                                .frame(width: 16)
+                                                .foregroundColor(.red)
+                                            Text("1")
+                                                .font(.system(size: 12, weight: .semibold, design: .default))
+                                        }.offset(x: 15, y: -15)
+                                    }
+                            }
+                        })
+                    }
                     .padding(.horizontal, 24)
                     .padding(.top, 40)
                 }
@@ -281,28 +277,40 @@ struct MainView: View {
                             MeetView(title: meeting.title(),
                                      description: meeting.description(),
                                      isPremium: meeting.isPremium(),
-                                     membersAvatars: meeting.meeting(persistence: self.viewModel.persistence, openAI: self.viewModel.openAI).members.map({ $0.avatarName ?? "" }),
+                                     membersAvatars: meeting.meeting(persistence: self.viewModel.persistence,
+                                                                     openAI: self.viewModel.openAI).members.map({ $0.avatarName ?? "" }),
                                      timeLeft: $viewModel.timeLeftString,
                                      buttonClicked: {
-                                if !viewModel.persistence.loadSettings().userCanVisit {
-                                    if meeting != .dailyMeeting && !viewModel.persistence.loadSettings().isPremium {
-                                        showPremium = true
+                                if viewModel.settings.isPremium {
+                                    if viewModel.persistence.getTodayMeetingVisited() < 10 {
+                                        meeting.router(viewModel.router,
+                                                       persistence: viewModel.persistence,
+                                                       openAI: viewModel.openAI)
                                     } else {
-                                        if meeting == .dailyMeeting {
-                                            alertText = "Ви вже скористались безкоштовним мітингом. Наступний буде доступний через \(viewModel.timeLeftString?.dropLast(3) ?? "") \n \n Спробувати Premium?"
-                                        } else {
-                                            alertText = "Цей контент доступний лише для Premium акаунтів. Бажаєте спробувати?"
-                                        }
+                                        alertText = "Сьогодні команда дуже втомилась, зустрінемось наступного дня!"
                                         showPremium = true
                                     }
                                 } else {
-                                    viewModel.visitFreeMeeting()
-                                    meeting.router(viewModel.router,
-                                                   persistence: viewModel.persistence,
-                                                   openAI: viewModel.openAI)
+                                    switch meeting {
+                                    case .dailyMeeting:
+                                        if viewModel.persistence.getTodayMeetingVisited() < 1 {
+                                            meeting.router(viewModel.router,
+                                                           persistence: viewModel.persistence,
+                                                           openAI: viewModel.openAI)
+                                        } else {
+                                            alertText = "Ви вже скористались безкоштовним мітингом. Наступний буде доступний через \(viewModel.timeLeftString?.dropLast(3) ?? "") \n \n Спробувати Premium?"
+                                            showPremium = true
+                                        }
+                                    case .techInterview, .salaryReview:
+                                        alertText = "Цей контент доступний лише для Premium акаунтів. Бажаєте спробувати?"
+                                        showPremium = true
+                                    }
                                 }
                             })
                         }
+                    }.onAppear {
+                        viewModel.refreshPage.toggle()
+                        viewModel.settings = viewModel.persistence.loadSettings()
                     }
                     
                     Spacer(minLength: 20)
@@ -320,8 +328,7 @@ struct MainView: View {
                                 .padding(.bottom, 12)
                                 .foregroundStyle(.white)
                                 .font(.system(size: 18, weight: .light, design: .default))
-
-                            CalendarView()
+                            CalendarView(winnerDates: viewModel.persistence.challengeDates(), showWinnerAnimation: false)
                         }.padding(16)
                     }
                     Spacer(minLength: 20)
@@ -347,6 +354,28 @@ struct MainView: View {
                 },
                           cancelClicked: { showPremium = false })
             }
+            AdminPanelView(content: {
+                Text(viewModel.settings.isPremium ? "Premium" : "Free")
+                Text("Visited: \(viewModel.persistence.getTodayMeetingVisited())")
+                Button("change Premium", action: {
+                    viewModel.settings.isPremium.toggle()
+                    Task {
+                        await viewModel.persistence.saveSettings(viewModel.settings)
+                        viewModel.settings = viewModel.persistence.loadSettings()
+                    }
+                    viewModel.refreshPage.toggle()
+                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+                
+                Button("Add visit", action: {
+                    viewModel.persistence.saveNewMeetingVisiting()
+                    viewModel.refreshPage.toggle()
+                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+                
+                Button("Reset views", action: {
+                    KeychainSwift().set("0", forKey: "visitedMeetings")
+                    viewModel.refreshPage.toggle()
+                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+            })
         }.navigationBarHidden(true)
     }
 }

@@ -12,82 +12,94 @@ struct AvatarView: View {
     @Binding var isSpeaking: Bool
     
     var user: UserSettings
-    init(user: UserSettings, isSpeaking: Binding<Bool>) {
+    var index: Int
+    @State private var showView = false
+    init(user: UserSettings, index: Int, isSpeaking: Binding<Bool>) {
         self.user = user
+        self.index = index
         self._isSpeaking = isSpeaking
     }
     
     var body: some View {
         ZStack {
-            VisualEffectView(effect: UIBlurEffect(style: .dark))
-                                            .cornerRadius(15)
-                .scaledToFit()
-                .overlay {
-                    if !user.isBot {
-                        ZStack(alignment: .topLeading) {
-                            VStack {
-                                HStack(spacing: 3) {
-                                    Image(systemName: "person.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 10)
-                                    Text("YOU")
-                                        .font(.system(size: 12, weight: .regular, design: .default))
+            ZStack {
+                VisualEffectView(effect: UIBlurEffect(style: .dark))
+                    .cornerRadius(15)
+                    .scaledToFit()
+                    .overlay {
+                        if !user.isBot {
+                            ZStack(alignment: .topLeading) {
+                                VStack {
+                                    HStack(spacing: 3) {
+                                        Image(systemName: "person.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 10)
+                                        Text("YOU")
+                                            .font(.system(size: 12, weight: .regular, design: .default))
+                                        Spacer()
+                                    }.padding(.top, 8)
+                                        .padding(.leading, 12)
+                                        .opacity(0.3)
                                     Spacer()
-                                }.padding(.top, 8)
-                                    .padding(.leading, 12)
-                                    .opacity(0.3)
-                                Spacer()
+                                }
                             }
-                        }
-                    } else if user.id == 1 {
-                        ZStack(alignment: .topLeading) {
-                            VStack {
-                                HStack {
-                                    Image(systemName: "crown.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 12)
+                        } else if user.id == 1 {
+                            ZStack(alignment: .topLeading) {
+                                VStack {
+                                    HStack {
+                                        Image(systemName: "crown.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 12)
+                                        Spacer()
+                                    }.padding(.top, 8)
+                                        .padding(.leading, 12)
+                                        .opacity(0.3)
                                     Spacer()
-                                }.padding(.top, 8)
-                                    .padding(.leading, 12)
-                                    .opacity(0.3)
-                                Spacer()
+                                }
                             }
                         }
                     }
-                }
-        VStack {
-            ZStack {
-                if isSpeaking {
-//                    TalkingIndicatorView()
-                    Group {
-                        SiriIndicatorView(offsetX: 0, offsetY: -7, color: Color.cyan, opacity: 1)
-                        SiriIndicatorView(offsetX: 7, offsetY: 7, color: .blue, opacity: 1)
-                        SiriIndicatorView(offsetX: -7, offsetY: 7, color: .purple, opacity: 0.7)
-                    }.opacity(0.5)
-                }
-                if let avatarName = user.avatarName {
-                    Image(avatarName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 60, height: 60)
-                        .cornerRadius(30)
-                } else {
-                    Circle()
-                        .foregroundColor(Color(uiColor: user.color))
-                    Text(user.userName.prefix(1))
-                        .font(.system(size: 16, weight: .medium, design: .default))
-                        .scaledToFit()
+                VStack {
+                    ZStack {
+                        if isSpeaking {
+                            //                    TalkingIndicatorView()
+                            Group {
+                                SiriIndicatorView(offsetX: 0, offsetY: -7, color: Color.cyan, opacity: 1)
+                                SiriIndicatorView(offsetX: 7, offsetY: 7, color: .blue, opacity: 1)
+                                SiriIndicatorView(offsetX: -7, offsetY: 7, color: .purple, opacity: 0.7)
+                            }.opacity(0.5)
+                        }
+                        if let avatarName = user.avatarName {
+                            Image(avatarName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .cornerRadius(30)
+                        } else {
+                            Circle()
+                                .foregroundColor(Color(uiColor: user.color))
+                            Text(user.userName.prefix(1))
+                                .font(.system(size: 16, weight: .medium, design: .default))
+                                .scaledToFit()
+                                .foregroundColor(Color.white)
+                        }
+                    }.frame(width: 60, height: 60)
+                    Text(user.userName)
+                        .padding(.top, 8)
                         .foregroundColor(Color.white)
+                    Text(user.userRole.rawValue)
+                        .font(.system(size: 12, weight: .thin, design: .default))
+                        .foregroundColor(Color.gray)
                 }
-            }.frame(width: 60, height: 60)
-            Text(user.userName)
-                .padding(.top, 8)
-                .foregroundColor(Color.white)
-            Text(user.userRole.rawValue)
-                .font(.system(size: 12, weight: .thin, design: .default))
-                    .foregroundColor(Color.gray)
+            }.opacity(showView ? 1 : 0)
+                .scaleEffect(showView ? 1 : 0.5)
+        }.onFirstAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (Double(index) * CGFloat.random(in: 0.1...0.9)) ) {
+                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.6)) {
+                    showView = true
+                }
             }
         }
     }
@@ -107,6 +119,7 @@ struct AvatarView_Previews: PreviewProvider {
             Color("bgColor")
             RainbowBackgroundView()
             AvatarView(user: userSetting,
+                       index: 1,
                        isSpeaking: .constant(true))
                 .padding(48)
         }.ignoresSafeArea()

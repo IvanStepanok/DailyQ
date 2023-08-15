@@ -60,11 +60,7 @@ struct ChatSettings {
     var companyDetails: String?
     var voiceOver: Bool
     var isPremium: Bool
-    var meetingsVisited: Int
-    var lastMeetingDate: Date?
-    var userCanVisit: Bool {
-        (isPremium && meetingsVisited < 10) || (!isPremium && meetingsVisited < 1)
-    }
+    var userOnboarded: Bool
 }
 
 struct Random {

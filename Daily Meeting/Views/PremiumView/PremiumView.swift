@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ConfettiSwiftUI
 
 struct PremiumView: View {
     
@@ -26,10 +27,11 @@ struct PremiumView: View {
 Ваша безкоштовна пробна версія розпочнеться протягом 3 днів, а потім з вас щомісяця стягуватиметься 3,99 доларів США. Відповідно до Умов використання iTunes Store, з якими ми рекомендуємо ознайомитися, перш ніж здійснювати будь-яку онлайн-транзакцію: оплата буде стягнена з вашого облікового запису iTunes після підтвердження покупки; Ваша підписка на наші преміум-сервіси або продукти через програму буде автоматично поновлена ​​на ту саму підписку з тією ж ціною, що й ви спочатку підписалися, якщо ви не скасуєте свою підписку, вимкнувши автоматичне поновлення принаймні за 24 години до закінчення поточного періоду; За 24 години до закінчення поточного періоду з вашого облікового запису стягуватиметься плата за оновлення за тією ж ставкою, що й у початковій підписці; Ви можете керувати підписками, а автоматичне поновлення можна вимкнути, перейшовши до налаштувань облікового запису в розділі iTunes & App Store у налаштуваннях вашого пристрою. Будь-яка невикористана частина безкоштовного пробного періоду, якщо вона пропонується, буде втрачена, коли користувач придбає підписку, де це можливо.
 """
     
+    @State var counter: Int = 0
     @State var isYearAccess: Bool = false
-    @State var isAlertMessageShow: Bool = false
-    @State var alertMessageText: String = ""
+    @State var alertMessageText: String = "Вітаємо з успішною підпискою! Скасувати можна в будь який момент"
     @State var showAlertProgress: Bool = false
+    @State var subscribeSuccess: Bool = false
     
     private let router: RouterProtocol
     private let persistence: ChatPersistenceProtocol
@@ -40,21 +42,37 @@ struct PremiumView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack(alignment: .center) {
             Color("bgColor")
                 .ignoresSafeArea()
             RainbowBackgroundView(timeInterval: 2)
+            VStack {}
+                .confettiCannon(counter: $counter,
+                                  num: 100,
+                                  confettiSize: 15,
+                                  closingAngle: .radians(20),
+                                  radius: 200
+                  )
             ScrollView {
-                Image("image-25")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 350)
-                    .mask {
-                        LinearGradient(colors: [.black, .black, .clear],
-                                       startPoint: .top,
-                                       endPoint: .bottom)
-                    }
-                    .padding(.bottom, -80)
+                ZStack(alignment: .topLeading) {
+                    Image("image-25")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 350)
+                        .mask {
+                            LinearGradient(colors: [.black, .black, .clear],
+                                           startPoint: .top,
+                                           endPoint: .bottom)
+                        }
+                        .padding(.bottom, -180)
+                    Image(systemName: "xmark")
+                        .padding(.leading, 30)
+                        .padding(.top, 50)
+                        .opacity(0.6)
+                        .onTapGesture {
+                            router.back(animated: true)
+                        }
+                }
                 VStack(alignment: .center, spacing: 20) {
                     HStack {
                         Text("Отримайте Premium акаунт")
@@ -148,8 +166,15 @@ struct PremiumView: View {
                                  flexible: true,
                                  bgColor: .green,
                                  action: {
-                        alertMessageText = "Спробувати Premium підписку?"
-                        isAlertMessageShow = true
+                        var settings = persistence.loadSettings()
+                        settings.isPremium = true
+                        Task {
+                           await persistence.saveSettings(settings)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                subscribeSuccess = true
+                                counter += 1
+                            }
+                        }
                     })
                     HStack {
                         Image(systemName: "bolt.shield.fill")
@@ -172,23 +197,16 @@ struct PremiumView: View {
                     Spacer(minLength: 70)
                 }.padding(.horizontal, 28)
             }.ignoresSafeArea()
-            if isAlertMessageShow {
+            if subscribeSuccess {
                 AlertView(text: alertMessageText, yesClicked: {
-                        var settings = persistence.loadSettings()
-                        settings.isPremium = true
-                        let savedSettings = settings
-                        Task {
-                            showAlertProgress = true
-                            await persistence.saveSettings(savedSettings)
-                        }
                     withAnimation {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            isAlertMessageShow = false
-                        }
+                            subscribeSuccess = false
+                            router.back(animated: true)
                     }
                 }, cancelClicked: {
                     withAnimation {
-                        isAlertMessageShow = false
+                        subscribeSuccess = false
+                        router.back(animated: true)
                     }
                 }, showProgress: $showAlertProgress)
             }

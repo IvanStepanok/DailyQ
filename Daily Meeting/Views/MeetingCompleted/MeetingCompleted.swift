@@ -12,16 +12,20 @@ struct MeetingCompleted: View {
     
     @State var counter: Int = 0
     @State var isLoaded: Bool = false
+    @State var isPremium: Bool = false
     @Namespace var namespace
     
     var meetingType: String
     var summary: String
-    let persistence: ChatPersistenceProtocol
     
-    init(meetingType: String, summary: String, persistence: ChatPersistenceProtocol) {
+    let persistence: ChatPersistenceProtocol
+    let router: RouterProtocol
+    
+    init(meetingType: String, summary: String, persistence: ChatPersistenceProtocol, router: RouterProtocol) {
+        self.router = router
+        self.persistence = persistence
         self.meetingType = meetingType
         self.summary = summary
-        self.persistence = persistence
         startConfetti()
     }
     
@@ -53,7 +57,6 @@ struct MeetingCompleted: View {
                         Spacer()
                     }
                     VStack(alignment: .center, spacing: 14) {
-                        Spacer(minLength: 100)
                         ZStack {
                             Circle()
                                 .frame(width: 120)
@@ -93,7 +96,8 @@ struct MeetingCompleted: View {
                         .multilineTextAlignment(.center)
                         .font(.system(size: 16, weight: .regular, design: .default))
                     Spacer(minLength: 60)
-                    CalendarView()
+                    CalendarView(winnerDates: persistence.challengeDates(),
+                                 showWinnerAnimation: true)
                     Spacer(minLength: 60)
                     
                     HStack {
@@ -108,9 +112,14 @@ struct MeetingCompleted: View {
                                 .font(.system(size: 16, weight: .thin, design: .default))
                                 .padding(14)
                                 .mask {
-                                    LinearGradient(colors: [Color.clear, Color.clear, Color.clear, Color.black], startPoint: .bottom, endPoint: .top)
+                                    LinearGradient(
+                                        colors: isPremium
+                                        ? [Color.black]
+                                        : [Color.clear, Color.clear, Color.clear, Color.black],
+                                        startPoint: .bottom,
+                                        endPoint: .top)
                                 }
-                        if !persistence.loadSettings().isPremium {
+                        if !isPremium {
                             Text(summary).blur(radius: 3)
                                 .font(.system(size: 16, weight: .thin, design: .default))
                                 .foregroundColor(.gray)
@@ -121,12 +130,15 @@ struct MeetingCompleted: View {
                         }
                     }.overlay(
                             ZStack(alignment: .center) {
-                                if !persistence.loadSettings().isPremium {
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(lineWidth: 1)
                                     .fill(.white.opacity(0.1))
-                                CustomButton(text: "Отримати повний розбір", bgColor: .green, action: {})
-                            }
+                                if !isPremium {
+                                    CustomButton(text: "Отримати повний розбір", bgColor: .green, action: {
+                                        router.dismiss(animated: false)
+                                        router.showPremiumView()
+                                    })
+                                }
                         }
                     )
 //                    }
@@ -138,6 +150,9 @@ struct MeetingCompleted: View {
             }
         }.navigationBarHidden(false)
             .navigationTitle("")
+            .onAppear {
+                isPremium = persistence.loadSettings().isPremium
+            }
     }
 }
 
@@ -158,7 +173,6 @@ struct MeetingCompleted_Previews: PreviewProvider {
 Правильний варіант: "Could you please add some animations to the login screen?"
 У фразі слід додати перед словом "to" (пропущена передача напрямку дії).
 Загалом, у вас є невеликі помилки, але ви вже дуже близькі до коректного використання англійської мови.
-""", persistence: ChatPersistenceMock()
-        )
+""", persistence: ChatPersistenceMock(), router: RouterMock())
     }
 }

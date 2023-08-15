@@ -12,6 +12,7 @@ import Speech
 class ChatScreenViewModel: ObservableObject {
     
     @Published var userSettings: UserSettings
+    @Published var chatSettings: ChatSettings
     @Published var members: [UserSettings]
     @Published var chatResponse: String = ""
     @Published var userMessage: String = ""
@@ -20,35 +21,50 @@ class ChatScreenViewModel: ObservableObject {
     @Published var isSpeaking: Bool = false
     let router: RouterProtocol
     let persistence: ChatPersistenceProtocol
-    let synthesizer = AVSpeechSynthesizer() // TODO: Hide to DI
+    let synthesizer: AVSpeechSynthesizer
+    var voice: AVSpeechSynthesisVoice?
     
-    init(users: [UserSettings], router: RouterProtocol, persistence: ChatPersistenceProtocol) {
+    init(users: [UserSettings], router: RouterProtocol, persistence: ChatPersistenceProtocol,
+         synthesizer: AVSpeechSynthesizer) {
         self.userSettings = users.first(where: {$0.isBot == false}) ?? UserSettings(id: 9,
                                                                                     isBot: false,
                                                                                     userName: "User",
                                                                                     gender: .male,
                                                                                     userRole: .mobile,
                                                                                     englishLevel: .advanced)
+        self.chatSettings = persistence.loadSettings()
         self.members = users
         self.router = router
         self.persistence = persistence
+        self.synthesizer = synthesizer
     }
     
     func readTextWithSpeech(_ text: String, gender: UserGender) {
-        let voice: AVSpeechSynthesisVoice?
-        
-        switch gender {
-        case .male:
-            voice = AVSpeechSynthesisVoice(language: "en-US")
-        case .female:
-            voice = AVSpeechSynthesisVoice(language: "en-GB")
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
         }
-        
+
         let utterance = AVSpeechUtterance(string: text)
-        utterance.rate = AVSpeechUtteranceMaximumSpeechRate / 2.0
-        utterance.voice = voice
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.postUtteranceDelay = 0.005
+//        let synth = AVSpeechSynthesizer()
         synthesizer.speak(utterance)
         imitateSpeaking(text: text, value: isSpeaking, completion: { self.isSpeaking = $0 })
+
+        defer {
+            disableAVSession()
+        }
+    }
+
+    private func disableAVSession() {
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't disable.")
+        }
     }
     
     func imitateSpeaking(text: String, value: Bool, completion: @escaping (Bool) -> Void) {

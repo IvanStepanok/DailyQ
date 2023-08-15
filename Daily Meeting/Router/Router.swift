@@ -9,10 +9,12 @@ import Foundation
 import SwiftUI
 import Swinject
 import OpenAISwift
+import Speech
 
 protocol RouterProtocol {
     func configureNavigationController()
     func showMeetingView(meeting: MeetingProtocol)
+    func startFirstMeeting()
     func showSettingsView()
     func showUserSettingsView(userSettings: UserSettings, updatedUser: @escaping (UserSettings) -> Void)
     func finishMeeting(meetingType: String, summary: String)
@@ -24,6 +26,7 @@ protocol RouterProtocol {
 class RouterMock: RouterProtocol {
     func configureNavigationController() {}
     func showMeetingView(meeting: MeetingProtocol) {}
+    func startFirstMeeting() {}
     func showSettingsView() {}
     func showUserSettingsView(userSettings: UserSettings, updatedUser: @escaping (UserSettings) -> Void) {}
     func finishMeeting(meetingType: String, summary: String) {}
@@ -37,6 +40,7 @@ class Router: RouterProtocol {
     private var navigationController: UINavigationController?
     private let persistence = Container.shared.resolve(ChatPersistenceProtocol.self)!
     private let openAI = Container.shared.resolve(OpenAISwift.self)!
+    private let synthesizer = AVSpeechSynthesizer()
     
     init() {}
     
@@ -88,7 +92,8 @@ class Router: RouterProtocol {
     func finishMeeting(meetingType: String, summary: String) {
         let vc = UIHostingController(rootView: MeetingCompleted(meetingType: meetingType,
                                                                 summary: summary,
-                                                                persistence: self.persistence))
+                                                                persistence: self.persistence,
+                                                                router: self))
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .coverVertical
         self.navigationController?.pushViewController(vc, animated: true)
@@ -97,9 +102,24 @@ class Router: RouterProtocol {
     func showMeetingView(meeting: MeetingProtocol) {
         let openAImanager = OpenAiManager(meeting: meeting)
         let members = openAImanager.meeting.members
-        let viewModel = ChatScreenViewModel(users: members, router: self, persistence: persistence)
+        let viewModel = ChatScreenViewModel(users: members, router: self, persistence: persistence, synthesizer: synthesizer)
         let vc = UIHostingController(rootView: ChatScreenView(viewModel: viewModel, openAI: openAImanager))
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func startFirstMeeting() {
+        let openAImanager = OpenAiManager(meeting: DailyMeeting(persistence: self.persistence, openAI: self.openAI))
+        let members = openAImanager.meeting.members
+        
+        let mainViewModel = MainViewModel(persistence: self.persistence, router: self, openAI: self.openAI)
+        let mainVC = UIHostingController(rootView: MainView(viewModel: mainViewModel))
+        
+        let chatViewModel = ChatScreenViewModel(users: members, router: self, persistence: persistence, synthesizer: synthesizer)
+        let chatView = UIHostingController(rootView: ChatScreenView(viewModel: chatViewModel, openAI: openAImanager))
+        guard var controllers = navigationController?.viewControllers else { return }
+        controllers.removeLast(1)
+        controllers.append(contentsOf: [mainVC, chatView])
+        navigationController?.setViewControllers(controllers, animated: true)
     }
     
     func showSettingsView() {

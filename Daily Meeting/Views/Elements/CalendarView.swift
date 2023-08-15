@@ -13,21 +13,13 @@ struct CalendarView: View {
     let calendar = Calendar.current
     let currentDate = Date()
     
-    var winnerDates: [Date] = [
-//        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 1).date!,
-//        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 2).date!,
-        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 3).date!,
-        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 4).date!,
-//        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 5).date!,
-        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 6).date!,
-//        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 7).date!,
-        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 8).date!,
-        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 11).date!
-    ]
+    var winnerDates: [Date]
+    var showWinnerAnimation: Bool
     
     @State var animate: Bool = false
     @State var animateTwo: Bool = false
     @State var startBorn: Bool = false
+    
     
     private let columns = [GridItem(.flexible()),
                            GridItem(.flexible()),
@@ -160,7 +152,17 @@ struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             RainbowBackgroundView(timeInterval: 3)
-            CalendarView()
+            CalendarView(winnerDates: [
+                //        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 1).date!,
+                //        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 2).date!,
+                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 3).date!,
+                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 4).date!,
+                //        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 5).date!,
+                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 6).date!,
+                //        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 7).date!,
+                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 8).date!,
+                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 11).date!
+            ], showWinnerAnimation: true)
         }
     }
 }

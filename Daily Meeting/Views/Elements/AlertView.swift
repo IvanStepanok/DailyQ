@@ -48,20 +48,25 @@ struct AlertView: View {
                         ProgressView()
                             .progressViewStyle(.circular)
                             .opacity(showProgress ? 1 : 0)
-                        Text(text)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
-                            .font(.system(size: 24, weight: .light, design: .default))
-                            .padding(.bottom, 20)
-                            .padding(.top, 10)
-                            .padding(.horizontal, 30)
-                            .opacity(showProgress ? 0 : 1)
+                        if !showProgress {
+                            Text(text)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                                .font(.system(size: 24, weight: .light, design: .default))
+                                .padding(.bottom, 20)
+                                .padding(.top, 10)
+                                .padding(.horizontal, 30)
+//                                .opacity(showProgress ? 0 : 1)
+                        } else {
+                            VStack {}.frame(width: 170, height: 100)
+                        }
                     }
                         HStack {
-                            CustomButton(text: "Так", flexible: true, bgColor: .green, action: { yesClicked() })
-                            CustomButton(text: "ні", flexible: true, bgColor: .gray.opacity(0.6), action: { cancelClicked() })
+                            if !showProgress {
+                                CustomButton(text: "Так", flexible: true, bgColor: .green, action: { yesClicked() })
+                                CustomButton(text: "ні", flexible: true, bgColor: .gray.opacity(0.6), action: { cancelClicked() })
+                            }
                         }.padding(.horizontal, 33)
-                        .opacity(showProgress ? 0 : 1)
                 }.padding(.horizontal, 30)
                     .padding(.vertical, 16)
                     .background {
@@ -85,7 +90,7 @@ struct AlertView_Previews: PreviewProvider {
                 
             AlertView(text: "Цей контент доступний лише для Premium акаунтів. Бажаєте спробувати?",
                       yesClicked: {},
-                      cancelClicked: {}, showProgress: .constant(true))
+                      cancelClicked: {}, showProgress: .constant(false))
         }
     }
 }

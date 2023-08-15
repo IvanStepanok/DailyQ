@@ -8,7 +8,7 @@
 import SwiftUI
 import OpenAISwift
 import Combine
-import SwiftUIIntrospect
+import Speech
 
 struct ChatScreenView: View {
     
@@ -18,12 +18,15 @@ struct ChatScreenView: View {
     @State var chatPosition: CGFloat = 200
     @State var showEndCallAlert: Bool = false
     @State var alertProgress: Bool = false
+    @State var navigationTitle = ""
+    @State var userOnboarded: Bool
     
     private let columns = [GridItem(.adaptive(minimum: 140, maximum: 200))]
     
     init(viewModel: ChatScreenViewModel, openAI: OpenAiManager) {
         self.viewModel = viewModel
         self.openAI = openAI
+        self.userOnboarded = viewModel.chatSettings.userOnboarded
     }
     
     var body: some View {
@@ -35,45 +38,52 @@ struct ChatScreenView: View {
                 TabView {
                     VStack {
                         LazyVGrid(columns: columns, spacing: 6) {
-                            ForEach(viewModel.members.sorted(by: {$0.id < $1.id}), id: \.id) { user in
+                            ForEach(Array(viewModel.members.sorted(by: {$0.id < $1.id}).enumerated()),
+                                    id: \.offset) { index, user in
                                 AvatarView(user: user,
+                                           index: openAI.meeting.tasks == nil ? index : 0,
                                            isSpeaking: whoSpeak == user.userName ? $viewModel.isSpeaking : .constant(false))
                             }
                         }.padding(.horizontal, 16)
+                        Spacer()
+                    }.onAppear {
+                        navigationTitle = openAI.meeting.meetingName
                     }
-                    VStack(alignment: .leading) {
-//                        Spacer()
-                        if let tasks = openAI.meeting.tasks {
+                    if let tasks = openAI.meeting.tasks {
+                        VStack(alignment: .leading) {
                             ScrollView {
                                 Text(tasks)
                                     .font(.system(size: 16, weight: .regular, design: .default))
                                     .padding(16)
                             }
+                        }.onAppear {
+                            navigationTitle = "Tasks"
                         }
-//                        Spacer()
+                    }
+                    if !userOnboarded {
+                        VStack {}
                     }
                 }.tabViewStyle(.page)
                     .indexViewStyle(.page(backgroundDisplayMode: .always))
                     .ignoresSafeArea()
-                    .padding(.top, 24)
                     .frame(height: reader.size.height / 2)
-//                VStack {
-//                    Spacer()
-                    ChatWindowView(chatHistory: $openAI.chatHistory,
-                             chatExpanded: $viewModel.chatExpanded,
-                                   whoSpeak: { whoSpeak = $0; print(">>>SPEAK", $0) },
-                             isClicked: {
+                ChatWindowView(
+                    chatHistory: $openAI.chatHistory,
+                    chatExpanded: $viewModel.chatExpanded,
+                    membersCount: openAI.meeting.members.count,
+                    whoSpeak: { if whoSpeak != $0 { whoSpeak = $0 } },
+                    isClicked: {
+                        viewModel.synthesizer.stopSpeaking(at: .word)
                         viewModel.openVoiceRecognizer = true
-                    },
-                                   isCancelCallClicked: { showEndCallAlert = true })
-//                    .frame(height: viewModel.chatExpanded ?  90 : reader.size.height / 2.3)
-//                }
+                    }, isCancelCallClicked: { showEndCallAlert = true }
+                )
             }
-            
-            .onFirstAppear {
-                Task {
-                    await openAI.setupChat()
-                    await openAI.sendMessage(message: "Start")
+            .onAppear {
+                if userOnboarded {
+                    Task {
+                        await openAI.setupChat()
+                        await openAI.sendMessage(message: "Start")
+                    }
                 }
             }
             
@@ -87,22 +97,42 @@ struct ChatScreenView: View {
                 if let lastMessage = history.last?.content {
                     if openAI.chatHistory.count > 2 {
                         if !lastMessage.contains("#You#") {
-                            viewModel.readTextWithSpeech(lastMessage.removeUsernameAndHashtags(), gender: .male)
+                            print("Try to read text")
+                            viewModel.readTextWithSpeech(lastMessage.removeUsernameAndHashtags(), gender: .female)
                         }
                     }
                 }
             })
-            
+            if !userOnboarded {
+                DailyMeetingOnboarding(onFinish: {
+                    Task {
+                      var settings = viewModel.chatSettings
+                        settings.userOnboarded = true
+                        userOnboarded = true
+                        await viewModel.persistence.saveSettings(settings)
+                        await openAI.setupChat()
+                        await openAI.sendMessage(message: "Start")
+                    }
+                })
+            }
             if showEndCallAlert {
+                let userResponses = openAI.chatHistory.filter({ $0.role == .user }).count
                 AlertView(
-                    text: "Завершити мітинг?",
+                    text: userResponses >= 5 ? "Завершити мітинг?"
+                    : "Щоб мітинг вважався пройденим успішно, треба записати ще як мінімум \(5 - userResponses) повідомлення. Все одно завершити?",
                     yesClicked: {
                         alertProgress = true
                         Task {
-                            let summury = await openAI.getFeedback()
-                            showEndCallAlert = false
-                            viewModel.router.back(animated: false)
-                            viewModel.router.finishMeeting(meetingType: openAI.meeting.meetingName, summary: summury)
+                            if userResponses >= 5 {
+                                let summury = await openAI.getFeedback()
+                                viewModel.persistence.saveNewMeetingVisiting()
+                                await viewModel.persistence.challengePassed()
+                                viewModel.router.back(animated: false)
+                                viewModel.router.finishMeeting(meetingType: openAI.meeting.meetingName, summary: summury)
+                            } else {
+                                viewModel.persistence.saveNewMeetingVisiting()
+                                viewModel.router.back(animated: true)
+                            }
                         }
                         
                     }, cancelClicked: { showEndCallAlert = false },
@@ -110,7 +140,8 @@ struct ChatScreenView: View {
                 )
             }
         }.navigationBarHidden(false)
-            .navigationTitle("Daily Meeting")
+            .navigationTitle(navigationTitle)
+            .navigationBarBackButtonHidden(openAI.chatHistory.count > 3)
             .sheet(isPresented: $viewModel.openVoiceRecognizer, content: {
                 VoiceRecordView(viewModel: VoiceRecordViewModel(),
                                 recognitiedText: { message in
@@ -120,6 +151,9 @@ struct ChatScreenView: View {
                     }
                 })
             })
+            .onDisappear {
+                viewModel.synthesizer.stopSpeaking(at: .immediate)
+            }
         
     }
 }
@@ -158,17 +192,17 @@ struct ChatScreenView_Previews: PreviewProvider {
         ]
         ChatScreenView(viewModel: ChatScreenViewModel(users: users,
                                                       router: RouterMock(),
-                                                      persistence: ChatPersistenceMock()),
+                                                      persistence: ChatPersistenceMock(), synthesizer: AVSpeechSynthesizer()),
                        openAI: OpenAiManager(meeting: DailyMeeting(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))))
     }
 }
 
 struct ChatWindowView: View {
     
-//    @Binding var chatResponse: String
     @Binding var chatHistory: [ChatMessage]
     @Binding var chatExpanded: Bool
     @State var expandIndex: Int = 0
+    var membersCount: Int
     var whoSpeak: (String) -> Void
     var isClicked: () -> Void
     var isCancelCallClicked: () -> Void
@@ -176,19 +210,17 @@ struct ChatWindowView: View {
     @State var geometry: GeometryProxy?
     
     @State private var currentDragPosition: CGFloat = 0
-
+    @State private var maxHeight: CGFloat = 100
+    
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 30, coordinateSpace: .local)
             .onChanged { value in
                 if value.location.y >= 0 && value.location.y <= geometry!.size.height {
                     self.currentDragPosition = value.location.y
-                    let halfHeight = geometry!.size.height / 1.9
+                    let halfHeight = geometry!.size.height / maxHeight
                     let maxHeight = geometry!.size.height - 80
-
+                    
                     if value.location.y >= halfHeight && value.location.y <= maxHeight {
-//                        withAnimation {
-//                            currentDragPosition = halfHeight
-//                        }
                     } else if value.location.y > maxHeight {
                         withAnimation {
                             currentDragPosition = maxHeight
@@ -197,7 +229,7 @@ struct ChatWindowView: View {
                 }
             }
             .onEnded { value in
-                let halfHeight = geometry!.size.height / 1.9
+                let halfHeight = geometry!.size.height / maxHeight
                 let maxHeight = geometry!.size.height - 80
                 if value.location.y <= 100 {
                     withAnimation {
@@ -214,43 +246,46 @@ struct ChatWindowView: View {
                 }
             }
     }
-
-
+    
+    
     init(chatHistory: Binding<[ChatMessage]>,
          chatExpanded: Binding<Bool>,
+         membersCount: Int,
          whoSpeak:  @escaping (String) -> Void,
          isClicked: @escaping () -> Void,
          isCancelCallClicked: @escaping () -> Void) {
         self._chatHistory = chatHistory
         self._chatExpanded = chatExpanded
+        self.membersCount = membersCount
         self.whoSpeak = whoSpeak
         self.isClicked = isClicked
         self.isCancelCallClicked = isCancelCallClicked
     }
     
     func getName(_ content: String) -> String? {
-//        if content.first == "#" {
-            let namePattern = "#(.*?)#"
-            let regex = try! NSRegularExpression(pattern: namePattern)
-            let range = NSRange(location: 0, length: content.utf16.count)
-            if let match = regex.firstMatch(in: content, options: [], range: range) {
-                let name = (content as NSString).substring(with: match.range(at: 1))
-                whoSpeak(name)
-                return name
-            }
-//        }
+        //        if content.first == "#" {
+        let namePattern = "#(.*?)#"
+        let regex = try! NSRegularExpression(pattern: namePattern)
+        let range = NSRange(location: 0, length: content.utf16.count)
+        if let match = regex.firstMatch(in: content, options: [], range: range) {
+            let name = (content as NSString).substring(with: match.range(at: 1))
+            //                whoSpeak(name)
+            return name
+        }
+        //        }
         return nil
     }
     
     var body: some View {
         ZStack {
             GeometryReader { geometry in
-            VStack {
+                VStack {
                     ZStack(alignment: .top) {
                         RoundedRectangle(cornerRadius: 15)
                             .onAppear {
                                 self.geometry = geometry
-                                currentDragPosition = geometry.size.height / 1.9
+                                maxHeight = membersCount > 2 ? 1.9 : 3.5
+                                currentDragPosition = geometry.size.height / maxHeight
                             }
                             .foregroundColor(Color.white)
                             .ignoresSafeArea()
@@ -288,9 +323,6 @@ struct ChatWindowView: View {
                                     VStack{}.id(1)
                                 }.padding(26)
                             }.padding(.top, 8)
-//                                .introspect(.scrollView, on: .iOS(.v15, .v16, .v17), customize: { scroll in
-//                                    scroll.isScrollEnabled = false
-//                                })
                             ZStack {
                                 HStack(spacing: 0) {
                                     Button(action: {
@@ -324,9 +356,9 @@ struct ChatWindowView: View {
                                     })
                                 }.padding(.horizontal, 30)
                             }.background(Color.white.cornerRadius(15).ignoresSafeArea())
-//                                .offset(y: -currentDragPosition)
-                                
-                                
+                            //                                .offset(y: -currentDragPosition)
+                            
+                            
                             
                         }
                         ZStack {
@@ -339,7 +371,11 @@ struct ChatWindowView: View {
                         .gesture(dragGesture)
                 }.frame(height: geometry.size.height - currentDragPosition)
             }
-        }
+        }.onChange(of: chatHistory, perform: { messages in
+            guard let lastMessage = messages.last,
+                  let name = getName(lastMessage.content)  else { return }
+            whoSpeak(name)
+        })
     }
 }
 

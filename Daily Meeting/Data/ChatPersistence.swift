@@ -8,6 +8,7 @@
 import CoreData
 import Combine
 import SwiftUI
+import KeychainSwift
 
 protocol ChatPersistenceProtocol {
     func saveUserSettings(settings: UserSettings) async
@@ -16,23 +17,45 @@ protocol ChatPersistenceProtocol {
     func loadSettings() -> ChatSettings
     func challengePassed() async
     func challengeDates() -> [Date]
+    
+    // KeyChain
+    func saveNewMeetingVisiting()
+    func getTodayMeetingVisited() -> Int
 }
 
 class ChatPersistence: ChatPersistenceProtocol {
     
+    private let keychain = KeychainSwift()
+    
     init() {
-        
-        // Проверка, если последний митинг был вчера, то сбросить счетчик митингов.
-        var settings = loadSettings()
-        guard let lastDate = loadSettings().lastMeetingDate else { return }
-        let lastDateReset = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: lastDate)!
-        let currentDateRest = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
-        if lastDateReset < currentDateRest {
-            settings.meetingsVisited = 0
-            let settingsLet = settings
-            Task {
-                await saveSettings(settingsLet)
+
+    }
+    
+    func getTodayMeetingVisited() -> Int {
+        if let visited = keychain.get("visitedMeetings"),
+           let lastDateString = keychain.get("lastMeetingVisitedDate"),
+           let lastDate = Date.fromString(lastDateString) {
+            let lastDateReset = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: lastDate)!
+            let currentDateRest = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
+            if lastDateReset == currentDateRest {
+                return Int(visited) ?? 99
+            } else {
+                return 0
             }
+        } else {
+            return 0
+        }
+    }
+    
+    func saveNewMeetingVisiting() {
+        if let visited = keychain.get("visitedMeetings"),
+           var lastVisitedInt = Int(visited) {
+            lastVisitedInt += 1
+            keychain.set("\(lastVisitedInt)", forKey: "visitedMeetings")
+            keychain.set("\(Date().toString())", forKey: "lastMeetingVisitedDate")
+            
+        } else {
+            keychain.set("1", forKey: "visitedMeetings")
         }
     }
     
@@ -86,8 +109,7 @@ class ChatPersistence: ChatPersistenceProtocol {
                 chatSettings.companyDetails = settings.companyDetails
                 chatSettings.isPremium = settings.isPremium
                 chatSettings.voiceOver = settings.voiceOver
-                chatSettings.meetingsVisited = Int64(settings.meetingsVisited)
-                chatSettings.lastMeetingDate = settings.lastMeetingDate
+                chatSettings.userOnboarded = settings.userOnboarded
                 chatSettings.id = "123"
                 do {
                     try self.context.save()
@@ -107,8 +129,7 @@ class ChatPersistence: ChatPersistenceProtocol {
         return ChatSettings(companyDetails: chatSettings.companyDetails,
                             voiceOver: chatSettings.voiceOver,
                             isPremium: chatSettings.isPremium,
-                            meetingsVisited: Int(chatSettings.meetingsVisited),
-                            lastMeetingDate: chatSettings.lastMeetingDate)
+                            userOnboarded: chatSettings.userOnboarded)
     }
     
     func challengePassed() async {
@@ -147,7 +168,7 @@ class ChatPersistence: ChatPersistenceProtocol {
     private func createSettings() -> ChatSettings {
         let chatSettings = ChatSettings(voiceOver: true,
                                         isPremium: false,
-                                        meetingsVisited: 0)
+                                        userOnboarded: false)
         
         Task {
             await saveSettings(chatSettings)
@@ -264,7 +285,7 @@ class ChatPersistenceMock: ChatPersistenceProtocol {
     func loadSettings() -> ChatSettings {
         ChatSettings(voiceOver: true,
                      isPremium: false,
-                     meetingsVisited: 0)
+                     userOnboarded: false)
     }
     
     func challengePassed() async {
@@ -274,4 +295,7 @@ class ChatPersistenceMock: ChatPersistenceProtocol {
     func challengeDates() -> [Date] {
         return []
     }
+    
+    func saveNewMeetingVisiting() {}
+    func getTodayMeetingVisited() -> Int {0}
 }

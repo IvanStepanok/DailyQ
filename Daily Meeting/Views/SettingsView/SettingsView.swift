@@ -45,7 +45,7 @@ struct SettingsView: View {
                                             }
                                         })
                                     }) {
-                                        AvatarView(user: user, isSpeaking: .constant(false))
+                                        AvatarView(user: user, index: 0, isSpeaking: .constant(false))
                                     }
                                 }
                             }

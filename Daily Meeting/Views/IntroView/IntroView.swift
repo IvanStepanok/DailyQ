@@ -229,16 +229,13 @@ struct IntroView: View {
                                             }
                                         })
                                     }) {
-                                        AvatarView(user: user, isSpeaking: .constant(false))
+                                        AvatarView(user: user, index: 0, isSpeaking: .constant(false))
                                     }
                                 }
                             }
                         }
                         CustomButton(text: "Розпочати перший мітинг", action: {
-                            let openAI = Container.shared.resolve(OpenAISwift.self)!
-                            let meeting = Container.shared.resolve(DailyMeeting.self)!
-                            //DailyMeeting(persistence: self.viewModel.persistence, openAI: openAI)
-                            viewModel.router.showMeetingView(meeting: meeting)
+                            viewModel.router.startFirstMeeting()
                         })
                     }.padding(.horizontal, 16)
                         .opacity(viewModel.animation ? 1 : 0).padding(24)
