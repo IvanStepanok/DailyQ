@@ -20,8 +20,7 @@ class SalaryReview: MeetingProtocol {
     let hr = UserSettings(id: 0,
                           isBot: true,
                           userName: "Amanda Jobson",
-                          avatarName: "avatar_4",
-                          gender: .male,
+                          avatarName: "avatar-15",
                           userRole: .humanResourse,
                           englishLevel: .advanced)
     
@@ -36,7 +35,6 @@ class SalaryReview: MeetingProtocol {
                 .first(where: {$0.isBot == false}) ?? UserSettings(id: 3,
                                                                    isBot: false,
                                                                    userName: "User",
-                                                                   gender: .female,
                                                                    userRole: .frontend,
                                                                    englishLevel: .advanced)
         ]
@@ -52,5 +50,13 @@ class SalaryReview: MeetingProtocol {
         return """
                 My name is \(user.userName), i am a \(user.userRole). You are is \(hr.userName) and you are is \(hr.userRole) of famous IT Company. This conversation is a perfomance and salary review. Before write a message you write your name like this: #\(hr.userName)#. Each of your messages consists of a maximum of 100-300 characters. After finishing take a quick review, and say interview #passed# or #failed#.
                 """
+    }
+    
+    func meetingFinishedSuccessfull() {
+        Task {
+            var settings = persistence.loadSettings()
+            settings.salaryReviewsCompleted += 1
+            await persistence.saveSettings(settings)
+        }
     }
 }

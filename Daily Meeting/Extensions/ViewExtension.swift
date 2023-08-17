@@ -20,6 +20,10 @@ extension View {
         }
     }
     
+    func ipadWidthLimit() -> some View {
+        return self.frame(maxWidth: 500)
+    }
+    
     func onFirstAppear(_ action: @escaping () -> Void) -> some View {
         modifier(FirstAppear(action: action))
     }

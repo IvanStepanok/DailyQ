@@ -13,23 +13,28 @@ class UserSettingsViewModel: ObservableObject {
     let persistence: ChatPersistenceProtocol
     
     let avatars: [String] = [
-        "avatar_0",
-        "avatar_1",
-        "avatar_2",
-        "avatar_3",
-        "avatar_4",
-        "avatar_5",
-        "avatar_6",
-        "avatar_7",
-        "avatar_8",
-        "avatar_9",
-        "avatar_10",
-        "avatar_11",
-        "avatar_12",
-        "avatar_13",
-        "avatar_14",
-        "avatar_15",
-        "avatar_16"
+        "avatar-1",
+        "avatar-2",
+        "avatar-3",
+        "avatar-4",
+        "avatar-5",
+        "avatar-6",
+        "avatar-7",
+        "avatar-8",
+        "avatar-9",
+        "avatar-10",
+        "avatar-11",
+        "avatar-12",
+        "avatar-13",
+        "avatar-14",
+        "avatar-15",
+        "avatar-16",
+        "avatar-17",
+        "avatar-18",
+        "avatar-19",
+        "avatar-20",
+        "avatar-21",
+        "avatar-22"
     ]
     
     var updatedUser: (UserSettings) -> Void
@@ -43,14 +48,26 @@ class UserSettingsViewModel: ObservableObject {
     func randomName() {
         userSettings.userName =
         [
-            "Emma Johnson",
-            "Daniel Williams",
-            "Sophia Martinez",
-            "Ethan Thompson",
-            "Olivia Davis",
-            "Benjamin Garcia",
-            "Ava Anderson",
-            "William Rodriguez"
+            "Alexander Hartman",
+            "Benjamin Archer",
+            "Caleb Sinclair",
+            "Dominic Bennett",
+            "Elijah Harrington",
+            "Finnegan Monroe",
+            "Gabriel Callahan",
+            "Harrison Prescott",
+            "Isaac Thorne",
+            "Jasper Montgomery",
+            "Amelia Langley",
+            "Bella Harrington",
+            "Charlotte Donovan",
+            "Daphne Kensington",
+            "Eleanor Sinclair",
+            "Fiona Caldwell",
+            "Grace Thornton",
+            "Harper Kensington",
+            "Isabella Ramsey",
+            "Juliette Carmichael"
         ].randomElement()!
         
         updateUserName(userSettings.userName)
@@ -81,11 +98,6 @@ class UserSettingsViewModel: ObservableObject {
        
        func updateEnglishLevel(_ level: EnglishLevel) {
            userSettings.englishLevel = level
-           saveSetting()
-       }
-       
-       func updateGender(_ gender: UserGender) {
-           userSettings.gender = gender
            saveSetting()
        }
 }

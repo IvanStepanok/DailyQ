@@ -17,21 +17,21 @@ class IntroViewModel: ObservableObject {
     @Published var teamSettings: [UserSettings] = []
     
     let nameMessages: [String] = [
-        "Привіт",
+        Localized("nameMessage1"),
         "",
-        "Перед початком першого мітінгу",
+        Localized("nameMessage2"),
         "",
-        "щоб все виглядало більш реалістично",
+        Localized("nameMessage3"),
         "",
-        "зробимо деякі налаштування.",
+        Localized("nameMessage4"),
         "", ""
     ]
     
     let roleMessages: [String] = [
         "",
-        "Фантастично!",
+        Localized("roleMessage1"),
         "",
-        "І ще декілька питань",
+        Localized("roleMessage2"),
         "", ""
     ]
     
@@ -39,11 +39,15 @@ class IntroViewModel: ObservableObject {
         ""
     ]
     
+    let userStackMessages: [String] = [
+        ""
+    ]
+    
     let membersMessages: [String] = [
         "",
-        "І останнє",
+        Localized("membersMessage1"),
         "",
-        "Давайте налаштуємо вашу команду",
+        Localized("membersMessage2"),
         "", ""
     ]
     
@@ -59,9 +63,11 @@ class IntroViewModel: ObservableObject {
     @Published var showUserRole: Bool = false
     @Published var showEnglish: Bool = false
     @Published var showWorkDescription: Bool = false
+    @Published var showUserStackDescription: Bool = false
     @Published var showMembers: Bool = false
     @Published var animation: Bool = false
     @Published var workDescription: String = ""
+    @Published var userStackDescription: String = ""
     @Published var isLoading: Bool = false
     
     init(userSettings: UserSettings,
@@ -72,8 +78,27 @@ class IntroViewModel: ObservableObject {
         self.persistence = persistence
         self.router = router
         self.openAI = openAI
-        allMessages = [nameMessages, roleMessages, englishMessages, membersMessages]
+        allMessages = [nameMessages, roleMessages, userStackMessages, englishMessages, membersMessages]
         generateWorkDescription()
+    }
+    
+    func userStackDescriptionExample() -> String {
+        switch userSettings.userRole {
+        case .teamLead:
+            return "Experienced in leading cross-functional teams, project management, and technical decision-making. Proficient in a variety of technologies across both frontend and backend."
+        case .designer:
+            return "Skilled in UI/UX design, wireframing, and prototyping using tools like Adobe Creative Suite and Figma. Familiar with design principles and user-centered design practices."
+        case .mobile:
+            return "Proficient in mobile app development using platforms like iOS (Swift) or Android (Kotlin/Java). Familiar with mobile UI/UX patterns, RESTful APIs, and version control (Git)."
+        case .qa:
+            return "Strong expertise in software testing methodologies, writing test plans, and automated testing using tools like Selenium or JUnit. Skilled in identifying and reporting bugs, and collaborating closely with development teams."
+        case .frontend:
+            return "Proficient in building responsive and interactive user interfaces using HTML, CSS, and JavaScript frameworks like React or Vue.js. Knowledgeable about cross-browser compatibility and performance optimization."
+        case .backend:
+            return "Skilled in server-side programming languages like Python, Java, or Node.js. Experienced with database management (SQL/NoSQL), API development, and cloud services such as AWS or Azure"
+        case .humanResourse:
+            return "Proficient in talent acquisition, recruitment strategies, and HR processes. Strong communication skills, understanding of organizational culture, and ability to foster a positive work environment"
+        }
     }
     
     func generateWorkDescription() {
@@ -96,8 +121,7 @@ class IntroViewModel: ObservableObject {
     }
     
     func nameMessage() {
-        var timer: Timer?
-        timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
+        let timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
             guard let self else { return }
             withAnimation(.linear(duration: self.nameMessages[self.index] == "" ? 0.5 : (speed / 1.5))) {
                 self.index = (self.index + 1) % self.nameMessages.count
@@ -115,8 +139,7 @@ class IntroViewModel: ObservableObject {
     }
     
     func roleMessage() {
-        var timer: Timer?
-        timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
+        let timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
             guard let self else { return }
             withAnimation(.linear(duration: self.roleMessages[self.index] == "" ? 0.5 : (speed / 1.5))) {
                 self.index = (self.index + 1) % self.roleMessages.count
@@ -133,9 +156,26 @@ class IntroViewModel: ObservableObject {
         }
     }
     
+    func userStackMessage() {
+        let timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
+            guard let self else { return }
+            withAnimation(.linear(duration: self.userStackMessages[self.index] == "" ? 0.5 : (speed / 1.5))) {
+                self.index = (self.index + 1) % self.userStackMessages.count
+                if self.index == self.userStackMessages.count - 1 {
+                    self.showUserStackDescription = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation {
+                            self.animation = true
+                        }
+                    }
+                    timer.invalidate() // Остановить таймер после первого выполнения
+                }
+            }
+        }
+    }
+    
     func englishMessage() {
-        var timer: Timer?
-        timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
+        let timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
             guard let self else { return }
             withAnimation(.linear(duration: self.englishMessages[self.index] == "" ? 0.5 : (speed / 1.5))) {
                 self.index = (self.index + 1) % self.englishMessages.count
@@ -153,8 +193,7 @@ class IntroViewModel: ObservableObject {
     }
     
     func membersMessage() {
-        var timer: Timer?
-        timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
+        let timer = Timer.scheduledTimer(withTimeInterval: speed, repeats: true) { [weak self] timer in
             guard let self else { return }
             withAnimation(.linear(duration: self.membersMessages[self.index] == "" ? 0.5 : (speed / 1.5))) {
                 self.index = (self.index + 1) % self.membersMessages.count
@@ -182,6 +221,15 @@ class IntroViewModel: ObservableObject {
     func saveCompanyDetails() {
         var userSettings = persistence.loadSettings()
         userSettings.companyDetails = workDescription
+        let settings = userSettings
+        Task {
+           await persistence.saveSettings(settings)
+        }
+    }
+    
+    func saveUserStackDetails() {
+        var userSettings = persistence.loadSettings()
+        userSettings.userStackDescription = userStackDescription
         let settings = userSettings
         Task {
            await persistence.saveSettings(settings)

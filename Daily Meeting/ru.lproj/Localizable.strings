@@ -1,0 +1,138 @@
+/* 
+  Localizable.strings
+  Daily Meeting
+
+  Created by  Stepanok Ivan on 15.08.2023.
+  
+*/
+
+"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? ";
+
+//MARK: - DailyMeetingOnboarding
+"onBoarding1" = "Добро пожаловать на наш первый митинг. Его успех во многом зависит от вас. Старайтесь давать максимально развернутые ответы, проявляйте воображение, и другие участники команды поддержат вас.";
+
+"onBoarding2" = "Это список участников. Но если прокрутить вправо, можно увидеть список задач, о которых вам нужно рассказать команде.";
+
+"onBoarding3" = "Чтобы ответить на вопрос, нажмите эту кнопку. Говорите голосом. Если что-то пойдет не так, вы сможете отредактировать текст.";
+
+"onBoarding4" = "Если вы рассказали о всех своих задачах, и у команды больше нет вопросов к вам, вы можете завершить митинг.";
+
+"startMeeting" = "Начать митинг";
+
+"nextHint" = "Следующая подсказка";
+
+"buttonYes" = "Да";
+"buttonNo" = "Нет";
+
+//MARK: - PremiumView
+"premiumDescription" = "Ваша бесплатная пробная версия начнется в течение 3 дней, а затем с вас будет взиматься 4,99 долларов США ежемесячно. Согласно Условиям использования iTunes Store, с которыми мы рекомендуем ознакомиться перед совершением любой онлайн-транзакции: оплата будет взиматься с вашего учетной записи iTunes после подтверждения покупки; Ваша подписка на наши премиум-сервисы или продукты через программу будет автоматически продлеваться на ту же подписку с той же ценой, с которой вы изначально подписались, если вы не отмените свою подписку, отключив автоматическое продление, по крайней мере, за 24 часа до окончания текущего периода; За 24 часа до окончания текущего периода с вашей учетной записи будет взиматься плата за обновление по той же ставке, что и в начальной подписке; Вы можете управлять подписками, и автоматическое продление можно отключить, перейдя в настройки учетной записи в разделе iTunes & App Store в настройках вашего устройства. Любая неиспользованная часть бесплатного пробного периода, если он предлагается, будет утрачена, когда пользователь приобретет подписку, где это возможно.";
+
+"premiumFeature1" = "До десяти митингов в день";
+"premiumFeature2" = "Разбор грамматики после каждого митинга";
+"premiumFeature3" = "Технические собеседования";
+"premiumFeature4" = "Perfomance и Salary review";
+"premiumFeature5" = "Никаких обязательств, отмена в любое время.";
+
+"premiumAlertMessage" = "Поздравляем с успешной подпиской! Отменить можно в любой момент";
+
+"premiumGetPremiumTitle" = "Получите Premium аккаунт";
+"premiumTrialToggle" = "Бесплатный период";
+
+"premiumSave20" = "сэкономьте 20%";
+"premiumYearlySub" = "Годовая подписка";
+
+"premium3DaysFree" = "3 дня бесплатно";
+"premiumAfter3Days" = "Затем 4,99 $ в месяц";
+
+"premiumContinueButton" = "Продолжить";
+"premiumFreePeriodButton" = "Бесплатный период";
+
+"premiumNotPayNow" = "Оплата потом";
+
+//MARK: - VoiceRecordView
+"voiceRecordFinishEditing" = "Завершить редактирование";
+"voiceRecordStartEditing" = "Редактировать текст";
+"voiceRecordSpeakNow" = "Говорите";
+"voiceRecordPressToStart" = "Нажмите, для старта";
+"voiceRecordSendMessage" = "Отправить";
+
+//MARK: - SettingsView
+"settingsViewSetupTeam" = "Настройте свою команду:";
+"settingsViewVoiceOver" = "Озвучивать голосом";
+"settingsViewUserStackDescription" = "Описание вашей должности или технологического стека:";
+"settingsViewProjectDescription" = "Описание проекта:";
+"settingsViewSaveButton" = "Сохранить настройки";
+"settingsViewTitle" = "Настройки";
+
+//MARK: - IntroView
+
+"introViewNextButton" = "Далее";
+"introViewContinueButton" = "Продолжить";
+
+"introViewYourNameTitle" = "Как к вам обращаться?";
+"introViewYourNameDescription" = "Ваше имя (на английском):";
+"introViewRoleTitle" = "Какую роль вы хотели бы играть?";
+"introViewYourRole" = "Ваша роль:";
+"introViewEnglishLevel" = "Ваш уровень английского?";
+"introViewProjectTitle" = "Над каким проектом вы работаете?";
+"introViewProjectDescription" = "Мы создали описание проекта для вас. Вы можете оставить его или написать свое собственное.";
+"introViewRoleTitle" = "Опишите свою роль";
+"introViewRoleDescription" = "Мы уже немного написали для вас, исправьте или оставьте как есть. Кратко и предпочтительно на английском.";
+"introViewTeamSetup" = "Настройте вашу команду:";
+"introViewStartFirstMeeting" = "Начать первый митинг";
+
+//MARK: - IntroViewModel
+"nameMessage1" = "Приветствую";
+"nameMessage2" = "Перед началом первого митинга";
+"nameMessage3" = "чтобы все выглядело более реалистично";
+"nameMessage4" = "сделаем некоторые настройки.";
+
+"roleMessage1" = "Замечательно!";
+"roleMessage2" = "И еще несколько вопросов";
+
+"membersMessage1" = "И последнее";
+"membersMessage2" = "Давайте настроим вашу команду";
+
+//MARK: - UserSettingsView
+"userSettingsAvatar" = "аватар:";
+"userSettingsUsername" = "имя:";
+"userSettingsRole" = "роль:";
+"userSettingsEnglishLevel" = "уровень английского:";
+
+//MARK: - ChatScreenView
+"chatScreenTasks" = "Задачи";
+"chatScreenEndMeetTitle" = "Завершить митинг?";
+"chatScreenEndMeetText1" = "Для того чтобы митинг считался успешным, нужно записать еще как минимум";
+"chatScreenEndMeetText2" = "сообщений. Все равно завершить?";
+
+//MARK: - MainView
+"mainViewDailyMeetingTitle" = "Ежедневный митинг с командой";
+"mainViewTechInterviewTitle" = "Техническое интервью";
+"mainViewSalaryReviewTitle" = "Perfomance ревью";
+"mainViewDailyMeetingDesc" = "Daily митинг с командой для отработки навыков обсуждения выполненных и текущих задач.";
+"mainViewTechInterviewDesc" = "Подготовьтесь к техническому интервью и узнайте о своих сильных и слабых сторонах.";
+"mainViewSalaryReviewDesc" = "Давайте проверим, готовы ли вы к повышению?";
+
+"mainViewDailyChallenge" = "Доступны новые цели!";
+"mainViewYourMeetings" = "Ваши митинги:";
+"mainViewTeamIsTired" = "Сегодня команда очень устала от митингов, увидимся завтра!";
+"mainViewFreeMeetingPassed" = "Вы уже воспользовались бесплатным митингом. Следующий будет доступен завтра.\n\n Хотите попробовать Премиум?";
+"mainViewPremiumOnly" = "Этот контент доступен только для Premium аккаунтов. Хотите попробовать?";
+"mainViewDailyChallenges" = "Ежедневные события";
+"mainViewUserStatistic" = "Общая статистика";
+"mainViewStatDaily" = "Daily митинги";
+"mainViewStatTech" = "Технические интервью";
+"mainViewStatPerf" = "Perfomance ревью";
+"mainViewPremium" = "Премиум";
+"mainViewFree" = "Бесплатно";
+"mainViewTimeLeft" = "Осталось времени:";
+"mainViewConnect" = "Присоединиться";
+
+"mainViewDailyChallengeDesc" = "Пройдите хотя бы один митинг за сегодня, чтобы поймать звезду и приблизиться к свободному общению на английском! Начать ежедневное собрание?";
+
+//MARK: - MeetingCompleted
+"completedCongratsTitle" = "Поздравляем!";
+"completedCompleted1" = "Вы завершили";
+"completedCompleted2" = " и словили звездочку! Теперь давайте разберем допущенные ошибки.";
+"completedSummary" = "Итоги митинга:";
+"completedGetFullReview" = "Получить полный разбор";

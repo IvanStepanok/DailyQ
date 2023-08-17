@@ -21,8 +21,7 @@ class TechInterview: MeetingProtocol {
     let teamLead = UserSettings(id: 0,
                                 isBot: true,
                                 userName: "Steve Gates",
-                                avatarName: "director",
-                                gender: .male,
+                                avatarName: "avatar-3",
                                 userRole: .teamLead,
                                 englishLevel: .advanced)
     
@@ -36,7 +35,6 @@ class TechInterview: MeetingProtocol {
             .first(where: {$0.isBot == false}) ?? UserSettings(id: 3,
                                                                isBot: false,
                                                                userName: "User",
-                                                               gender: .female,
                                                                userRole: .frontend,
                                                                englishLevel: .advanced)]
         self.companyDetails = persistence.loadSettings().companyDetails
@@ -48,8 +46,18 @@ class TechInterview: MeetingProtocol {
         
         let user = members.first(where: { $0.isBot == false })!
         
+        let userStackDescription = persistence.loadSettings().userStackDescription ?? "Ask \(user.userName) about their tech stack and technologies in use."
+        
         return """
-                My name is \(user.userName), i am a \(user.userRole). You are is \(teamLead.userName) and you are is \(teamLead.userRole) of famous IT Company. This conversation is an technical interview for a iOS developer (SwiftUI) at Junior position. Ask 2 short technical questions, one question by time, about this role. Each of your messages consists of a maximum of 100-300 characters. Before write a message you write your name like this: #\(teamLead.userName)#. After finishing take a quick review, and say interview #passed# or #failed#.
+                My name is \(user.userName), i am a \(user.userRole). You are is \(teamLead.userName) and you are is \(teamLead.userRole) of famous IT Company. This conversation is an technical interview. Information about my skills: \(userStackDescription). You can inquire about my experience and the technologies I have used, if necessary. Ask 10 short technical questions, one question by time, about this role. Each of your messages consists of a maximum of 100-300 characters. Before write a message you write your name like this: #\(teamLead.userName)#. After finishing take a quick review, and say interview passed or failed.
                 """
+    }
+    
+    func meetingFinishedSuccessfull() {
+        Task {
+            var settings = persistence.loadSettings()
+            settings.techInterviewsCompleted += 1
+            await persistence.saveSettings(settings)
+        }
     }
 }

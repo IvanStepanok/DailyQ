@@ -27,17 +27,11 @@ enum EnglishLevel: String, CaseIterable {
     case proficient = "Proficient"
 }
 
-enum UserGender: String, CaseIterable {
-    case male = "Male"
-    case female = "Female"
-}
-
 struct UserSettings: Equatable {
     var id: Int
     var isBot: Bool
     var userName: String
     var avatarName: String?
-    var gender: UserGender
     var userRole: UserRole
     var englishLevel: EnglishLevel
     var color: UIColor {
@@ -54,13 +48,37 @@ struct UserSettings: Equatable {
            let color = UIColor(hue:CGFloat(finalHash)/255.0 , saturation: 0.40, brightness: 0.75, alpha: 1.0)
            return color
     }
+    var isMale: Bool {
+        switch avatarName {
+        case "avatar-1",
+            "avatar-2",
+            "avatar-3",
+            "avatar-4",
+            "avatar-5",
+            "avatar-6",
+            "avatar-7",
+            "avatar-8",
+            "avatar-9",
+            "avatar-10",
+            "avatar-11",
+            "avatar-12":
+            return true
+        case .some, .none:
+            return false
+        }
+    }
 }
 
 struct ChatSettings {
     var companyDetails: String?
+    var userStackDescription: String?
     var voiceOver: Bool
     var isPremium: Bool
     var userOnboarded: Bool
+    var dailyMeetingsCompleted: Int
+    var salaryReviewsCompleted: Int
+    var techInterviewsCompleted: Int
+    var bgImageIndex: Int
 }
 
 struct Random {

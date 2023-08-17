@@ -1,0 +1,138 @@
+/* 
+  Localizable.strings
+  Daily Meeting
+
+  Created by  Stepanok Ivan on 15.08.2023.
+  
+*/
+
+"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? ";
+
+//MARK: - DailyMeetingOnboarding
+"onBoarding1" = "Welcome to our first meeting. Its success depends largely on you. Try to give detailed answers, use your imagination, and other team members will support you.";
+
+"onBoarding2" = "This is the list of participants. But if you swipe right, you can see the list of tasks you need to talk to the team about.";
+
+"onBoarding3" = "To answer a question, press this button. Speak out loud. If something goes wrong, you can edit the text.";
+
+"onBoarding4" = "If you've discussed all your tasks and the team has no more questions for you, you can finish the meeting.";
+
+"startMeeting" = "Start Meeting";
+
+"nextHint" = "Next Hint";
+
+"buttonYes" = "Yes";
+"buttonNo" = "No";
+
+//MARK: - PremiumView
+"premiumDescription" = "Your free trial will start in 3 days, and then you will be charged $4.99 USD per month. According to the Terms of Use of the iTunes Store, which we recommend reviewing before making any online transactions: payment will be charged to your iTunes account after confirmation of purchase; Your subscription to our premium services or products through the program will automatically renew for the same subscription at the same price you originally subscribed at unless you cancel your subscription by turning off automatic renewal at least 24 hours before the end of the current period; Within 24 hours prior to the end of the current period, your account will be charged for the renewal at the same rate as the initial subscription; You can manage subscriptions, and automatic renewal can be turned off by going to account settings in the iTunes & App Store section in your device settings. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription, where applicable.";
+
+"premiumFeature1" = "Up to ten meetings per day";
+"premiumFeature2" = "Grammar analysis after each meeting";
+"premiumFeature3" = "Technical interviews";
+"premiumFeature4" = "Performance and Salary review";
+"premiumFeature5" = "No commitments, cancel anytime.";
+
+"premiumAlertMessage" = "Congratulations on a successful subscription! You can cancel at any time.";
+
+"premiumGetPremiumTitle" = "Get Premium Account";
+"premiumTrialToggle" = "Free Trial";
+
+"premiumSave20" = "save 20%";
+"premiumYearlySub" = "Yearly Subscription";
+
+"premium3DaysFree" = "3 days free";
+"premiumAfter3Days" = "Then $4.99/month";
+
+"premiumContinueButton" = "Continue";
+"premiumFreePeriodButton" = "Free Trial";
+
+"premiumNotPayNow" = "Pay Later";
+
+//MARK: - VoiceRecordView
+"voiceRecordFinishEditing" = "Finish Editing";
+"voiceRecordStartEditing" = "Edit Text";
+"voiceRecordSpeakNow" = "Speak Now";
+"voiceRecordPressToStart" = "Press to Start";
+"voiceRecordSendMessage" = "Send";
+
+//MARK: - SettingsView
+"settingsViewSetupTeam" = "Set Up Your Team:";
+"settingsViewVoiceOver" = "Voice Over";
+"settingsViewUserStackDescription" = "Description of your position or technology stack:";
+"settingsViewProjectDescription" = "Project Description:";
+"settingsViewSaveButton" = "Save Settings";
+"settingsViewTitle" = "Settings";
+
+//MARK: - IntroView
+
+"introViewNextButton" = "Next";
+"introViewContinueButton" = "Continue";
+
+"introViewYourNameTitle" = "How should we address you?";
+"introViewYourNameDescription" = "Your name (in English):";
+"introViewRoleTitle" = "What role would you like to play?";
+"introViewYourRole" = "Your role:";
+"introViewEnglishLevel" = "Your English level?";
+"introViewProjectTitle" = "What project are you working on?";
+"introViewProjectDescription" = "We have created a project description for you. You can leave it as is or write your own.";
+"introViewRoleTitle" = "Describe Your Role";
+"introViewRoleDescription" = "We've written a bit for you already, edit or leave as is. Briefly and preferably in English.";
+"introViewTeamSetup" = "Set Up Your Team:";
+"introViewStartFirstMeeting" = "Start First Meeting";
+
+//MARK: - IntroViewModel
+"nameMessage1" = "Welcome";
+"nameMessage2" = "Before starting the first meeting";
+"nameMessage3" = "to make everything look more realistic";
+"nameMessage4" = "let's do some setup.";
+
+"roleMessage1" = "Great!";
+"roleMessage2" = "A few more questions";
+
+"membersMessage1" = "And lastly";
+"membersMessage2" = "Let's set up your team";
+
+//MARK: - UserSettingsView
+"userSettingsAvatar" = "avatar:";
+"userSettingsUsername" = "name:";
+"userSettingsRole" = "role:";
+"userSettingsEnglishLevel" = "English level:";
+
+//MARK: - ChatScreenView
+"chatScreenTasks" = "Tasks";
+"chatScreenEndMeetTitle" = "End Meeting?";
+"chatScreenEndMeetText1" = "In order for the meeting to be considered successful, you need to record at least";
+"chatScreenEndMeetText2" = "messages. Do you still want to end it?";
+
+//MARK: - MainView
+"mainViewDailyMeetingTitle" = "Daily Team Meeting";
+"mainViewTechInterviewTitle" = "Technical Interview";
+"mainViewSalaryReviewTitle" = "Performance Review";
+"mainViewDailyMeetingDesc" = "Daily team meeting to practice discussing completed and current tasks.";
+"mainViewTechInterviewDesc" = "Prepare for a technical interview and learn about your strengths and weaknesses.";
+"mainViewSalaryReviewDesc" = "Let's check if you're ready for a raise?";
+
+"mainViewDailyChallenge" = "New goals are available!";
+"mainViewYourMeetings" = "Your Meetings:";
+"mainViewTeamIsTired" = "The team is very tired of meetings today, see you tomorrow!";
+"mainViewFreeMeetingPassed" = "You've already used your free meeting. The next one will be available tomorrow.\n\nWant to try Premium?";
+"mainViewPremiumOnly" = "This content is available for Premium accounts only. Want to try?";
+"mainViewDailyChallenges" = "Daily Challenges";
+"mainViewUserStatistic" = "Overall Stats";
+"mainViewStatDaily" = "Daily Meetings";
+"mainViewStatTech" = "Technical Interviews";
+"mainViewStatPerf" = "Performance Reviews";
+"mainViewPremium" = "Premium";
+"mainViewFree" = "Free";
+"mainViewTimeLeft" = "Time Left:";
+"mainViewConnect" = "Connect";
+
+"mainViewDailyChallengeDesc" = "Attend at least one meeting today to catch a star and get closer to free English communication! Start the daily meeting?";
+
+//MARK: - MeetingCompleted
+"completedCongratsTitle" = "Congratulations!";
+"completedCompleted1" = "You've completed";
+"completedCompleted2" = " and caught a star! Now, let's go over the mistakes.";
+"completedSummary" = "Meeting Summary:";
+"completedGetFullReview" = "Get Full Review";

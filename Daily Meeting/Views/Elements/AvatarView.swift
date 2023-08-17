@@ -111,7 +111,6 @@ struct AvatarView_Previews: PreviewProvider {
         let userSetting = UserSettings(id: 1,
                                        isBot: false,
                                        userName: "Igor Kondratuk",
-                                       gender: .male,
                                        userRole: .mobile,
                                        englishLevel: .preIntermediate)
         ZStack {

@@ -29,7 +29,6 @@ class ChatScreenViewModel: ObservableObject {
         self.userSettings = users.first(where: {$0.isBot == false}) ?? UserSettings(id: 9,
                                                                                     isBot: false,
                                                                                     userName: "User",
-                                                                                    gender: .male,
                                                                                     userRole: .mobile,
                                                                                     englishLevel: .advanced)
         self.chatSettings = persistence.loadSettings()
@@ -39,21 +38,20 @@ class ChatScreenViewModel: ObservableObject {
         self.synthesizer = synthesizer
     }
     
-    func readTextWithSpeech(_ text: String, gender: UserGender) {
+    func readTextWithSpeech(_ text: String, isMale: Bool) {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
             try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("audioSession properties weren't set because of an error.")
         }
-
+        
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.voice = AVSpeechSynthesisVoice(language: isMale ? "en-GB" : "en-US")
         utterance.postUtteranceDelay = 0.005
-//        let synth = AVSpeechSynthesizer()
         synthesizer.speak(utterance)
         imitateSpeaking(text: text, value: isSpeaking, completion: { self.isSpeaking = $0 })
-
+        
         defer {
             disableAVSession()
         }
@@ -86,6 +84,16 @@ class ChatScreenViewModel: ObservableObject {
         let wordCount = Double(text.split(separator: " ").count)
         let estimatedDuration = wordCount / wordsPerSecond
         return Int(estimatedDuration.rounded())
+    }
+    
+    func getNameFrom(message: String) -> String {
+        if let startIndex = message.firstIndex(of: "#"),
+           let endIndex = message.lastIndex(of: "#"),
+           startIndex < endIndex {
+            let nameRange = message.index(after: startIndex)..<endIndex
+            return String(message[nameRange])
+        }   
+        return ""
     }
     
 }

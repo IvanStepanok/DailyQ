@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02095CC12A8BD7BA00FE80FB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02095CC32A8BD7BA00FE80FB /* Localizable.strings */; };
 		021187422A7D28F7008C69F1 /* ChatDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 021187402A7D28F7008C69F1 /* ChatDataModel.xcdatamodeld */; };
 		022528622A7ABA2C0048BEDD /* Daily_MeetingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022528612A7ABA2C0048BEDD /* Daily_MeetingApp.swift */; };
 		022528642A7ABA2C0048BEDD /* ChatScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022528632A7ABA2C0048BEDD /* ChatScreenView.swift */; };
@@ -19,6 +20,7 @@
 		02266E032A7EA1D400941B87 /* ChatScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02266E022A7EA1D400941B87 /* ChatScreenViewModel.swift */; };
 		023A5EFF2A8827500045C39E /* DailyMeetingOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023A5EFE2A8827500045C39E /* DailyMeetingOnboarding.swift */; };
 		02529E642A8037FF00233857 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02529E632A8037FF00233857 /* MainView.swift */; };
+		0260BE572A8D265700E67A46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0260BE562A8D265700E67A46 /* LaunchScreen.storyboard */; };
 		0274BF5C2A7BB6E500DA7849 /* ChatPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF5B2A7BB6E500DA7849 /* ChatPersistence.swift */; };
 		0274BF5E2A7BB71A00DA7849 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF5D2A7BB71A00DA7849 /* Models.swift */; };
 		0274BF612A7BBAFA00DA7849 /* UserSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF602A7BBAFA00DA7849 /* UserSettingsView.swift */; };
@@ -61,6 +63,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02095CC22A8BD7BA00FE80FB /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		02095CC42A8BD7BE00FE80FB /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		021187412A7D28F7008C69F1 /* ChatDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ChatDataModel.xcdatamodel; sourceTree = "<group>"; };
 		0225285E2A7ABA2C0048BEDD /* Daily Meeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Daily Meeting.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		022528612A7ABA2C0048BEDD /* Daily_MeetingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Daily_MeetingApp.swift; sourceTree = "<group>"; };
@@ -71,8 +75,10 @@
 		02266DFD2A7E6CD500941B87 /* IntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 		02266DFF2A7E92D600941B87 /* IntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewModel.swift; sourceTree = "<group>"; };
 		02266E022A7EA1D400941B87 /* ChatScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatScreenViewModel.swift; sourceTree = "<group>"; };
+		022E1EC12A8CC8DF00E9B174 /* Daily-Meeting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Daily-Meeting-Info.plist"; sourceTree = SOURCE_ROOT; };
 		023A5EFE2A8827500045C39E /* DailyMeetingOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMeetingOnboarding.swift; sourceTree = "<group>"; };
 		02529E632A8037FF00233857 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		0260BE562A8D265700E67A46 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0274BF5B2A7BB6E500DA7849 /* ChatPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPersistence.swift; sourceTree = "<group>"; };
 		0274BF5D2A7BB71A00DA7849 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		0274BF602A7BBAFA00DA7849 /* UserSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsView.swift; sourceTree = "<group>"; };
@@ -105,6 +111,7 @@
 		0287FDDA2A851F9300C97FD6 /* DailyMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMeeting.swift; sourceTree = "<group>"; };
 		0287FDDC2A85224E00C97FD6 /* TechInterview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechInterview.swift; sourceTree = "<group>"; };
 		0287FDDE2A85358100C97FD6 /* SalaryReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalaryReview.swift; sourceTree = "<group>"; };
+		02A9EC442A8EAD550025639A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		02D7B22A2A86E9F10067F118 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		02E701A52A823B76003C6B40 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		02E830792A80491B009C8AE2 /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
@@ -129,6 +136,7 @@
 		022528552A7ABA2C0048BEDD = {
 			isa = PBXGroup;
 			children = (
+				0260BE562A8D265700E67A46 /* LaunchScreen.storyboard */,
 				022528602A7ABA2C0048BEDD /* Daily Meeting */,
 				0225285F2A7ABA2C0048BEDD /* Products */,
 				022528752A7B03250048BEDD /* Frameworks */,
@@ -146,6 +154,7 @@
 		022528602A7ABA2C0048BEDD /* Daily Meeting */ = {
 			isa = PBXGroup;
 			children = (
+				022E1EC12A8CC8DF00E9B174 /* Daily-Meeting-Info.plist */,
 				022528612A7ABA2C0048BEDD /* Daily_MeetingApp.swift */,
 				0274BF9A2A7C55DB00DA7849 /* DI */,
 				0274BF942A7C54A400DA7849 /* Router */,
@@ -157,6 +166,7 @@
 				0274BF582A7BB66900DA7849 /* Views */,
 				022528652A7ABA2E0048BEDD /* Assets.xcassets */,
 				022528672A7ABA2E0048BEDD /* Preview Content */,
+				02095CC32A8BD7BA00FE80FB /* Localizable.strings */,
 			);
 			path = "Daily Meeting";
 			sourceTree = "<group>";
@@ -447,11 +457,13 @@
 			};
 			buildConfigurationList = 022528592A7ABA2C0048BEDD /* Build configuration list for PBXProject "Daily Meeting" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = uk;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				uk,
+				ru,
+				en,
 			);
 			mainGroup = 022528552A7ABA2C0048BEDD;
 			packageReferences = (
@@ -476,6 +488,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				022528692A7ABA2E0048BEDD /* Preview Assets.xcassets in Resources */,
+				02095CC12A8BD7BA00FE80FB /* Localizable.strings in Resources */,
+				0260BE572A8D265700E67A46 /* LaunchScreen.storyboard in Resources */,
 				022528662A7ABA2E0048BEDD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,6 +549,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		02095CC32A8BD7BA00FE80FB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				02095CC22A8BD7BA00FE80FB /* uk */,
+				02095CC42A8BD7BE00FE80FB /* ru */,
+				02A9EC442A8EAD550025639A /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0225286A2A7ABA2E0048BEDD /* Debug */ = {
@@ -662,11 +689,12 @@
 				DEVELOPMENT_TEAM = KHU94Q2JSS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Daily-Meeting-Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "microphone needed";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "use microphone";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
@@ -695,11 +723,12 @@
 				DEVELOPMENT_TEAM = KHU94Q2JSS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Daily-Meeting-Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "microphone needed";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "use microphone";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;

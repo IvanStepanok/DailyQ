@@ -13,7 +13,6 @@ struct MeetingCompleted: View {
     @State var counter: Int = 0
     @State var isLoaded: Bool = false
     @State var isPremium: Bool = false
-    @Namespace var namespace
     
     var meetingType: String
     var summary: String
@@ -64,7 +63,6 @@ struct MeetingCompleted: View {
                                 .blur(radius: 40)
                             HStack {
                                 Text("🏆")
-                                    .matchedGeometryEffect(id: "winner", in: namespace)
                                     .font(.system(size: isLoaded ? 140 : 0, weight: .ultraLight, design: .default))
                                     .confettiCannon(counter: $counter,
                                                     num: 50,
@@ -89,10 +87,10 @@ struct MeetingCompleted: View {
                         .onTapGesture {
                                 counter += 1
                         }
-                        Text("Вітаємо!")
+                        Text(Localized("completedCongratsTitle"))
                             .font(.system(size: 46, weight: .ultraLight, design: .default))
                     }
-                    Text("Ви завершили Daily мітинг, тож давайте розберемо допущені помилки.")
+                    Text("\(Localized("completedCompleted1")) \(meetingType)\(Localized("completedCompleted2"))")
                         .multilineTextAlignment(.center)
                         .font(.system(size: 16, weight: .regular, design: .default))
                     Spacer(minLength: 60)
@@ -101,7 +99,7 @@ struct MeetingCompleted: View {
                     Spacer(minLength: 60)
                     
                     HStack {
-                        Text("Підсумок мітингу:")
+                        Text(Localized("completedSummary"))
                             .multilineTextAlignment(.leading)
                             .font(.system(size: 16, weight: .regular, design: .default))
                             .padding(.leading, 14)
@@ -134,7 +132,8 @@ struct MeetingCompleted: View {
                                     .stroke(lineWidth: 1)
                                     .fill(.white.opacity(0.1))
                                 if !isPremium {
-                                    CustomButton(text: "Отримати повний розбір", bgColor: .green, action: {
+                                    CustomButton(text: Localized("completedGetFullReview"),
+                                                 bgColor: .green, action: {
                                         router.dismiss(animated: false)
                                         router.showPremiumView()
                                     })
@@ -146,6 +145,7 @@ struct MeetingCompleted: View {
                     
                     Spacer(minLength: 60)
                 }.padding(.horizontal, 24)
+                    .ipadWidthLimit()
                        
             }
         }.navigationBarHidden(false)

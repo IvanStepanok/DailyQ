@@ -12,4 +12,5 @@ protocol MeetingProtocol {
     var tasks: String? { get set }
     var meetingName: String { get set }
     func promt() async -> String
+    func meetingFinishedSuccessfull()
 }

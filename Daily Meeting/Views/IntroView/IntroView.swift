@@ -27,12 +27,12 @@ struct IntroView: View {
                 //                if true {
                 if viewModel.showNameInput {
                     Group {
-                    Text("Як до вас звертатись?")
+                    Text(Localized("introViewYourNameTitle"))
                         .font(.system(size: 36, weight: .thin, design: .default))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         VStack(alignment: .leading) {
-                            Text("Ваше імʼя (англійською):")
+                            Text(Localized("introViewYourNameDescription"))
                                 .padding(.leading, 12)
                                 .padding(.bottom, -2)
                                 .font(.system(size: 14, weight: .thin, design: .default))
@@ -56,7 +56,7 @@ struct IntroView: View {
                                             .fill(.white.opacity(0.1))
                                     )
                                 if viewModel.userSettings.userName != "" {
-                                    CustomButton(text: "Далі", action: {
+                                    CustomButton(text: Localized("introViewNextButton"), action: {
                                         withAnimation {
                                             viewModel.index = 0
                                             viewModel.showNameInput = false
@@ -73,7 +73,7 @@ struct IntroView: View {
                     // Add the Picker for userRole
                     ZStack {
                         VStack {
-                            Text("Яку роль ви би хотіли відігравати?")
+                            Text(Localized("introViewRoleTitle"))
                                 .font(.system(size: 36, weight: .thin, design: .default))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
@@ -87,7 +87,7 @@ struct IntroView: View {
                                 } label: {
                                     
                                     VStack(alignment: .leading) {
-                                        Text("Ваша роль:")
+                                        Text(Localized("introViewYourRole"))
                                             .padding(.leading, 12)
                                             .padding(.bottom, -2)
                                             .font(.system(size: 18, weight: .thin, design: .default))
@@ -103,7 +103,7 @@ struct IntroView: View {
                                             )
                                     }.foregroundStyle(.white)
                                 }
-                                CustomButton(text: "Далі", action: {
+                                CustomButton(text: Localized("introViewNextButton"), action: {
                                     viewModel.index = 0
                                     viewModel.showUserRole = false
                                     viewModel.currentMessagesIndex = 2
@@ -119,7 +119,7 @@ struct IntroView: View {
                     // Add the Picker for userRole
                     ZStack {
                         VStack {
-                            Text("Який ваш рівень англійської?")
+                            Text(Localized("introViewEnglishLevel"))
                                 .font(.system(size: 36, weight: .thin, design: .default))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
@@ -144,7 +144,7 @@ struct IntroView: View {
                                             )
                                     }.foregroundStyle(.white)
                                 }
-                                CustomButton(text: "Далі", action: {
+                                CustomButton(text: Localized("introViewNextButton"), action: {
                                     viewModel.saveUser()
                                     viewModel.index = 0
                                     viewModel.showEnglish = false
@@ -164,22 +164,21 @@ struct IntroView: View {
                     }
                 } else if viewModel.showWorkDescription {
                     VStack(spacing: 20) {
-                    Text("Над яким проєктом ви працюєте?")
+                    Text(Localized("introViewProjectTitle"))
                         .font(.system(size: 36, weight: .thin, design: .default))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
 
                         VStack(alignment: .leading) {
-                            Text("Ми згенерували для вас опис проєкту, можете залишити його, або ж написати власноруч.")
+                            Text(Localized("introViewProjectDescription"))
                                 .padding(.leading, 12)
                                 .padding(.bottom, -2)
                                 .font(.system(size: 14, weight: .thin, design: .default))
                                 .foregroundColor(.white)
                             ZStack(alignment: .topTrailing) {
                                 
-                                GeometryReader { geometry in
                                     TextEditor(text: $viewModel.workDescription)
-                                                       .frame(height: 300)
+                                                       .frame(height: 150)
                                                        .hideScrollContentBackground()
                                                        .foregroundColor(.white)
                                                        .padding(13)
@@ -188,7 +187,6 @@ struct IntroView: View {
                                                                .stroke(lineWidth: 1)
                                                                .fill(.white.opacity(0.1))
                                                        )
-                                               }
                                 Button(action: {
                                     viewModel.generateWorkDescription()
                                 }, label: {
@@ -197,24 +195,68 @@ struct IntroView: View {
                             }
                             HStack {
                                 Spacer()
-                                CustomButton(text: "Продовжити", action: {
+                                CustomButton(text: Localized("introViewContinueButton"), action: {
                                     viewModel.saveCompanyDetails()
                                     viewModel.index = 0
                                     viewModel.showWorkDescription = false
                                     viewModel.currentMessagesIndex = 3
                                     viewModel.animation = false
-                                    viewModel.membersMessage()
+                                    viewModel.userStackMessage()
                                 })
                                 Spacer()
                             }
                         }
                     }.opacity(viewModel.animation ? 1 : 0).padding(24)
+                        .padding(.top, 100)
+                        .avoidKeyboard(dismissKeyboardByTap: true)
+                } else if viewModel.showUserStackDescription {
+                    VStack(spacing: 20) {
+                    Text(Localized("introViewRoleTitle"))
+                        .font(.system(size: 36, weight: .thin, design: .default))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+
+                        VStack(alignment: .leading) {
+                            Text(Localized("introViewRoleDescription"))
+                                .padding(.leading, 12)
+                                .padding(.bottom, -2)
+                                .font(.system(size: 14, weight: .thin, design: .default))
+                                .foregroundColor(.white)
+                            
+                            TextEditor(text: $viewModel.userStackDescription)
+                                .frame(height: 150)
+                                .hideScrollContentBackground()
+                                .foregroundColor(.white)
+                                .padding(13)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(lineWidth: 1)
+                                        .fill(.white.opacity(0.1))
+                                )
+                                .onAppear {
+                                    viewModel.userStackDescription = viewModel.userStackDescriptionExample()
+                                }
+                        }
+                            HStack {
+                                Spacer()
+                                CustomButton(text: Localized("introViewContinueButton"), action: {
+                                    viewModel.saveUserStackDetails()
+                                    viewModel.index = 0
+                                    viewModel.showUserStackDescription = false
+                                    viewModel.currentMessagesIndex = 4
+                                    viewModel.animation = false
+                                    viewModel.membersMessage()
+                                })
+                                Spacer()
+                            }
+                    }.opacity(viewModel.animation ? 1 : 0).padding(24)
+                        .padding(.top, 100)
                         .avoidKeyboard(dismissKeyboardByTap: true)
                 } else if viewModel.showMembers {
                     VStack(alignment: .center, spacing: 20) {
                         VStack {}.frame(height: 30)
                         VStack(alignment: .leading) {
-                            Text("Налаштуйте вашу команду:")
+                            Text(Localized("introViewTeamSetup"))
                                 .padding(.leading, 12)
                                 .padding(.bottom, -2)
                                 .foregroundStyle(.white)
@@ -234,7 +276,7 @@ struct IntroView: View {
                                 }
                             }
                         }
-                        CustomButton(text: "Розпочати перший мітинг", action: {
+                        CustomButton(text: Localized("introViewStartFirstMeeting"), action: {
                             viewModel.router.startFirstMeeting()
                         })
                     }.padding(.horizontal, 16)
@@ -246,7 +288,7 @@ struct IntroView: View {
                         .multilineTextAlignment(.center)
                         .padding(24)
                 }
-            }
+            }.ipadWidthLimit()
             if viewModel.isLoading && viewModel.showWorkDescription {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
@@ -254,6 +296,8 @@ struct IntroView: View {
         }.onFirstAppear {
             viewModel.nameMessage()
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
     }
 }
 
@@ -264,7 +308,6 @@ struct IntroView_Previews: PreviewProvider {
                 id: 0,
                 isBot: false,
                 userName: "dfg",
-                gender: .male,
                 userRole: .mobile,
                 englishLevel: .advanced
             ), persistence: ChatPersistenceMock(),

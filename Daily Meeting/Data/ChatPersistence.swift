@@ -68,7 +68,6 @@ class ChatPersistence: ChatPersistenceProtocol {
                 userSettings.isBot = settings.isBot
                 userSettings.userName = settings.userName
                 userSettings.avatarName = settings.avatarName
-                userSettings.gender = settings.gender.rawValue
                 userSettings.userRole = settings.userRole.rawValue
                 userSettings.englishLevel = settings.englishLevel.rawValue
                 
@@ -94,7 +93,6 @@ class ChatPersistence: ChatPersistenceProtocol {
                              isBot: $0.isBot,
                              userName: $0.userName ?? "",
                              avatarName: $0.avatarName,
-                             gender: UserGender.init(rawValue: $0.gender ?? "") ?? .male,
                              userRole: UserRole.init(rawValue: $0.userRole ?? "") ?? .frontend,
                              englishLevel: EnglishLevel.init(rawValue: $0.englishLevel ?? "") ?? .elementary)
             }
@@ -107,9 +105,14 @@ class ChatPersistence: ChatPersistenceProtocol {
                 self.context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
                 let chatSettings = CDChatSettings(context: self.context)
                 chatSettings.companyDetails = settings.companyDetails
+                chatSettings.userStackDescription = settings.userStackDescription
                 chatSettings.isPremium = settings.isPremium
                 chatSettings.voiceOver = settings.voiceOver
                 chatSettings.userOnboarded = settings.userOnboarded
+                chatSettings.dailyMeetingsCompleted = Int64(settings.dailyMeetingsCompleted)
+                chatSettings.salaryReviewsCompleted = Int64(settings.salaryReviewsCompleted)
+                chatSettings.techInterviewsCompleted = Int64(settings.techInterviewsCompleted)
+                chatSettings.bgImageIndex = Int64(settings.bgImageIndex)
                 chatSettings.id = "123"
                 do {
                     try self.context.save()
@@ -126,10 +129,17 @@ class ChatPersistence: ChatPersistenceProtocol {
         let request = CDChatSettings.fetchRequest()
         guard let chatSettings = try? context.fetch(request).first else { return createSettings() }
         
-        return ChatSettings(companyDetails: chatSettings.companyDetails,
-                            voiceOver: chatSettings.voiceOver,
-                            isPremium: chatSettings.isPremium,
-                            userOnboarded: chatSettings.userOnboarded)
+        return ChatSettings(
+            companyDetails: chatSettings.companyDetails,
+            userStackDescription: chatSettings.userStackDescription,
+            voiceOver: chatSettings.voiceOver,
+            isPremium: chatSettings.isPremium,
+            userOnboarded: chatSettings.userOnboarded,
+            dailyMeetingsCompleted: Int(chatSettings.dailyMeetingsCompleted),
+            salaryReviewsCompleted: Int(chatSettings.salaryReviewsCompleted),
+            techInterviewsCompleted: Int(chatSettings.techInterviewsCompleted),
+            bgImageIndex: Int(chatSettings.bgImageIndex)
+        )
     }
     
     func challengePassed() async {
@@ -168,7 +178,11 @@ class ChatPersistence: ChatPersistenceProtocol {
     private func createSettings() -> ChatSettings {
         let chatSettings = ChatSettings(voiceOver: true,
                                         isPremium: false,
-                                        userOnboarded: false)
+                                        userOnboarded: false,
+                                        dailyMeetingsCompleted: 0,
+                                        salaryReviewsCompleted: 0,
+                                        techInterviewsCompleted: 0,
+                                        bgImageIndex: 0)
         
         Task {
             await saveSettings(chatSettings)
@@ -182,22 +196,19 @@ class ChatPersistence: ChatPersistenceProtocol {
         UserSettings(id: 1,
                      isBot: true,
                      userName: "Ethan Thompson",
-                     avatarName: "avatar_5",
-                     gender: .male,
+                     avatarName: "avatar-5",
                      userRole: .teamLead,
                      englishLevel: .preIntermediate),
         UserSettings(id: 2,
                      isBot: true,
                      userName: "Daniel Williams",
-                     avatarName: "avatar_13",
-                     gender: .male,
+                     avatarName: "avatar-13",
                      userRole: .backend,
                      englishLevel: .preIntermediate),
         UserSettings(id: 3,
                      isBot: true,
                      userName: "Sophia Martinez",
-                     avatarName: "avatar_12",
-                     gender: .female,
+                     avatarName: "avatar-12",
                      userRole: .designer,
                      englishLevel: .preIntermediate)
         ]
@@ -252,29 +263,25 @@ class ChatPersistenceMock: ChatPersistenceProtocol {
             UserSettings(id: 0,
                          isBot: false,
                          userName: "Ivan Stepanok",
-                         avatarName: "avatar_0",
-                         gender: .male,
+                         avatarName: "avatar-2",
                          userRole: .teamLead,
                          englishLevel: .preIntermediate),
             UserSettings(id: 1,
                          isBot: true,
                          userName: "Igor Kondratuk",
-                         avatarName: "avatar_5",
-                         gender: .male,
+                         avatarName: "avatar-5",
                          userRole: .teamLead,
                          englishLevel: .preIntermediate),
             UserSettings(id: 2,
                          isBot: true,
-                         userName: "Natalie Kovalengo",
-                         avatarName: "avatar_4",
-                         gender: .female,
+                         userName: "Natalie Kovalenko",
+                         avatarName: "avatar-17",
                          userRole: .backend,
                          englishLevel: .preIntermediate),
             UserSettings(id: 3,
                          isBot: true,
                          userName: "Serhii Dorozhny",
-                         avatarName: "avatar_11",
-                         gender: .male,
+                         avatarName: "avatar-11",
                          userRole: .designer,
                          englishLevel: .preIntermediate)
         ]
@@ -285,7 +292,11 @@ class ChatPersistenceMock: ChatPersistenceProtocol {
     func loadSettings() -> ChatSettings {
         ChatSettings(voiceOver: true,
                      isPremium: false,
-                     userOnboarded: false)
+                     userOnboarded: false,
+                     dailyMeetingsCompleted: 10,
+                     salaryReviewsCompleted: 2,
+                     techInterviewsCompleted: 0,
+                     bgImageIndex: 0)
     }
     
     func challengePassed() async {

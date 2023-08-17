@@ -31,7 +31,7 @@ struct VoiceRecordView: View {
                         if viewModel.isTextEditMode {
                             TextEditor(text: $viewModel.editText)
                             //                            .hideScrollContentBackground()
-                        .frame(maxHeight: 100)
+                        .frame(maxHeight: 200)
                         } else {
                         Text(viewModel.previewRecognizedText)
                             .multilineTextAlignment(.center)
@@ -40,17 +40,19 @@ struct VoiceRecordView: View {
                             .padding(.top, 20)
                     }
                     
-                    if !viewModel.previewRecognizedText.isEmpty || !viewModel.editText.isEmpty {
+//                    if !viewModel.previewRecognizedText.isEmpty || !viewModel.editText.isEmpty {
                     Button(action: {
                         viewModel.isTextEditMode.toggle()
                     }) {
                         HStack {
                             Image(systemName: viewModel.isTextEditMode ? "checkmark" : "pencil")
-                            Text(viewModel.isTextEditMode ? "Завершити редагування" : "Редагувати текст")
+                            Text(viewModel.isTextEditMode
+                                 ? Localized("voiceRecordFinishEditing")
+                                 : Localized("voiceRecordStartEditing"))
                                 .foregroundColor(viewModel.isTextEditMode ? .green : .white)
                         }.font(.system(size: 14, weight: .bold, design: .default)).padding(1)
                     }
-                    }
+//                    }
                     
                 }.padding(.top, 20)
                     .padding(.bottom, -30)
@@ -67,14 +69,16 @@ struct VoiceRecordView: View {
                         }
                     })
 
-                Text(viewModel.isRecording ? "Speak now" : "Press to start")
-                    .foregroundColor(.white)
-                    .padding(16)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 30)
-                            .stroke(lineWidth: 1)
-                            .fill(.white)
-                    ).offset(y: 50)
+                if !viewModel.isTextEditMode {
+                    Text(viewModel.isRecording ? Localized("voiceRecordSpeakNow") : Localized("voiceRecordPressToStart"))
+                        .foregroundColor(.white)
+                        .padding(16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke(lineWidth: 1)
+                                .fill(.white)
+                        ).offset(y: 50)
+                }
                 ZStack {
                     if !viewModel.isTextEditMode {
                         AnimatedCircles()
@@ -154,7 +158,7 @@ struct VoiceRecordView: View {
                                 }.padding(.horizontal, 16)
                                     .offset(y: 10)
                                     .opacity(viewModel.isRecording ? 1 : 0)
-                                CustomButton(text: "Send message",
+                                CustomButton(text: Localized("voiceRecordSendMessage"),
                                              bgColor: Color.green,
                                              action: {
                                     viewModel.stopRecording()

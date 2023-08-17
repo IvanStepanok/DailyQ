@@ -9,10 +9,15 @@
         </uniquenessConstraints>
     </entity>
     <entity name="CDChatSettings" representedClassName="CDChatSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="bgImageIndex" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="companyDetails" optional="YES" attributeType="String"/>
+        <attribute name="dailyMeetingsCompleted" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="isPremium" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="salaryReviewsCompleted" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="techInterviewsCompleted" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="userOnboarded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="userStackDescription" optional="YES" attributeType="String"/>
         <attribute name="voiceOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -23,7 +28,6 @@
     <entity name="CDUserSettings" representedClassName="CDUserSettings" syncable="YES" codeGenerationType="class">
         <attribute name="avatarName" optional="YES" attributeType="String"/>
         <attribute name="englishLevel" optional="YES" attributeType="String"/>
-        <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isBot" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="userName" optional="YES" attributeType="String"/>

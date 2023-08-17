@@ -10,7 +10,6 @@ import SwiftUI
 struct SettingsView: View {
     
     @ObservedObject var viewModel: SettingsViewModel
-    @State var voiceOverOn: Bool = true
      
     private static var avatarSize: CGFloat = 120
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
@@ -28,13 +27,12 @@ struct SettingsView: View {
                 RainbowBackgroundView()
                 ScrollView {
                     VStack(spacing: 20) {
-                        VStack {}.frame(height: 30)
                         VStack(alignment: .leading) {
-                            Text("Налаштуйте свою команду:")
+                            Text(Localized("settingsViewSetupTeam"))
                                 .padding(.leading, 12)
                                 .padding(.bottom, -2)
                                 .foregroundStyle(.white)
-                                .font(.system(size: 18, weight: .light, design: .default))
+                                .font(.system(size: 14, weight: .thin, design: .default))
                             LazyVGrid(columns: columns, spacing: 8) {
                                 ForEach(viewModel.users.sorted(by: {$0.id < $1.id}), id: \.id) { user in
                                     Button(action: {
@@ -59,16 +57,57 @@ struct SettingsView: View {
                                         .fill(.white.opacity(0.1))
                                 )
                             HStack {
-                                Toggle("Озвучувати голосом", isOn: $voiceOverOn)
+                                Toggle(Localized("settingsViewVoiceOver"), isOn: $viewModel.voiceOverOn)
                                     .font(.system(size: 15, weight: .regular, design: .default))
                             }.padding(16)
                         }
+                        VStack(alignment: .leading) {
+                            Text(Localized("settingsViewUserStackDescription"))
+                                .padding(.leading, 12)
+                                .padding(.bottom, -2)
+                                .font(.system(size: 14, weight: .thin, design: .default))
+                                .foregroundColor(.white)
+                            
+                            TextEditor(text: $viewModel.userStackDescription)
+                                .frame(height: 150)
+                                .hideScrollContentBackground()
+                                .foregroundColor(.white)
+                                .padding(13)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(lineWidth: 1)
+                                        .fill(.white.opacity(0.1))
+                                )
+                        }
+                        VStack(alignment: .leading) {
+                            Text(Localized("settingsViewProjectDescription"))
+                                .padding(.leading, 12)
+                                .padding(.bottom, -2)
+                                .font(.system(size: 14, weight: .thin, design: .default))
+                                .foregroundColor(.white)
+                            
+                            TextEditor(text: $viewModel.projectDescription)
+                                .frame(height: 150)
+                                .hideScrollContentBackground()
+                                .foregroundColor(.white)
+                                .padding(13)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(lineWidth: 1)
+                                        .fill(.white.opacity(0.1))
+                                )
+                        }
+                        CustomButton(text: Localized("settingsViewSaveButton"), bgColor: .green, action: {
+                            viewModel.saveSetting()
+                        })
+
                         Spacer(minLength: 100)
                     }.padding(.horizontal, 16)
+                        .ipadWidthLimit()
                 }
             }
         }.navigationBarHidden(false) //.toolbar(.visible)
-            .navigationTitle("Settings")
+            .navigationTitle(Localized("settingsViewTitle"))
     }
 }
 
@@ -77,36 +116,34 @@ struct SettingsView_Previews: PreviewProvider {
         
         let users: [UserSettings] = [
             UserSettings(id: 0,
-                         isBot: false,
-                         userName: "Ivan Stepanok",
-                         avatarName: "avatar_0",
-                         gender: .male,
+                         isBot: true,
+                         userName: "Serhii Dorozhny",
+                         avatarName: "avatar-2",
                          userRole: .teamLead,
                          englishLevel: .preIntermediate),
             UserSettings(id: 1,
                          isBot: true,
                          userName: "Igor Kondratuk",
-                         avatarName: "avatar_5",
-                         gender: .male,
-                         userRole: .teamLead,
+                         avatarName: "avatar-5",
+                         userRole: .frontend,
                          englishLevel: .preIntermediate),
             UserSettings(id: 2,
                          isBot: true,
                          userName: "Natalie Kovalengo",
-                         avatarName: "avatar_4",
-                         gender: .female,
+                         avatarName: "avatar-15",
                          userRole: .backend,
                          englishLevel: .preIntermediate),
             UserSettings(id: 3,
-                         isBot: true,
-                         userName: "Serhii Dorozhny",
-                         avatarName: "avatar_11",
-                         gender: .male,
-                         userRole: .designer,
+                         isBot: false,
+                         userName: "Ivan Stepanok",
+                         avatarName: "avatar-11",
+                         userRole: .mobile,
                          englishLevel: .preIntermediate)
         ]
         
-        SettingsView(viewModel: SettingsViewModel(users: users, router: RouterMock()))
+        SettingsView(viewModel: SettingsViewModel(users: users,
+                                                  router: RouterMock(),
+                                                  persistence: ChatPersistenceMock()))
     }
 }
 
@@ -120,10 +157,16 @@ struct RainbowBackgroundView: View {
         Image("avatar_3"),
         Image("avatar_8"),
         Image("avatar_11"),
-        Image("avatar_13"),
         Image("avatar_12"),
         Image("avatar_16")
     ]
+    
+//    Image("gradient-1"),
+//    Image("gradient-2"),
+//    Image("gradient-3"),
+//    Image("gradient-4"),
+//    Image("gradient-5"),
+//    Image("gradient-6")
     
     func updateImageIndex() {
         Timer.scheduledTimer(withTimeInterval: timeInterval / 2, repeats: true) { timer in
@@ -147,13 +190,15 @@ struct RainbowBackgroundView: View {
                     .clipped()
                     .scaledToFit()
                     .blur(radius: 100)
-                    .frame(height: reader.size.height / 1)
+//                    .scaleEffect(1.5)
+                    .frame(width: reader.size.width, height: reader.size.height / 1)
                     .offset(y: -reader.size.height / 4)
                     .clipped()
+//                    .opacity(0.5)
+//                    .saturation(0.6)
+                    
             }
         }.onAppear(perform: updateImageIndex)
             .ignoresSafeArea()
-
-            
     }
 }

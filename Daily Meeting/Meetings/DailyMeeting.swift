@@ -9,7 +9,7 @@ import Foundation
 import OpenAISwift
 
 class DailyMeeting: MeetingProtocol {
-    
+        
     let persistence: ChatPersistenceProtocol
     let openAI: OpenAISwift
     let companyDetails: String
@@ -37,7 +37,7 @@ class DailyMeeting: MeetingProtocol {
         let bot3 = (members[2])
         
         return """
-        We are at the morning stand-up. There are four of us here, and you are playing the roles of three of us. They are \(bot1.userName) - \(bot1.userRole.rawValue), \(bot2.userName) - \(bot2.userRole.rawValue), and \(bot3.userName) - \(bot3.userRole.rawValue). Each message starts with the user's name and is enclosed in #hashtags#. For example: #\(bot1.userName)# Test message. \(bot1.userName) always starts first. You can only ask questions to \(user.userName); he is playing the role of \(user.userRole.rawValue). Here is a list of his tasks: [\(tasks)] He should talk about each of them. The project everyone is working on: [\(companyDetails)] You cannot write on behalf of \(user.userName). Each of your messages consists of a maximum of 100-300 characters. You can write on behalf of only one user at a time.
+        We are at the morning stand-up. There are four of us here, and you are playing the roles of three of us. They are \(bot1.userName) - \(bot1.userRole.rawValue), \(bot2.userName) - \(bot2.userRole.rawValue), and \(bot3.userName) - \(bot3.userRole.rawValue). Each message starts with the user's name and is enclosed in #hashtags#. For example: #\(bot1.userName)# Test message. \(bot1.userName) always starts first. You can only ask questions to \(user.userName); he is playing the role of \(user.userRole.rawValue). Here is a list of his tasks: [\(tasks)] He should talk about each of them. The project everyone is working on: [\(companyDetails)] You cannot write on behalf of \(user.userName). Each of your response consists of a maximum of 100-300 characters. Use a little sense of humor. Use markdowns if needed. You can write on behalf of only one user at a time.
         """
     }
 
@@ -52,6 +52,14 @@ Generate two tasks that the AUTHOR had to complete yesterday and one that he mus
         } catch {
             print(">>>> 🤡", error.localizedDescription)
             return "Content creation error: \(error.localizedDescription)"
+        }
+    }
+    
+    func meetingFinishedSuccessfull() {
+        Task {
+            var settings = persistence.loadSettings()
+            settings.dailyMeetingsCompleted += 1
+            await persistence.saveSettings(settings)
         }
     }
 }

@@ -26,20 +26,25 @@ class MainViewModel: ObservableObject {
     
     // DELETE ME
     var bgImages: [String] = [
-        "image-12",
-        "image-13",
-        "image-14",
-        "image-15",
-        "image-19",
-        "image-20",
-        "image-21",
-        "image-22",
-        "image-24",
-        "image-25",
-        "image-26"
+        "bg12",
+        "bg13",
+        "bg17",
+        "bg24",
+        "bg26",
+        "bg27",
+        "bg28",
+        "bg31",
+        "bg39",
+        "bg40",
+        "bg41",
+        "bg42",
+        "bg52",
+        "bg55",
+        "bg57",
+        "bg60",
     ]
     
-    @Published var bgIndex: Int = 0
+    @Published var bgIndex: Int
     
     
     init(persistence: ChatPersistenceProtocol, router: RouterProtocol, openAI: OpenAISwift) {
@@ -49,6 +54,7 @@ class MainViewModel: ObservableObject {
         self.currentUser = members.first(where: {$0.isBot == false})
         self.openAI = openAI
         self.settings = persistence.loadSettings()
+        self.bgIndex = self.settings.bgImageIndex
         startTimer()
     }
     
@@ -68,7 +74,7 @@ class MainViewModel: ObservableObject {
 //                return SalaryReview(persistence: ChatPersistenceMock(), openAI: OpenAISwift(authToken: ""))
 //            }
 //#else
-//            if updater {
+//            if refreshPage {
                 switch self {
                 case .dailyMeeting:
                     return Container.shared.resolve(DailyMeeting.self)!
@@ -77,7 +83,7 @@ class MainViewModel: ObservableObject {
                 case .salaryReview:
                     return Container.shared.resolve(SalaryReview.self)!
                 }
-////            } else {
+//            } else {
 //                switch self {
 //                case .dailyMeeting:
 //                    return Container.shared.resolve(DailyMeeting.self)!
@@ -93,22 +99,22 @@ class MainViewModel: ObservableObject {
         func title() -> String {
             switch self {
             case .dailyMeeting:
-                return "Daily meeting with team"
+                return Localized("mainViewDailyMeetingTitle")
             case .techInterview:
-                return "Technical job interview"
+                return Localized("mainViewTechInterviewTitle")
             case .salaryReview:
-                return "Salary review"
+                return Localized("mainViewSalaryReviewTitle")
             }
         }
         
         func description() -> String {
             switch self {
             case .dailyMeeting:
-                return "Щоденні мітинги з командою для відточення навиків обговореня виконаних та поточних задач."
+                return Localized("mainViewDailyMeetingDesc")
             case .techInterview:
-                return "Підготуйся до технічного інтервʼю і дізнайся про свої сильні і слабкі сторони."
+                return Localized("mainViewTechInterviewDesc")
             case .salaryReview:
-                return "Давай перевіримо, чи готові ви до підвищення?"
+                return Localized("mainViewSalaryReviewDesc")
             }
         }
         
@@ -181,6 +187,7 @@ struct MainView: View {
     
     @ObservedObject private var viewModel: MainViewModel
     @State var showPremium: Bool = false
+    @State var showDailyChallengesAlert: Bool = false
     @State var alertText: String = ""
     
     init(viewModel: MainViewModel) {
@@ -193,63 +200,84 @@ struct MainView: View {
                 .ignoresSafeArea()
             RainbowBackgroundView(timeInterval: 2)
             ScrollView {
-                ZStack(alignment: .topTrailing) {
+                ZStack {
                     Image(viewModel.bgImages[viewModel.bgIndex])
                         .resizable()
-                        .scaledToFill()
-                        .onTapGesture {
-                            if viewModel.bgIndex < viewModel.bgImages.count-1 {
-                                viewModel.bgIndex += 1
-                            } else {
-                                viewModel.bgIndex = 0
-                            }
-                        }
-                    //                    .offset(y: 40)
-                    //                    .frame(height: 250)
-                        .mask {
-                            LinearGradient(colors: [.black, .black, .clear],
-                                           startPoint: .top,
-                                           endPoint: .bottom)
-                        }
-                        .padding(.bottom, -200)
-                    VStack(alignment: .trailing) {
-                        Button(action: {
-                            
-                        }, label: {
-                            HStack {
-                                Text("Доступні нові цілі!")
-                                    .font(.system(size: 15, weight: .semibold, design: .default))
-                                    .shadow(color: .black, radius: 20, x: 0, y: 0)
-                                Text("⭐️")
-                                    .font(.system(size: 18, weight: .regular, design: .default))
-                                    .font(.headline)
-                                    .frame(width: 36, height: 36)
-                                    .background(.white.opacity(0.1))
-                                    .foregroundColor(.white)
-                                    .clipShape(Circle())
-                                    .overlay(
-                                        Circle()
-                                            .stroke(lineWidth: 1)
-                                            .fill(.white.opacity(0.2))
-                                    )
-                                    .overlay {
-                                        ZStack {
-                                            Circle()
-                                                .frame(width: 16)
-                                                .foregroundColor(.red)
-                                            Text("1")
-                                                .font(.system(size: 12, weight: .semibold, design: .default))
-                                        }.offset(x: 15, y: -15)
+                        .scaleEffect(2.4)
+                        .blur(radius: 100)
+                        .scaledToFit()
+                    ZStack(alignment: .topTrailing) {
+                        Image(viewModel.bgImages[viewModel.bgIndex])
+                            .resizable()
+                            .scaledToFit()
+                            .offset(y: -30)
+                            .onTapGesture {
+                                if viewModel.bgIndex < viewModel.bgImages.count-1 {
+                                    self.viewModel.bgIndex += 1
+                                    Task {
+                                        self.viewModel.settings.bgImageIndex = viewModel.bgIndex
+                                        print(self.viewModel.settings)
+                                        await self.viewModel.persistence.saveSettings(self.viewModel.settings)
                                     }
+                                } else {
+                                    self.viewModel.bgIndex = 0
+
+                                    Task {
+                                        self.viewModel.settings.bgImageIndex = viewModel.bgIndex
+                                        await self.viewModel.persistence.saveSettings(self.viewModel.settings)
+                                    }
+                                }
                             }
-                        })
+                        //                    .offset(y: 40)
+                        //                    .frame(height: 250)
+                            .mask {
+                                LinearGradient(colors: [.black, .black, .clear],
+                                               startPoint: .top,
+                                               endPoint: .bottom)
+                                .offset(y: -30)
+                            }
+                        if viewModel.persistence.getTodayMeetingVisited() == 0 {
+                            VStack(alignment: .trailing) {
+                                Button(action: {
+                                    showDailyChallengesAlert = true
+                                }, label: {
+                                    HStack {
+                                        Text(Localized("mainViewDailyChallenge"))
+                                            .font(.system(size: 15, weight: .semibold, design: .default))
+                                            .shadow(color: .black, radius: 20, x: 0, y: 0)
+                                        Text("⭐️")
+                                            .font(.system(size: 18, weight: .regular, design: .default))
+                                            .font(.headline)
+                                            .frame(width: 36, height: 36)
+                                            .background(.white.opacity(0.1))
+                                            .foregroundColor(.white)
+                                            .clipShape(Circle())
+                                            .overlay(
+                                                Circle()
+                                                    .stroke(lineWidth: 1)
+                                                    .fill(.white.opacity(0.2))
+                                            )
+                                            .overlay {
+                                                ZStack {
+                                                    Circle()
+                                                        .frame(width: 16)
+                                                        .foregroundColor(.red)
+                                                    Text("1")
+                                                        .font(.system(size: 12, weight: .semibold, design: .default))
+                                                }.offset(x: 15, y: -15)
+                                            }
+                                    }
+                                })
+                            }
+                            .padding(.horizontal, 24)
+                            .padding(.top, 40)
+                        }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 40)
-                }
+                }                        .padding(.bottom, -200)
+
                 VStack(alignment: .leading, spacing: 14) {
                     HStack {
-                        Text("Ваші мітинги:")
+                        Text(Localized("mainViewYourMeetings"))
                             .shadow(color: .black, radius: 5, x: 0, y: 0)
                             .padding(.leading, 16)
                             .font(.system(size: 46, weight: .ultraLight, design: .default))
@@ -279,7 +307,7 @@ struct MainView: View {
                                      isPremium: meeting.isPremium(),
                                      membersAvatars: meeting.meeting(persistence: self.viewModel.persistence,
                                                                      openAI: self.viewModel.openAI).members.map({ $0.avatarName ?? "" }),
-                                     timeLeft: $viewModel.timeLeftString,
+                                     timeLeft: viewModel.settings.isPremium ? .constant(nil) : $viewModel.timeLeftString,
                                      buttonClicked: {
                                 if viewModel.settings.isPremium {
                                     if viewModel.persistence.getTodayMeetingVisited() < 10 {
@@ -287,7 +315,7 @@ struct MainView: View {
                                                        persistence: viewModel.persistence,
                                                        openAI: viewModel.openAI)
                                     } else {
-                                        alertText = "Сьогодні команда дуже втомилась, зустрінемось наступного дня!"
+                                        alertText = Localized("mainViewTeamIsTired")
                                         showPremium = true
                                     }
                                 } else {
@@ -298,11 +326,11 @@ struct MainView: View {
                                                            persistence: viewModel.persistence,
                                                            openAI: viewModel.openAI)
                                         } else {
-                                            alertText = "Ви вже скористались безкоштовним мітингом. Наступний буде доступний через \(viewModel.timeLeftString?.dropLast(3) ?? "") \n \n Спробувати Premium?"
+                                            alertText = Localized("mainViewFreeMeetingPassed")
                                             showPremium = true
                                         }
                                     case .techInterview, .salaryReview:
-                                        alertText = "Цей контент доступний лише для Premium акаунтів. Бажаєте спробувати?"
+                                        alertText = Localized("mainViewPremiumOnly")
                                         showPremium = true
                                     }
                                 }
@@ -323,7 +351,7 @@ struct MainView: View {
                                     .fill(.white.opacity(0.1))
                             )
                         VStack {
-                            Text("Щоденні челенджі")
+                            Text(Localized("mainViewDailyChallenges"))
                                 .padding(.leading, 12)
                                 .padding(.bottom, 12)
                                 .foregroundStyle(.white)
@@ -333,19 +361,20 @@ struct MainView: View {
                     }
                     Spacer(minLength: 20)
                     HStack {
-                        Text("Загальна статистика")
+                        Text(Localized("mainViewUserStatistic"))
                             .padding(.leading, 16)
                             .font(.system(size: 26, weight: .light, design: .default))
                         Spacer()
                     }
                     
                     UserStatistic(data:
-                                    ["Мітингів пройдено": "13",
-                                     "Технічних інтервʼю": "34",
-                                     "Переглядів зарплати": "2"
+                                    [Localized("mainViewStatDaily"): "\(viewModel.settings.dailyMeetingsCompleted)",
+                                     Localized("mainViewStatTech"): "\(viewModel.settings.techInterviewsCompleted)",
+                                     Localized("mainViewStatPerf"): "\(viewModel.settings.salaryReviewsCompleted)"
                                     ])
                     Spacer(minLength: 70)
                 }.padding(24)
+                    .ipadWidthLimit()
             }.ignoresSafeArea()
             if showPremium {
                 AlertView(text: alertText,
@@ -353,6 +382,16 @@ struct MainView: View {
                     viewModel.router.showPremiumView()
                 },
                           cancelClicked: { showPremium = false })
+            }
+            if showDailyChallengesAlert {
+                AlertView(text: Localized("mainViewDailyChallengeDesc"),
+                          yesClicked: {
+                    showDailyChallengesAlert = false
+                    viewModel.router.showMeetingView(meeting: DailyMeeting(
+                        persistence: viewModel.persistence,
+                        openAI: viewModel.openAI))
+                },
+                          cancelClicked: { showDailyChallengesAlert = false })
             }
             AdminPanelView(content: {
                 Text(viewModel.settings.isPremium ? "Premium" : "Free")
@@ -373,6 +412,15 @@ struct MainView: View {
                 
                 Button("Reset views", action: {
                     KeychainSwift().set("0", forKey: "visitedMeetings")
+                    viewModel.refreshPage.toggle()
+                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+                
+                Button("Reset onBoarding", action: {
+                    viewModel.settings.userOnboarded.toggle()
+                    Task {
+                        await viewModel.persistence.saveSettings(viewModel.settings)
+                        viewModel.settings = viewModel.persistence.loadSettings()
+                    }
                     viewModel.refreshPage.toggle()
                 }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
             })
@@ -414,7 +462,7 @@ struct MeetView: View {
                         .font(.system(size: 15, weight: .semibold, design: .default))
                     Spacer()
 
-                    Text(isPremium ? "Преміум" : "Безкоштовно")
+                    Text(isPremium ? Localized("mainViewPremium") : Localized("mainViewFree"))
                         .opacity(0.5)
                         .font(.system(size: 15, weight: .light, design: .default))
                         .padding(.vertical, 4)
@@ -431,11 +479,11 @@ struct MeetView: View {
                     VStack(alignment: .center) {
                         if !isPremium {
                             if let timeLeft {
-                                Text("Залишилось: \(timeLeft)")
+                                Text("\(Localized("mainViewTimeLeft")) \(timeLeft)")
                                     .font(.system(size: 10, weight: .regular, design: .default))
                             }
                         }
-                        CustomButton(text: "Приєднатися", action: {
+                        CustomButton(text: Localized("mainViewConnect"), action: {
                             buttonClicked()
                         })
                     }

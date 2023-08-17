@@ -68,7 +68,6 @@ class Router: RouterProtocol {
                             id: 4,
                             isBot: false,
                             userName: "",
-                            gender: .female,
                             userRole: .backend,
                             englishLevel: .beginner),
                     persistence: persistence,
@@ -124,7 +123,9 @@ class Router: RouterProtocol {
     
     func showSettingsView() {
         let users = persistence.loadAllUsersSettings()
-        let vc = UIHostingController(rootView: SettingsView(viewModel: SettingsViewModel(users: users, router: self)))
+        let vc = UIHostingController(rootView: SettingsView(viewModel: SettingsViewModel(users: users,
+                                                                                         router: self,
+                                                                                         persistence: persistence)))
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .coverVertical
         self.navigationController?.pushViewController(vc, animated: true)

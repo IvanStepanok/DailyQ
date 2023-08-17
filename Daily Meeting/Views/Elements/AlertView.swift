@@ -12,14 +12,17 @@ struct AlertView: View {
     var text: String
     var yesClicked: () -> Void
     var cancelClicked: () -> Void
+    var hideCancelButton: Bool
     @State var animate: Bool = false
     @Binding var showProgress: Bool
     
     init(text: String,
+         hideCancelButton: Bool = false,
          yesClicked: @escaping () -> Void,
          cancelClicked: @escaping () -> Void,
          showProgress: Binding<Bool> = .constant(false)) {
         self.text = text
+        self.hideCancelButton = hideCancelButton
         self.yesClicked = yesClicked
         self.cancelClicked = cancelClicked
         self._showProgress = showProgress
@@ -63,8 +66,10 @@ struct AlertView: View {
                     }
                         HStack {
                             if !showProgress {
-                                CustomButton(text: "Так", flexible: true, bgColor: .green, action: { yesClicked() })
-                                CustomButton(text: "ні", flexible: true, bgColor: .gray.opacity(0.6), action: { cancelClicked() })
+                                CustomButton(text: Localized("buttonYes"), flexible: true, bgColor: .green, action: { yesClicked() })
+                                if !hideCancelButton {
+                                    CustomButton(text: Localized("buttonNo"), flexible: true, bgColor: .gray.opacity(0.6), action: { cancelClicked() })
+                                }
                             }
                         }.padding(.horizontal, 33)
                 }.padding(.horizontal, 30)
@@ -77,6 +82,7 @@ struct AlertView: View {
             }.scaleEffect(animate ? 1 : 0.9)
                 .opacity(animate ? 1 : 0)
                 .offset(y: animate ? 0 : 100)
+                .ipadWidthLimit()
         }
     }
 }
@@ -89,6 +95,7 @@ struct AlertView_Previews: PreviewProvider {
             RainbowBackgroundView(timeInterval: 3)
                 
             AlertView(text: "Цей контент доступний лише для Premium акаунтів. Бажаєте спробувати?",
+                      hideCancelButton: true,
                       yesClicked: {},
                       cancelClicked: {}, showProgress: .constant(false))
         }

@@ -100,12 +100,16 @@ struct CalendarView: View {
                     }
                 }
         }.onFirstAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                
-//                withAnimation(Animation.interpolatingSpring(mass: 0.3, stiffness: 0.1, damping: 1, initialVelocity: 0.3) ) {
-                withAnimation(Animation.spring(response: 1, dampingFraction: 0.9, blendDuration: 1.4)) {
-                    animate = true
+            if showWinnerAnimation {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                    
+                    //                withAnimation(Animation.interpolatingSpring(mass: 0.3, stiffness: 0.1, damping: 1, initialVelocity: 0.3) ) {
+                    withAnimation(Animation.spring(response: 1, dampingFraction: 0.9, blendDuration: 1.4)) {
+                        animate = true
+                    }
                 }
+            } else {
+                animate = true
             }
         }
         }
@@ -161,8 +165,10 @@ struct CalendarView_Previews: PreviewProvider {
                         DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 6).date!,
                 //        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 7).date!,
                         DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 8).date!,
-                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 11).date!
-            ], showWinnerAnimation: true)
+                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 11).date!,
+                        DateComponents(calendar: Calendar.current, year: 2023, month: 8, day: 17).date!
+
+            ], showWinnerAnimation: false)
         }
     }
 }

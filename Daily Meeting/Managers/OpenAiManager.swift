@@ -14,6 +14,7 @@ class OpenAiManager: ObservableObject {
 //    private var openAI = OpenAISwift(config: .makeDefaultOpenAI(apiKey: "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"))
     private var openAI: OpenAISwift
     @Published var chatHistory: [ChatMessage] = []
+    @Published var isLoading: Bool = false
     private var oneTry: Bool = false
                                             
     var meeting: MeetingProtocol
@@ -44,8 +45,12 @@ A project to imitate work in an IT company.
 You need to write a description of the project that the development team is working on. 100-200 characters.
 Language: English.
 """
+        isLoading = true
         do {
             let result = try await openAI.sendChat(with: [ChatMessage(role: .user, content: promt)], maxTokens: 100)
+            DispatchQueue.main.async {
+                self.isLoading = false
+            }
             return result.choices.first?.message.content ?? "Content creation error"
         } catch {
             print(">>>> 🤡", error.localizedDescription)
@@ -62,10 +67,8 @@ Language: English.
             }
         }.joined(separator: " \n \n")
         
-        let promt = """
-Розкажи мені будь-ласка дуже детально, які я допустив помилки в кожному з цих речень і чому? \(messages).
-"""
-        print(">>>>>", promt)
+        let promt = Localized("feedbackPromt") + messages
+        
         do {
             let result = try await openAI.sendChat(with: [ChatMessage(role: .assistant, content: promt), ChatMessage(role: .user, content: " ")])
             print(result)
@@ -78,22 +81,27 @@ Language: English.
     
     @MainActor
     func sendMessage(message: String) async {
+        isLoading = true
         let userMessage = ChatMessage(role: .user, content: "#You# " + message)
             self.chatHistory.append(userMessage)
         do {
             let result = try await openAI.sendChat(with: chatHistory, maxTokens: 200)
-            print("result ", result)
             guard let response = result.choices.first?.message else { return }
-            print(">>>> count", response.content.count)
             if !oneTry {
                 if response.content.count < 300 {
-                    self.chatHistory.append(response)
+                    DispatchQueue.main.async {
+                        self.chatHistory.append(response)
+                        self.isLoading = false
+                    }
                 } else {
                     oneTry = true
                     await sendMessage(message: message)
                 }
             } else {
-                self.chatHistory.append(response)
+                DispatchQueue.main.async {
+                    self.chatHistory.append(response)
+                    self.isLoading = false
+                }
             }
         } catch {
             print(">>>> 🤡", error.localizedDescription)

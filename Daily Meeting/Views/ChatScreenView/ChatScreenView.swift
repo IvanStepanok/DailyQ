@@ -21,7 +21,8 @@ struct ChatScreenView: View {
     @State var navigationTitle = ""
     @State var userOnboarded: Bool
     
-    private let columns = [GridItem(.adaptive(minimum: 140, maximum: 200))]
+    private let columns = [GridItem(.adaptive(minimum: UIDevice.current.userInterfaceIdiom == .pad ? 200 : 140,
+                                              maximum: UIDevice.current.userInterfaceIdiom == .pad ? 300 : 200))]
     
     init(viewModel: ChatScreenViewModel, openAI: OpenAiManager) {
         self.viewModel = viewModel
@@ -46,9 +47,11 @@ struct ChatScreenView: View {
                             }
                         }.padding(.horizontal, 16)
                         Spacer()
-                    }.onAppear {
+                    }.frame(maxWidth: 600)
+                    .onAppear {
                         navigationTitle = openAI.meeting.meetingName
                     }
+                    
                     if let tasks = openAI.meeting.tasks {
                         VStack(alignment: .leading) {
                             ScrollView {
@@ -57,7 +60,7 @@ struct ChatScreenView: View {
                                     .padding(16)
                             }
                         }.onAppear {
-                            navigationTitle = "Tasks"
+                            navigationTitle = Localized("chatScreenTasks")
                         }
                     }
                     if !userOnboarded {
@@ -70,6 +73,7 @@ struct ChatScreenView: View {
                 ChatWindowView(
                     chatHistory: $openAI.chatHistory,
                     chatExpanded: $viewModel.chatExpanded,
+                    isLoading: $openAI.isLoading,
                     membersCount: openAI.meeting.members.count,
                     whoSpeak: { if whoSpeak != $0 { whoSpeak = $0 } },
                     isClicked: {
@@ -97,8 +101,11 @@ struct ChatScreenView: View {
                 if let lastMessage = history.last?.content {
                     if openAI.chatHistory.count > 2 {
                         if !lastMessage.contains("#You#") {
-                            print("Try to read text")
-                            viewModel.readTextWithSpeech(lastMessage.removeUsernameAndHashtags(), gender: .female)
+                            let speakerName = viewModel.getNameFrom(message: lastMessage)
+                            let gender = viewModel.members.first(where: {$0.userName == speakerName})?.isMale
+                            if viewModel.chatSettings.voiceOver {
+                                viewModel.readTextWithSpeech(lastMessage.removeUsernameAndHashtags(), isMale: gender ?? false)
+                            }
                         }
                     }
                 }
@@ -118,8 +125,8 @@ struct ChatScreenView: View {
             if showEndCallAlert {
                 let userResponses = openAI.chatHistory.filter({ $0.role == .user }).count
                 AlertView(
-                    text: userResponses >= 5 ? "Завершити мітинг?"
-                    : "Щоб мітинг вважався пройденим успішно, треба записати ще як мінімум \(5 - userResponses) повідомлення. Все одно завершити?",
+                    text: userResponses >= 5 ? Localized("chatScreenEndMeetTitle")
+                    : "\(Localized("chatScreenEndMeetText1")) \(5 - userResponses) \(Localized("chatScreenEndMeetText2"))",
                     yesClicked: {
                         alertProgress = true
                         Task {
@@ -127,6 +134,7 @@ struct ChatScreenView: View {
                                 let summury = await openAI.getFeedback()
                                 viewModel.persistence.saveNewMeetingVisiting()
                                 await viewModel.persistence.challengePassed()
+                                openAI.meeting.meetingFinishedSuccessfull()
                                 viewModel.router.back(animated: false)
                                 viewModel.router.finishMeeting(meetingType: openAI.meeting.meetingName, summary: summury)
                             } else {
@@ -164,29 +172,25 @@ struct ChatScreenView_Previews: PreviewProvider {
             UserSettings(id: 0,
                          isBot: false,
                          userName: "Ivan Stepanok",
-                         avatarName: "avatar_0",
-                         gender: .male,
+                         avatarName: "avatar-1",
                          userRole: .teamLead,
                          englishLevel: .preIntermediate),
             UserSettings(id: 1,
                          isBot: true,
                          userName: "Igor Kondratuk",
-                         avatarName: "avatar_5",
-                         gender: .male,
+                         avatarName: "avatar-5",
                          userRole: .teamLead,
                          englishLevel: .preIntermediate),
             UserSettings(id: 2,
                          isBot: true,
-                         userName: "Natalie Kovalengo",
-                         avatarName: "avatar_4",
-                         gender: .female,
+                         userName: "Natalie Kovalenko",
+                         avatarName: "avatar-14",
                          userRole: .backend,
                          englishLevel: .preIntermediate),
             UserSettings(id: 3,
                          isBot: true,
                          userName: "Serhii Dorozhny",
-                         avatarName: "avatar_11",
-                         gender: .male,
+                         avatarName: "avatar-11",
                          userRole: .designer,
                          englishLevel: .preIntermediate)
         ]
@@ -201,6 +205,7 @@ struct ChatWindowView: View {
     
     @Binding var chatHistory: [ChatMessage]
     @Binding var chatExpanded: Bool
+    @Binding var isLoading: Bool
     @State var expandIndex: Int = 0
     var membersCount: Int
     var whoSpeak: (String) -> Void
@@ -250,12 +255,14 @@ struct ChatWindowView: View {
     
     init(chatHistory: Binding<[ChatMessage]>,
          chatExpanded: Binding<Bool>,
+         isLoading: Binding<Bool>,
          membersCount: Int,
          whoSpeak:  @escaping (String) -> Void,
          isClicked: @escaping () -> Void,
          isCancelCallClicked: @escaping () -> Void) {
         self._chatHistory = chatHistory
         self._chatExpanded = chatExpanded
+        self._isLoading = isLoading
         self.membersCount = membersCount
         self.whoSpeak = whoSpeak
         self.isClicked = isClicked
@@ -304,11 +311,10 @@ struct ChatWindowView: View {
                                                             reader.scrollTo(1, anchor: .bottom)
                                                         }
                                                     }
-                                                Text(
-                                                    history.content
-                                                        .replacingOccurrences(of: "#\(name)# ", with: "")
-                                                        .replacingOccurrences(of: "#", with: "")
-                                                )
+                                                let text = history.content
+                                                    .replacingOccurrences(of: "#\(name)# ", with: "")
+                                                    .replacingOccurrences(of: "#", with: "")
+                                                Text(LocalizedStringKey(text))
                                                 .font(.system(size: 16, weight: .regular, design: .default))
                                                 .foregroundColor(.black)
                                                 .multilineTextAlignment(.leading)
@@ -322,6 +328,11 @@ struct ChatWindowView: View {
                                     }
                                     VStack{}.id(1)
                                 }.padding(26)
+                                if isLoading {
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                        .colorInvert()
+                                }
                             }.padding(.top, 8)
                             ZStack {
                                 HStack(spacing: 0) {

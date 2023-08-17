@@ -22,7 +22,7 @@ class VoiceRecordViewModel: ObservableObject {
     var previewRecognizedText: String {
         return bufferRecognizedText + recognizedText
     }
-    @Published var bufferRecognizedText: String = ""
+    var bufferRecognizedText: String = ""
     
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
     
@@ -66,8 +66,6 @@ class VoiceRecordViewModel: ObservableObject {
                     guard let self else { return }
                     if let result = result {
                         let transcribedText = result.bestTranscription.formattedString
-                        print(">>>>> 🏆 RECOGNIZED", self.recognizedText)
-                        print(">>>>> 🏆 BUFFER", self.bufferRecognizedText)
                         self.recognizedText = transcribedText
                     } else if let error = error {
                         print("Recognition task error: \(error)")

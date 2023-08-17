@@ -74,7 +74,7 @@ struct UserSettingsView: View {
                         VStack(spacing: 24) {
                             
                             VStack(alignment: .leading) {
-                                Text("user avatar:")
+                                Text(Localized("userSettingsAvatar"))
                                     .padding(.leading, 12)
                                     .padding(.bottom, -2)
                                     .foregroundStyle(.white)
@@ -109,7 +109,7 @@ struct UserSettingsView: View {
                                                 )
                                             Image(systemName: "xmark")
                                                 .foregroundColor(.white)
-                                            }
+                                            }.frame(width: UserSettingsView.avatarSize)
 
                                         })
                                         
@@ -117,7 +117,7 @@ struct UserSettingsView: View {
                             }
                             
                             VStack(alignment: .leading) {
-                                Text("user name:")
+                                Text(Localized("userSettingsUsername"))
                                     .padding(.leading, 12)
                                     .padding(.bottom, -2)
                                     .font(.system(size: 18, weight: .thin, design: .default))
@@ -147,7 +147,7 @@ struct UserSettingsView: View {
                                 } label: {}
                             } label: {
                                 VStack(alignment: .leading) {
-                                    Text("user role:")
+                                    Text(Localized("userSettingsRole"))
                                         .padding(.leading, 12)
                                         .padding(.bottom, -2)
                                         .font(.system(size: 18, weight: .thin, design: .default))
@@ -173,7 +173,7 @@ struct UserSettingsView: View {
                                     } label: {}
                                 } label: {
                                     VStack(alignment: .leading) {
-                                        Text("english level:")
+                                        Text(Localized("userSettingsEnglishLevel"))
                                             .padding(.leading, 12)
                                             .padding(.bottom, -2)
                                             .font(.system(size: 18, weight: .thin, design: .default))
@@ -190,37 +190,11 @@ struct UserSettingsView: View {
                                     }.foregroundStyle(.white)
                                 }
                             }
-                            // MARK: Maybe in Future
-//                            Menu {
-//                                Picker(selection: $viewModel.userSettings.gender) {
-//                                    ForEach(UserGender.allCases, id: \.self) { gender in
-//                                        Text(gender.rawValue).tag(gender)
-//                                    }
-//                                } label: {}
-//                            } label: {
-//                                VStack(alignment: .leading) {
-//                                    Text("User gender:")
-//                                        .padding(.leading, 12)
-//                                        .padding(.bottom, -2)
-//                                        .font(.system(size: 18, weight: .thin, design: .default))
-//                                    HStack {
-//                                        Text(viewModel.userSettings.gender.rawValue)
-//                                        Spacer()
-//                                        Image(systemName: "chevron.down")
-//                                    }.padding(13)
-//                                        .overlay(
-//                                            RoundedRectangle(cornerRadius: 12)
-//                                                .stroke(lineWidth: 1)
-//                                                .fill(.white.opacity(0.1))
-//                                        )
-//                                }.foregroundStyle(.white)
-//                            }
-                            
                         }
                         
                     }.padding(.horizontal, 16)
                         .padding(.top, 24)
-                }
+                }.ipadWidthLimit()
                 .onDisappear {
                     viewModel.updateUserName(viewModel.userSettings.userName)
                 }
@@ -237,7 +211,6 @@ struct UserSettingsView_Previews: PreviewProvider {
         let userSetting = UserSettings(id: 1,
                                        isBot: false,
                                        userName: "Igor Kondratuk",
-                                       gender: .male,
                                        userRole: .mobile,
                                        englishLevel: .preIntermediate)
         

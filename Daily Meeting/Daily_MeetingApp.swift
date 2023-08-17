@@ -18,16 +18,11 @@ struct Daily_MeetingApp: App {
                                   container: Container.shared)
                     Container.shared.resolve(RouterProtocol.self)!.configureNavigationController()
                 }
-//            IntroView(viewModel: IntroViewModel(userSettings: UserSettings(id: "",
-//                                                                           isBot: false,
-//                                                                           userName: "",
-//                                                                           gender: .female,
-//                                                                           userRole: .backend,
-//                                                                           englishLevel: .advanced)))
-//            ChatScreenView()
-//            VoiceRecordView(viewModel: VoiceRecordViewModel(), recognitiedText: { text in
-//                print(">>>> TEXT", text)
-//            })
         }
     }
+}
+
+// Global func for localization
+func Localized(_ string: String) -> String {
+    return NSLocalizedString(string, comment: "")
 }

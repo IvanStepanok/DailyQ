@@ -16,20 +16,16 @@ struct PremiumView: View {
     }
     
     let features: [String] = [
-    "До десяти мітингів на день",
-    "Розбір граматики після кожного мітингу",
-    "Технічні співбесіди",
-    "Perfomance та Salary review",
-    "Жодних зобов'язань, скасування будь-коли."
+    Localized("premiumFeature1"),
+    Localized("premiumFeature2"),
+    Localized("premiumFeature3"),
+    Localized("premiumFeature4"),
+    Localized("premiumFeature5")
     ]
-    
-    let description = """
-Ваша безкоштовна пробна версія розпочнеться протягом 3 днів, а потім з вас щомісяця стягуватиметься 3,99 доларів США. Відповідно до Умов використання iTunes Store, з якими ми рекомендуємо ознайомитися, перш ніж здійснювати будь-яку онлайн-транзакцію: оплата буде стягнена з вашого облікового запису iTunes після підтвердження покупки; Ваша підписка на наші преміум-сервіси або продукти через програму буде автоматично поновлена ​​на ту саму підписку з тією ж ціною, що й ви спочатку підписалися, якщо ви не скасуєте свою підписку, вимкнувши автоматичне поновлення принаймні за 24 години до закінчення поточного періоду; За 24 години до закінчення поточного періоду з вашого облікового запису стягуватиметься плата за оновлення за тією ж ставкою, що й у початковій підписці; Ви можете керувати підписками, а автоматичне поновлення можна вимкнути, перейшовши до налаштувань облікового запису в розділі iTunes & App Store у налаштуваннях вашого пристрою. Будь-яка невикористана частина безкоштовного пробного періоду, якщо вона пропонується, буде втрачена, коли користувач придбає підписку, де це можливо.
-"""
     
     @State var counter: Int = 0
     @State var isYearAccess: Bool = false
-    @State var alertMessageText: String = "Вітаємо з успішною підпискою! Скасувати можна в будь який момент"
+    @State var alertMessageText: String = Localized("premiumAlertMessage")
     @State var showAlertProgress: Bool = false
     @State var subscribeSuccess: Bool = false
     
@@ -55,7 +51,7 @@ struct PremiumView: View {
                   )
             ScrollView {
                 ZStack(alignment: .topLeading) {
-                    Image("image-25")
+                    Image("premium")
                         .resizable()
                         .scaledToFill()
                         .frame(height: 350)
@@ -75,7 +71,7 @@ struct PremiumView: View {
                 }
                 VStack(alignment: .center, spacing: 20) {
                     HStack {
-                        Text("Отримайте Premium акаунт")
+                        Text(Localized("premiumGetPremiumTitle"))
                             .shadow(color: .black, radius: 15)
                             .multilineTextAlignment(.center)
                             .font(.system(size: 48, weight: .thin, design: .default))
@@ -104,7 +100,7 @@ struct PremiumView: View {
                                     .fill(.white.opacity(!isYearAccess ? 1 : 0.1))
                             )
                         HStack {
-                            Toggle("Безкоштовний період", isOn: $isYearAccess.not)
+                            Toggle(Localized("premiumTrialToggle"), isOn: $isYearAccess.not)
                                 .font(.system(size: 15, weight: .regular, design: .default))
                         }.padding(16)
                     }
@@ -120,7 +116,7 @@ struct PremiumView: View {
                                         .stroke(lineWidth: 1)
                                         .fill(.white.opacity(isYearAccess ? 1 : 0.1))
                                 )
-                            Text("збережи 20%")
+                            Text(Localized("premiumSave20"))
                                 .foregroundColor(.black)
                                 .font(.system(size: 12, weight: .bold, design: .default))
                                 .padding(.horizontal, 8)
@@ -131,7 +127,7 @@ struct PremiumView: View {
                                 }.offset(x: -16, y: -10)
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Text("Річна підписка")
+                                    Text(Localized("premiumYearlySub"))
                                     Text("47,99$")
                                 }.font(.system(size: 15, weight: .regular, design: .default))
                                 Spacer()
@@ -153,8 +149,8 @@ struct PremiumView: View {
                                 )
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Text("3 дні безкоштовно")
-                                    Text("Потім 4,99$ на Місяць")
+                                    Text(Localized("premium3DaysFree"))
+                                    Text(Localized("premiumAfter3Days"))
                                 }.font(.system(size: 15, weight: .regular, design: .default))
                                 Spacer()
                                 SelectorView(isSelected: .constant(!isYearAccess))
@@ -162,7 +158,7 @@ struct PremiumView: View {
                         }
                     })
                     
-                    CustomButton(text: isYearAccess ? "Продовжити" : "Безкоштовний період",
+                    CustomButton(text: isYearAccess ? Localized("premiumContinueButton") : Localized("premiumFreePeriodButton"),
                                  flexible: true,
                                  bgColor: .green,
                                  action: {
@@ -179,7 +175,7 @@ struct PremiumView: View {
                     HStack {
                         Image(systemName: "bolt.shield.fill")
                             .foregroundColor(.green)
-                        Text("Без сплати зараз")
+                        Text(Localized("premiumNotPayNow"))
                     }.padding(.top, -10)
                     
                     HStack {
@@ -190,27 +186,28 @@ struct PremiumView: View {
                         Text("Terms of Service").underline()
                     }.font(.system(size: 10, weight: .thin, design: .default))
                         
-                    Text(description)
+                    Text(Localized("premiumDescription"))
                         .padding(.top, 30)
                         .multilineTextAlignment(.center)
                         .font(.system(size: 14, weight: .thin, design: .default))
                     Spacer(minLength: 70)
-                }.padding(.horizontal, 28)
+                }.padding(.horizontal, UIDevice.current.userInterfaceIdiom == .pad ? 170 : 28)
             }.ignoresSafeArea()
+            
+            
             if subscribeSuccess {
-                AlertView(text: alertMessageText, yesClicked: {
-                    withAnimation {
-                            subscribeSuccess = false
-                            router.back(animated: true)
-                    }
-                }, cancelClicked: {
+                AlertView(text: alertMessageText,
+                          hideCancelButton: true,
+                          yesClicked: {
                     withAnimation {
                         subscribeSuccess = false
                         router.back(animated: true)
                     }
-                }, showProgress: $showAlertProgress)
+                }, cancelClicked: {},
+                          showProgress: $showAlertProgress)
             }
-        }
+        }.navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
     }
 }
 
