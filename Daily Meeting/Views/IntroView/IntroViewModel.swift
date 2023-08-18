@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Mixpanel
 
 class IntroViewModel: ObservableObject {
     
@@ -99,6 +100,17 @@ class IntroViewModel: ObservableObject {
         case .humanResourse:
             return "Proficient in talent acquisition, recruitment strategies, and HR processes. Strong communication skills, understanding of organizational culture, and ability to foster a positive work environment"
         }
+    }
+    
+    func trackFirstStartFinished() {
+        var settings = persistence.loadSettings()
+        Mixpanel.mainInstance().track(event: "First start finished", properties: [
+            "userName": userSettings.userName,
+            "englishLevel": userSettings.englishLevel.rawValue,
+            "userRole": userSettings.userRole.rawValue,
+            "companyDetails": settings.companyDetails,
+            "userStackDescription": settings.userStackDescription
+        ])
     }
     
     func generateWorkDescription() {

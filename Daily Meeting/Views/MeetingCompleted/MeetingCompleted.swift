@@ -95,7 +95,7 @@ struct MeetingCompleted: View {
                         .font(.system(size: 16, weight: .regular, design: .default))
                     Spacer(minLength: 60)
                     CalendarView(winnerDates: persistence.challengeDates(),
-                                 showWinnerAnimation: true)
+                                 showWinnerAnimation: persistence.getTodayMeetingVisited() > 1)
                     Spacer(minLength: 60)
                     
                     HStack {
@@ -106,7 +106,7 @@ struct MeetingCompleted: View {
                         Spacer()
                     }
                     ZStack(alignment: .bottom) {
-                            Text(summary)
+                            Text(LocalizedStringKey(summary))
                                 .font(.system(size: 16, weight: .thin, design: .default))
                                 .padding(14)
                                 .mask {
@@ -118,7 +118,7 @@ struct MeetingCompleted: View {
                                         endPoint: .top)
                                 }
                         if !isPremium {
-                            Text(summary).blur(radius: 3)
+                            Text(LocalizedStringKey(summary)).blur(radius: 3)
                                 .font(.system(size: 16, weight: .thin, design: .default))
                                 .foregroundColor(.gray)
                                 .padding(14)

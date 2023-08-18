@@ -10,6 +10,7 @@ import SwiftUI
 import Swinject
 import OpenAISwift
 import Speech
+import Mixpanel
 
 protocol RouterProtocol {
     func configureNavigationController()
@@ -47,13 +48,31 @@ class Router: RouterProtocol {
     func configureNavigationController() {
         if navigationController == nil {
             let users = persistence.loadAllUsersSettings()
-            if users.contains(where: {$0.isBot == false}) {
+            let settings = persistence.loadSettings()
+            if let curentUser = users.first(where: {$0.isBot == false}) {
+                
+                Mixpanel.mainInstance().track(event: "Start App", properties: [
+                    "userName": curentUser.userName,
+                    "englishLevel": curentUser.englishLevel.rawValue,
+                    "userRole": curentUser.userRole.rawValue,
+                    "companyDetails": settings.companyDetails,
+                    "userStackDescription": settings.userStackDescription,
+                    "isPremium": settings.isPremium,
+                    "bgImageIndex": settings.bgImageIndex,
+                    "dailyMeetingsCompleted": settings.dailyMeetingsCompleted,
+                    "salaryReviewsCompleted": settings.salaryReviewsCompleted,
+                    "techInterviewsCompleted": settings.techInterviewsCompleted,
+                    "voiceOver": settings.voiceOver
+                ])
+                
                 let viewModel = MainViewModel(persistence: self.persistence, router: self, openAI: self.openAI)
                 let vc = UIHostingController(rootView: MainView(viewModel: viewModel))
                 navigationController = UINavigationController(rootViewController: vc)
                 navigationController?.title = ""
                 UIApplication.shared.windows.first?.rootViewController = navigationController
             } else {
+                Mixpanel.mainInstance().track(event: "First start")
+                
                 let openAImanager = OpenAiManager(
                     meeting:
                         DailyMeeting(
@@ -82,6 +101,7 @@ class Router: RouterProtocol {
     }
     
     func showPremiumView() {
+        Mixpanel.mainInstance().track(event: "showPremiumView")
         let vc = UIHostingController(rootView: PremiumView(router: self, persistence: persistence))
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .coverVertical
@@ -89,6 +109,11 @@ class Router: RouterProtocol {
     }
     
     func finishMeeting(meetingType: String, summary: String) {
+        Mixpanel.mainInstance().track(event: "finishMeeting", properties: [
+            "meetingType": meetingType,
+            "summary": summary
+        ])
+
         let vc = UIHostingController(rootView: MeetingCompleted(meetingType: meetingType,
                                                                 summary: summary,
                                                                 persistence: self.persistence,
@@ -99,6 +124,9 @@ class Router: RouterProtocol {
     }
     
     func showMeetingView(meeting: MeetingProtocol) {
+        Mixpanel.mainInstance().track(event: "showMeetingView", properties: [
+            "meetingType": meeting.meetingName
+        ])
         let openAImanager = OpenAiManager(meeting: meeting)
         let members = openAImanager.meeting.members
         let viewModel = ChatScreenViewModel(users: members, router: self, persistence: persistence, synthesizer: synthesizer)
@@ -107,6 +135,7 @@ class Router: RouterProtocol {
     }
     
     func startFirstMeeting() {
+        Mixpanel.mainInstance().track(event: "startFirstMeeting")
         let openAImanager = OpenAiManager(meeting: DailyMeeting(persistence: self.persistence, openAI: self.openAI))
         let members = openAImanager.meeting.members
         
@@ -123,6 +152,23 @@ class Router: RouterProtocol {
     
     func showSettingsView() {
         let users = persistence.loadAllUsersSettings()
+        if users.count >= 4 {
+            Mixpanel.mainInstance().track(event: "showSettingsView", properties: [
+                "user0userName":   users[0].userName,
+                "user0userRole":   users[0].userRole.rawValue,
+                "user0avatarName": users[0].avatarName,
+                "user1userName":   users[1].userName,
+                "user1userRole":   users[1].userRole.rawValue,
+                "user1avatarName": users[1].avatarName,
+                "user2userName":   users[2].userName,
+                "user2userRole":   users[2].userRole.rawValue,
+                "user2avatarName": users[2].avatarName,
+                "user3userName":   users[3].userName,
+                "user3userRole":   users[3].userRole.rawValue,
+                "user3avatarName": users[3].avatarName
+            ])
+        }
+
         let vc = UIHostingController(rootView: SettingsView(viewModel: SettingsViewModel(users: users,
                                                                                          router: self,
                                                                                          persistence: persistence)))
@@ -132,6 +178,12 @@ class Router: RouterProtocol {
     }
     
     func showUserSettingsView(userSettings: UserSettings, updatedUser: @escaping (UserSettings) -> Void) {
+        Mixpanel.mainInstance().track(event: "showUserSettingsView", properties: [
+            "userName": userSettings.userName,
+            "avatarName": userSettings.avatarName,
+            "userRole": userSettings.userRole.rawValue,
+            "isBot": userSettings.isBot
+        ])
         let viewModel = UserSettingsViewModel(userSettings: userSettings,
                                               persistence: persistence,
                                               updatedUser: {updatedUser($0)})

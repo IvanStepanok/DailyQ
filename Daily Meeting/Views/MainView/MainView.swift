@@ -216,7 +216,6 @@ struct MainView: View {
                                     self.viewModel.bgIndex += 1
                                     Task {
                                         self.viewModel.settings.bgImageIndex = viewModel.bgIndex
-                                        print(self.viewModel.settings)
                                         await self.viewModel.persistence.saveSettings(self.viewModel.settings)
                                     }
                                 } else {

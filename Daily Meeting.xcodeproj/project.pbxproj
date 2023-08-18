@@ -56,6 +56,7 @@
 		0287FDDB2A851F9300C97FD6 /* DailyMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDA2A851F9300C97FD6 /* DailyMeeting.swift */; };
 		0287FDDD2A85224E00C97FD6 /* TechInterview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDC2A85224E00C97FD6 /* TechInterview.swift */; };
 		0287FDDF2A85358100C97FD6 /* SalaryReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDE2A85358100C97FD6 /* SalaryReview.swift */; };
+		029041552A8F52DB001C95CD /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 029041542A8F52DB001C95CD /* Mixpanel */; };
 		02D7B2292A86E5710067F118 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02D7B2282A86E5710067F118 /* KeychainSwift */; };
 		02D7B22B2A86E9F10067F118 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7B22A2A86E9F10067F118 /* DateExtension.swift */; };
 		02E701A62A823B76003C6B40 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E701A52A823B76003C6B40 /* CalendarView.swift */; };
@@ -122,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				029041552A8F52DB001C95CD /* Mixpanel in Frameworks */,
 				022528772A7B03250048BEDD /* OpenAISwift in Frameworks */,
 				0285A7F32A80FB4000E4BA7B /* ConfettiSwiftUI in Frameworks */,
 				02D7B2292A86E5710067F118 /* KeychainSwift in Frameworks */,
@@ -435,6 +437,7 @@
 				0285A7F22A80FB4000E4BA7B /* ConfettiSwiftUI */,
 				0277E94D2A83ECA000DD0DA2 /* SwiftUIIntrospect */,
 				02D7B2282A86E5710067F118 /* KeychainSwift */,
+				029041542A8F52DB001C95CD /* Mixpanel */,
 			);
 			productName = "Daily Meeting";
 			productReference = 0225285E2A7ABA2C0048BEDD /* Daily Meeting.app */;
@@ -472,6 +475,7 @@
 				0285A7F12A80FB4000E4BA7B /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				0277E94C2A83ECA000DD0DA2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				02D7B2272A86E5710067F118 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				029041532A8F52DB001C95CD /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 			);
 			productRefGroup = 0225285F2A7ABA2C0048BEDD /* Products */;
 			projectDirPath = "";
@@ -803,6 +807,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		029041532A8F52DB001C95CD /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		02D7B2272A86E5710067F118 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
@@ -833,6 +845,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0285A7F12A80FB4000E4BA7B /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
 			productName = ConfettiSwiftUI;
+		};
+		029041542A8F52DB001C95CD /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 029041532A8F52DB001C95CD /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
 		};
 		02D7B2282A86E5710067F118 /* KeychainSwift */ = {
 			isa = XCSwiftPackageProductDependency;

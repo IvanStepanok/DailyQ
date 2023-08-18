@@ -8,6 +8,7 @@
 import Foundation
 import OpenAISwift
 import Swinject
+import Mixpanel
 
 class OpenAiManager: ObservableObject {
 //    static let apiKey = "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"
@@ -32,6 +33,7 @@ class OpenAiManager: ObservableObject {
     func setupChat() async {
         let promt = await getPromt()
             chatHistory.append(promt)
+        Mixpanel.mainInstance().track(event: "ChatStart", properties: ["meetingName": meeting.meetingName])
     }
     
     func getPromt() async -> ChatMessage {

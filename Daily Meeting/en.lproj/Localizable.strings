@@ -6,7 +6,7 @@
   
 */
 
-"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? ";
+"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? Use markdowns";
 
 //MARK: - DailyMeetingOnboarding
 "onBoarding1" = "Welcome to our first meeting. Its success depends largely on you. Try to give detailed answers, use your imagination, and other team members will support you.";

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Swinject
+import Mixpanel
 
 @main
 struct Daily_MeetingApp: App {
@@ -14,6 +15,8 @@ struct Daily_MeetingApp: App {
         WindowGroup {
             VStack {}
                 .onAppear {
+                    Mixpanel.initialize(token: "18733af02b623b28c4560e68e67d444a", trackAutomaticEvents: true)
+
                     _ = Assembler([AppAssembly()],
                                   container: Container.shared)
                     Container.shared.resolve(RouterProtocol.self)!.configureNavigationController()

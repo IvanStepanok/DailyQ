@@ -9,6 +9,7 @@ import SwiftUI
 import OpenAISwift
 import Combine
 import Speech
+import Mixpanel
 
 struct ChatScreenView: View {
     
@@ -133,11 +134,22 @@ struct ChatScreenView: View {
                             if userResponses >= 5 {
                                 let summury = await openAI.getFeedback()
                                 viewModel.persistence.saveNewMeetingVisiting()
+                                Mixpanel.mainInstance().track(event: "Meeting End", properties: [
+                                    "meetingName": openAI.meeting.meetingName,
+                                    "userResponses": "\(userResponses)"
+                                ])
+                                Mixpanel.mainInstance().track(event: "Visit count", properties: [
+                                    "TodayMeetingVisited": viewModel.persistence.getTodayMeetingVisited()
+                                ])
                                 await viewModel.persistence.challengePassed()
                                 openAI.meeting.meetingFinishedSuccessfull()
                                 viewModel.router.back(animated: false)
                                 viewModel.router.finishMeeting(meetingType: openAI.meeting.meetingName, summary: summury)
                             } else {
+                                Mixpanel.mainInstance().track(event: "Meeting End", properties: [
+                                    "meetingName": openAI.meeting.meetingName,
+                                    "userResponses": "\(userResponses)"
+                                ])
                                 viewModel.persistence.saveNewMeetingVisiting()
                                 viewModel.router.back(animated: true)
                             }
