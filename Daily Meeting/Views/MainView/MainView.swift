@@ -16,6 +16,7 @@ class MainViewModel: ObservableObject {
     let targetTime: TimeInterval = 24 * 60 * 60
     @Published private var timer: Timer?
     @Published var refreshPage: Bool = true
+    @Published var isPremium: Bool
     let persistence: ChatPersistenceProtocol
     let router: RouterProtocol
     let currentUser: UserSettings?
@@ -55,6 +56,7 @@ class MainViewModel: ObservableObject {
         self.openAI = openAI
         self.settings = persistence.loadSettings()
         self.bgIndex = self.settings.bgImageIndex
+        self.isPremium = self.settings.isPremium
         startTimer()
     }
     
@@ -154,7 +156,7 @@ class MainViewModel: ObservableObject {
     }
     
     private func startTimer() {
-        if !persistence.loadSettings().isPremium && persistence.getTodayMeetingVisited() > 1 {
+        if !isPremium && persistence.getTodayMeetingVisited() > 1 {
             let now = Date().timeIntervalSince1970
             let calendar = Calendar.current
             
@@ -303,12 +305,13 @@ struct MainView: View {
                         ForEach(viewModel.meetings, id: \.self) { meeting in
                             MeetView(title: meeting.title(),
                                      description: meeting.description(),
-                                     isPremium: meeting.isPremium(),
+                                     isPremiumMeeting: meeting.isPremium(),
+                                     isPremiumUser: $viewModel.isPremium,
                                      membersAvatars: meeting.meeting(persistence: self.viewModel.persistence,
                                                                      openAI: self.viewModel.openAI).members.map({ $0.avatarName ?? "" }),
-                                     timeLeft: viewModel.settings.isPremium ? .constant(nil) : $viewModel.timeLeftString,
+                                     timeLeft: viewModel.isPremium ? .constant(nil) : $viewModel.timeLeftString,
                                      buttonClicked: {
-                                if viewModel.settings.isPremium {
+                                if viewModel.isPremium {
                                     if viewModel.persistence.getTodayMeetingVisited() < 10 {
                                         meeting.router(viewModel.router,
                                                        persistence: viewModel.persistence,
@@ -393,10 +396,11 @@ struct MainView: View {
                           cancelClicked: { showDailyChallengesAlert = false })
             }
             AdminPanelView(content: {
-                Text(viewModel.settings.isPremium ? "Premium" : "Free")
+                Text(viewModel.isPremium ? "Premium" : "Free")
                 Text("Visited: \(viewModel.persistence.getTodayMeetingVisited())")
                 Button("change Premium", action: {
                     viewModel.settings.isPremium.toggle()
+                    viewModel.isPremium.toggle()
                     Task {
                         await viewModel.persistence.saveSettings(viewModel.settings)
                         viewModel.settings = viewModel.persistence.loadSettings()
@@ -424,6 +428,11 @@ struct MainView: View {
                 }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
             })
         }.navigationBarHidden(true)
+            .onAppear {
+                viewModel.router.checkSubscriptionStatus(isPremium: {
+                    viewModel.isPremium = $0
+                })
+            }
     }
 }
 
@@ -439,7 +448,8 @@ struct MeetView: View {
     
     var title: String
     var description: String
-    var isPremium: Bool
+    var isPremiumMeeting: Bool
+    @Binding var isPremiumUser: Bool
     var membersAvatars: [String]
     @Binding var timeLeft: String?
     var buttonClicked: () -> Void
@@ -461,7 +471,7 @@ struct MeetView: View {
                         .font(.system(size: 15, weight: .semibold, design: .default))
                     Spacer()
 
-                    Text(isPremium ? Localized("mainViewPremium") : Localized("mainViewFree"))
+                    Text(isPremiumMeeting ? Localized("mainViewPremium") : Localized("mainViewFree"))
                         .opacity(0.5)
                         .font(.system(size: 15, weight: .light, design: .default))
                         .padding(.vertical, 4)
@@ -476,7 +486,7 @@ struct MeetView: View {
                     
                     Spacer()
                     VStack(alignment: .center) {
-                        if !isPremium {
+                        if !isPremiumMeeting {
                             if let timeLeft {
                                 Text("\(Localized("mainViewTimeLeft")) \(timeLeft)")
                                     .font(.system(size: 10, weight: .regular, design: .default))
@@ -490,7 +500,7 @@ struct MeetView: View {
             }.padding(16)
             
             
-        }//.frame(height: 160)
+        }.opacity(isPremiumUser ? 1 : (isPremiumMeeting ? 0.5 : 1))
     }
 }
 

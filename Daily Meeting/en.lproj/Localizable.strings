@@ -21,7 +21,7 @@
 
 "nextHint" = "Next Hint";
 
-"buttonYes" = "Yes";
+"buttonYes" = "Ok";
 "buttonNo" = "No";
 
 //MARK: - PremiumView
@@ -35,10 +35,10 @@
 
 "premiumAlertMessage" = "Congratulations on a successful subscription! You can cancel at any time.";
 
-"premiumGetPremiumTitle" = "Get Premium Account";
+"premiumGetPremiumTitle" = "Get Premium Access";
 "premiumTrialToggle" = "Free Trial";
 
-"premiumSave20" = "save 20%";
+"premiumSave20" = "save ~20%";
 "premiumYearlySub" = "Yearly Subscription";
 
 "premium3DaysFree" = "3 days free";
@@ -47,7 +47,9 @@
 "premiumContinueButton" = "Continue";
 "premiumFreePeriodButton" = "Free Trial";
 
-"premiumNotPayNow" = "Pay Later";
+"premiumNotPayNow" = "No payment now";
+
+"premiumFailure" = "Subscription failed. Please check your payment details and try again.";
 
 //MARK: - VoiceRecordView
 "voiceRecordFinishEditing" = "Finish Editing";

@@ -11,6 +11,7 @@ import Swinject
 import OpenAISwift
 import Speech
 import Mixpanel
+import RevenueCat
 
 protocol RouterProtocol {
     func configureNavigationController()
@@ -20,6 +21,9 @@ protocol RouterProtocol {
     func showUserSettingsView(userSettings: UserSettings, updatedUser: @escaping (UserSettings) -> Void)
     func finishMeeting(meetingType: String, summary: String)
     func showPremiumView()
+    func checkSubscriptionStatus(isPremium: @escaping (Bool) -> Void)
+    func restorePurchases(isPremium: @escaping (Bool) -> Void)
+    func getPremium(isYearAccess: Bool) async -> Bool
     func dismiss(animated: Bool)
     func back(animated: Bool)
 }
@@ -32,6 +36,9 @@ class RouterMock: RouterProtocol {
     func showUserSettingsView(userSettings: UserSettings, updatedUser: @escaping (UserSettings) -> Void) {}
     func finishMeeting(meetingType: String, summary: String) {}
     func showPremiumView() {}
+    func checkSubscriptionStatus(isPremium: @escaping (Bool) -> Void) {}
+    func restorePurchases(isPremium: @escaping (Bool) -> Void) {}
+    func getPremium(isYearAccess: Bool) async -> Bool { true }
     func dismiss(animated: Bool) {}
     func back(animated: Bool) {}
 }
@@ -45,8 +52,71 @@ class Router: RouterProtocol {
     
     init() {}
     
+    private func updatePremiumState(isPremium: Bool) {
+        var settings = self.persistence.loadSettings()
+        settings.isPremium = isPremium
+        let saveSettings = settings
+        Task {
+           await self.persistence.saveSettings(saveSettings)
+        }
+    }
+    
+    func checkSubscriptionStatus(isPremium: @escaping (Bool) -> Void) {
+        Purchases.shared.getCustomerInfo { [weak self] customerInfo, error in
+            guard let self else { return }
+            if let customerInfo {
+                if customerInfo.entitlements["Pro"]?.isActive == true {
+                    self.updatePremiumState(isPremium: true)
+                    isPremium(true)
+                } else {
+                    self.updatePremiumState(isPremium: false)
+                    isPremium(false)
+                }
+            }
+        }
+    }
+    
+    func restorePurchases(isPremium: @escaping (Bool) -> Void) {
+        Purchases.shared.restorePurchases { [weak self] customerInfo, error in
+            guard let self else { return }
+            if let customerInfo {
+                if customerInfo.entitlements["Pro"]?.isActive == true {
+                    self.updatePremiumState(isPremium: true)
+                    isPremium(true)
+                } else {
+                    self.updatePremiumState(isPremium: false)
+                    isPremium(false)
+                }
+            }
+        }
+    }
+    
+    func getPremium(isYearAccess: Bool) async -> Bool {
+        do {
+            let offerings = try await Purchases.shared.offerings()
+            print(">>>", offerings)
+            if let packages = offerings.current?.availablePackages {
+                let result = try await Purchases.shared.purchase(package: isYearAccess ? packages[1] : packages[0])
+                if result.customerInfo.entitlements["Pro"]?.isActive == true {
+                    updatePremiumState(isPremium: true)
+                    return true
+                } else {
+                    updatePremiumState(isPremium: false)
+                    return false
+                }
+            } else {
+                return false
+            }
+        } catch {
+            print(">>>>> ⛔️ checkPremium Error: ", error.localizedDescription)
+            updatePremiumState(isPremium: false)
+            return false
+        }
+    }
+    
     func configureNavigationController() {
         if navigationController == nil {
+            checkSubscriptionStatus(isPremium: {_ in})
             let users = persistence.loadAllUsersSettings()
             let settings = persistence.loadSettings()
             if let curentUser = users.first(where: {$0.isBot == false}) {

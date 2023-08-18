@@ -57,6 +57,8 @@
 		0287FDDD2A85224E00C97FD6 /* TechInterview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDC2A85224E00C97FD6 /* TechInterview.swift */; };
 		0287FDDF2A85358100C97FD6 /* SalaryReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0287FDDE2A85358100C97FD6 /* SalaryReview.swift */; };
 		029041552A8F52DB001C95CD /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 029041542A8F52DB001C95CD /* Mixpanel */; };
+		029041582A8F66C3001C95CD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 029041572A8F66C3001C95CD /* RevenueCat */; };
+		0290415A2A8F81F7001C95CD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029041592A8F81F7001C95CD /* StoreKit.framework */; };
 		02D7B2292A86E5710067F118 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02D7B2282A86E5710067F118 /* KeychainSwift */; };
 		02D7B22B2A86E9F10067F118 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7B22A2A86E9F10067F118 /* DateExtension.swift */; };
 		02E701A62A823B76003C6B40 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E701A52A823B76003C6B40 /* CalendarView.swift */; };
@@ -112,6 +114,7 @@
 		0287FDDA2A851F9300C97FD6 /* DailyMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyMeeting.swift; sourceTree = "<group>"; };
 		0287FDDC2A85224E00C97FD6 /* TechInterview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechInterview.swift; sourceTree = "<group>"; };
 		0287FDDE2A85358100C97FD6 /* SalaryReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalaryReview.swift; sourceTree = "<group>"; };
+		029041592A8F81F7001C95CD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		02A9EC442A8EAD550025639A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		02D7B22A2A86E9F10067F118 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		02E701A52A823B76003C6B40 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -125,6 +128,8 @@
 			files = (
 				029041552A8F52DB001C95CD /* Mixpanel in Frameworks */,
 				022528772A7B03250048BEDD /* OpenAISwift in Frameworks */,
+				029041582A8F66C3001C95CD /* RevenueCat in Frameworks */,
+				0290415A2A8F81F7001C95CD /* StoreKit.framework in Frameworks */,
 				0285A7F32A80FB4000E4BA7B /* ConfettiSwiftUI in Frameworks */,
 				02D7B2292A86E5710067F118 /* KeychainSwift in Frameworks */,
 				0274BF992A7C559900DA7849 /* Swinject in Frameworks */,
@@ -192,6 +197,7 @@
 		022528752A7B03250048BEDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				029041592A8F81F7001C95CD /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -438,6 +444,7 @@
 				0277E94D2A83ECA000DD0DA2 /* SwiftUIIntrospect */,
 				02D7B2282A86E5710067F118 /* KeychainSwift */,
 				029041542A8F52DB001C95CD /* Mixpanel */,
+				029041572A8F66C3001C95CD /* RevenueCat */,
 			);
 			productName = "Daily Meeting";
 			productReference = 0225285E2A7ABA2C0048BEDD /* Daily Meeting.app */;
@@ -476,6 +483,7 @@
 				0277E94C2A83ECA000DD0DA2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				02D7B2272A86E5710067F118 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				029041532A8F52DB001C95CD /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
+				029041562A8F66C3001C95CD /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = 0225285F2A7ABA2C0048BEDD /* Products */;
 			projectDirPath = "";
@@ -687,6 +695,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Daily Meeting/Preview Content\"";
@@ -694,6 +703,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Daily-Meeting-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Daily Meeting";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "microphone needed";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "use microphone";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -708,11 +718,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "stepanok.Daily-Meeting";
+				PRODUCT_BUNDLE_IDENTIFIER = "stepanok.Meet-Lingo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -721,6 +735,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Daily Meeting/Preview Content\"";
@@ -728,6 +743,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Daily-Meeting-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Daily Meeting";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "microphone needed";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "use microphone";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -742,11 +758,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "stepanok.Daily-Meeting";
+				PRODUCT_BUNDLE_IDENTIFIER = "stepanok.Meet-Lingo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -815,6 +835,14 @@
 				kind = branch;
 			};
 		};
+		029041562A8F66C3001C95CD /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		02D7B2272A86E5710067F118 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
@@ -850,6 +878,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 029041532A8F52DB001C95CD /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
 			productName = Mixpanel;
+		};
+		029041572A8F66C3001C95CD /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 029041562A8F66C3001C95CD /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
 		};
 		02D7B2282A86E5710067F118 /* KeychainSwift */ = {
 			isa = XCSwiftPackageProductDependency;

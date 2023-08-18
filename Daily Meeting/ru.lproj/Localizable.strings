@@ -21,7 +21,7 @@
 
 "nextHint" = "Следующая подсказка";
 
-"buttonYes" = "Да";
+"buttonYes" = "Ок";
 "buttonNo" = "Нет";
 
 //MARK: - PremiumView
@@ -38,7 +38,7 @@
 "premiumGetPremiumTitle" = "Получите Premium аккаунт";
 "premiumTrialToggle" = "Бесплатный период";
 
-"premiumSave20" = "сэкономьте 20%";
+"premiumSave20" = "сэкономьте ~20%";
 "premiumYearlySub" = "Годовая подписка";
 
 "premium3DaysFree" = "3 дня бесплатно";
@@ -48,6 +48,8 @@
 "premiumFreePeriodButton" = "Бесплатный период";
 
 "premiumNotPayNow" = "Оплата потом";
+
+"premiumFailure" = "Ошибка подписки. Пожалуйста, проверьте данные вашей оплаты и попробуйте снова.";
 
 //MARK: - VoiceRecordView
 "voiceRecordFinishEditing" = "Завершить редактирование";
@@ -76,7 +78,7 @@
 "introViewEnglishLevel" = "Ваш уровень английского?";
 "introViewProjectTitle" = "Над каким проектом вы работаете?";
 "introViewProjectDescription" = "Мы создали описание проекта для вас. Вы можете оставить его или написать свое собственное.";
-"introViewRoleTitle" = "Опишите свою роль";
+"introViewRoleTitle" = "Выберите свою роль";
 "introViewRoleDescription" = "Мы уже немного написали для вас, исправьте или оставьте как есть. Кратко и предпочтительно на английском.";
 "introViewTeamSetup" = "Настройте вашу команду:";
 "introViewStartFirstMeeting" = "Начать первый митинг";

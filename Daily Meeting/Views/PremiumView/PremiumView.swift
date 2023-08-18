@@ -26,8 +26,10 @@ struct PremiumView: View {
     @State var counter: Int = 0
     @State var isYearAccess: Bool = false
     @State var alertMessageText: String = Localized("premiumAlertMessage")
-    @State var showAlertProgress: Bool = false
     @State var subscribeSuccess: Bool = false
+    @State var alertSubscribeFailureText: String = Localized("premiumFailure")
+    @State var showFailureSubscribe: Bool = false
+    @State var isLoading: Bool = false
     
     private let router: RouterProtocol
     private let persistence: ChatPersistenceProtocol
@@ -162,13 +164,18 @@ struct PremiumView: View {
                                  flexible: true,
                                  bgColor: .green,
                                  action: {
-                        var settings = persistence.loadSettings()
-                        settings.isPremium = true
                         Task {
-                           await persistence.saveSettings(settings)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            isLoading = true
+                            if await router.getPremium(isYearAccess: isYearAccess) {
+                                isLoading = false
                                 subscribeSuccess = true
                                 counter += 1
+                                
+                            } else {
+                                isLoading = false
+                                subscribeSuccess = false
+                                
+                                    
                             }
                         }
                     })
@@ -179,11 +186,31 @@ struct PremiumView: View {
                     }.padding(.top, -10)
                     
                     HStack {
+                        Link(destination: URL(string: "https://stepanok.com/privacy-and-policy.html")!, label: {
                         Text("Privacy Policy").underline()
+                    })
                         Spacer()
-                        Text("Resote Purchases").underline()
+                        Button {
+                            isLoading = true
+                            router.restorePurchases(isPremium: { isPremium in
+                                if isPremium {
+                                    isLoading = false
+                                    subscribeSuccess = true
+                                    counter += 1
+                                } else {
+                                    isLoading = false
+                                }
+                            })
+                        } label: {
+                            Text("Resote Purchases").underline()
+                        }
+
+                        
                         Spacer()
-                        Text("Terms of Service").underline()
+                        Link(destination: URL(string: "https://stepanok.com/terms-and-conditions.html")!, label: {
+                            Text("Terms of Service").underline()
+                        })
+                            .underline()
                     }.font(.system(size: 10, weight: .thin, design: .default))
                         
                     Text(Localized("premiumDescription"))
@@ -203,8 +230,27 @@ struct PremiumView: View {
                         subscribeSuccess = false
                         router.back(animated: true)
                     }
-                }, cancelClicked: {},
-                          showProgress: $showAlertProgress)
+                }, cancelClicked: {}
+                )
+            }
+            if showFailureSubscribe {
+                AlertView(text: alertSubscribeFailureText,
+                          hideCancelButton: true,
+                          yesClicked: {
+                    withAnimation {
+                        showFailureSubscribe = false
+                    }
+                }, cancelClicked: {})
+            }
+            if isLoading {
+                Color.black.opacity(0.7)
+                    .ignoresSafeArea()
+                    ZStack {
+                        VisualEffectView(effect: UIBlurEffect(style: .dark))
+                            .cornerRadius(16)
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                }.frame(width: 120, height: 120)
             }
         }.navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)

@@ -21,7 +21,7 @@
 
 "nextHint" = "Наступна підказка";
 
-"buttonYes" = "Так";
+"buttonYes" = "Ок";
 "buttonNo" = "ні";
 
 //MARK: - PremiumView
@@ -38,7 +38,7 @@
 "premiumGetPremiumTitle" = "Отримайте Premium акаунт";
 "premiumTrialToggle" = "Безкоштовний період";
 
-"premiumSave20" = "збережи 20%";
+"premiumSave20" = "збережи ~20%";
 "premiumYearlySub" = "Річна підписка";
 
 "premium3DaysFree" = "3 дні безкоштовно";
@@ -48,6 +48,8 @@
 "premiumFreePeriodButton" = "Безкоштовний період";
 
 "premiumNotPayNow" = "Без сплати зараз";
+
+"premiumFailure" = "Підписка не вдалася. Будь ласка, перевірте дані вашої оплати та спробуйте знову.";
 
 //MARK: - VoiceRecordView
 "voiceRecordFinishEditing" = "Завершити редагування";

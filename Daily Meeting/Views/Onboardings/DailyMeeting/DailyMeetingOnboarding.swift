@@ -81,13 +81,13 @@ struct DailyMeetingOnboarding: View {
                         .padding(.trailing, 50)
                 }.tag(3)
             }.tabViewStyle(.page)
-                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .indexViewStyle(.page(backgroundDisplayMode: .never))
                 .ignoresSafeArea()
                 .disabled(true)
                 
             CustomButton(text: slidePage == 3 ?
                          
-                         Localized("sartMeeting")
+                         Localized("startMeeting")
                          : Localized("nextHint"),
                          bgColor: .green,
                          action: { withAnimation {

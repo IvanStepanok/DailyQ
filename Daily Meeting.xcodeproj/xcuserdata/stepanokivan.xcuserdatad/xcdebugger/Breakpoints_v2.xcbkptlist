@@ -284,8 +284,8 @@
             filePath = "Daily Meeting/Router/Router.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "configureNavigationController()"
             landmarkType = "7">
          </BreakpointContent>
@@ -445,6 +445,228 @@
             endingLineNumber = "35"
             landmarkName = "setupChat()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AF6736C7-C4FA-442C-B7CA-5211285CEEEE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Daily Meeting/Router/Router.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "getPremium(isYearAccess:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AF6736C7-C4FA-442C-B7CA-5211285CEEEE - 76b787511bbea49f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for Daily_Meeting.Router.getPremium() async -&gt; Swift.Bool"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "140">
+               </Location>
+               <Location
+                  uuid = "AF6736C7-C4FA-442C-B7CA-5211285CEEEE - 785cc192d6be7f9c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for Daily_Meeting.Router.getPremium() async -&gt; Swift.Bool"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "212">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "13521751-0F39-42FD-8802-60D6DC5C1154"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Daily Meeting/Router/Router.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "getPremium(isYearAccess:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "13521751-0F39-42FD-8802-60D6DC5C1154 - 53f1f699c2a0d21c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Daily_Meeting.Router.getPremium() async -&gt; Swift.Bool"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "520">
+               </Location>
+               <Location
+                  uuid = "13521751-0F39-42FD-8802-60D6DC5C1154 - 58d614abafae103"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for Daily_Meeting.Router.getPremium() async -&gt; Swift.Bool"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "13521751-0F39-42FD-8802-60D6DC5C1154 - 6dae4c145cbf0812"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for Daily_Meeting.Router.getPremium() async -&gt; Swift.Bool"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "72">
+               </Location>
+               <Location
+                  uuid = "13521751-0F39-42FD-8802-60D6DC5C1154 - 785cc192d6be7e10"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for Daily_Meeting.Router.getPremium() async -&gt; Swift.Bool"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "09FD9423-1DAB-4214-BF3B-210364B03631"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Daily Meeting/Views/MainView/MainView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "09FD9423-1DAB-4214-BF3B-210364B03631 - b697b96511c932af"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Daily_Meeting.MeetView.body.getter : some"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Views/MainView/MainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "495"
+                  endingLineNumber = "495"
+                  offsetFromSymbolStart = "656">
+               </Location>
+               <Location
+                  uuid = "09FD9423-1DAB-4214-BF3B-210364B03631 - ea51845e7c54b75f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.overlay&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(_: &#x3c4;_1_0, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.View.padding(CoreGraphics.CGFloat) -&gt; some&gt;&gt;.0)&gt; in Daily_Meeting.MeetView.body.getter : some"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Views/MainView/MainView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "495"
+                  endingLineNumber = "495"
+                  offsetFromSymbolStart = "1756">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3F8D5CCA-9CBF-472E-AFF6-09C9531464BF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Daily Meeting/Router/Router.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "checkSubscriptionStatus(isPremium:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3F8D5CCA-9CBF-472E-AFF6-09C9531464BF - cb29b6bb5e867325"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;RevenueCat.CustomerInfo&gt;, Swift.Optional&lt;__C.NSError&gt;) -&gt; () in Daily_Meeting.Router.checkSubscriptionStatus() -&gt; ()"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  uuid = "3F8D5CCA-9CBF-472E-AFF6-09C9531464BF - cb29b6bb5e867325"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;RevenueCat.CustomerInfo&gt;, Swift.Optional&lt;__C.NSError&gt;) -&gt; () in Daily_Meeting.Router.checkSubscriptionStatus() -&gt; ()"
+                  moduleName = "Daily Meeting"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Router/Router.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "200">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -97,10 +97,6 @@ struct SettingsView: View {
                                         .fill(.white.opacity(0.1))
                                 )
                         }
-                        CustomButton(text: Localized("settingsViewSaveButton"), bgColor: .green, action: {
-                            viewModel.saveSetting()
-                        })
-
                         Spacer(minLength: 100)
                     }.padding(.horizontal, 16)
                         .ipadWidthLimit()
@@ -108,6 +104,9 @@ struct SettingsView: View {
             }
         }.navigationBarHidden(false) //.toolbar(.visible)
             .navigationTitle(Localized("settingsViewTitle"))
+            .onDisappear {
+                viewModel.saveSetting()
+            }
     }
 }
 

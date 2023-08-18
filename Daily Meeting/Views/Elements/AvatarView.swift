@@ -64,7 +64,7 @@ struct AvatarView: View {
                 VStack {
                     ZStack {
                         if isSpeaking {
-                            //                    TalkingIndicatorView()
+//                                                TalkingIndicatorView()
                             Group {
                                 SiriIndicatorView(offsetX: 0, offsetY: -7, color: Color.cyan, opacity: 1)
                                 SiriIndicatorView(offsetX: 7, offsetY: 7, color: .blue, opacity: 1)

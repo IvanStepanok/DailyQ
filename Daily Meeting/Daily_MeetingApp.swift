@@ -8,6 +8,7 @@
 import SwiftUI
 import Swinject
 import Mixpanel
+import RevenueCat
 
 @main
 struct Daily_MeetingApp: App {
@@ -16,6 +17,8 @@ struct Daily_MeetingApp: App {
             VStack {}
                 .onAppear {
                     Mixpanel.initialize(token: "18733af02b623b28c4560e68e67d444a", trackAutomaticEvents: true)
+                    Purchases.configure(withAPIKey: "appl_wRqLhqJoMhyuayicTyxZTjcGNif")
+                    Purchases.logLevel = .verbose
 
                     _ = Assembler([AppAssembly()],
                                   container: Container.shared)
