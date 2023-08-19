@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class SettingsViewModel: ObservableObject {
     
@@ -34,9 +35,19 @@ class SettingsViewModel: ObservableObject {
             self.chatSettings.companyDetails = self.projectDescription
             self.chatSettings.voiceOver = self.voiceOverOn
             await persistence.saveSettings(self.chatSettings)
-            DispatchQueue.main.async {
-                self.router.back(animated: true)
-            }
         }
+    }
+    
+    func contactSupport() -> URL? {
+        let osVersion = UIDevice.current.systemVersion
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        let deviceModel = UIDevice.current.model
+        let feedbackDetails = "OS version: \(osVersion)\nApp version: \(appVersion)\nDevice model: \(deviceModel)"
+        
+        let recipientAddress = "stepanokdev@gmail.com"
+        let emailSubject = "Feedback"
+        let emailBody = "\n\n\(feedbackDetails)\n".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let emailURL = URL(string: "mailto:\(recipientAddress)?subject=\(emailSubject)&body=\(emailBody)")
+        return emailURL
     }
 }

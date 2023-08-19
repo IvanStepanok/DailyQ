@@ -257,7 +257,7 @@ class Router: RouterProtocol {
         let viewModel = UserSettingsViewModel(userSettings: userSettings,
                                               persistence: persistence,
                                               updatedUser: {updatedUser($0)})
-        let vc = UIHostingController(rootView: UserSettingsView(isUser: true,
+        let vc = UIHostingController(rootView: UserSettingsView(isUser: !userSettings.isBot,
                                                                 viewModel: viewModel))
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .coverVertical

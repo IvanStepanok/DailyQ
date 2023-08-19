@@ -300,103 +300,10 @@
             filePath = "Daily Meeting/Views/SettingsView/SettingsViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "init(users:router:persistence:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F677E258-C49B-4912-A8D0-886A08692146"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Daily Meeting/Managers/OpenAiManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "getFeedback()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F677E258-C49B-4912-A8D0-886A08692146 - b7f293eeded68c6f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for Daily_Meeting.OpenAiManager.getFeedback() async -&gt; Swift.String"
-                  moduleName = "Daily Meeting"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Managers/OpenAiManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "872">
-               </Location>
-               <Location
-                  uuid = "F677E258-C49B-4912-A8D0-886A08692146 - 57ae20d33c1907d4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for Daily_Meeting.OpenAiManager.getFeedback() async -&gt; Swift.String"
-                  moduleName = "Daily Meeting"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Managers/OpenAiManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  uuid = "F677E258-C49B-4912-A8D0-886A08692146 - 42bb9d114d51cf6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Daily_Meeting.OpenAiManager.getFeedback() async -&gt; Swift.String"
-                  moduleName = "Daily Meeting"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Managers/OpenAiManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "92">
-               </Location>
-               <Location
-                  uuid = "F677E258-C49B-4912-A8D0-886A08692146 - 3b180629822e69ea"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for Daily_Meeting.OpenAiManager.getFeedback() async -&gt; Swift.String"
-                  moduleName = "Daily Meeting"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Managers/OpenAiManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "116">
-               </Location>
-               <Location
-                  uuid = "F677E258-C49B-4912-A8D0-886A08692146 - b7f293eeded68c6f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for Daily_Meeting.OpenAiManager.getFeedback() async -&gt; Swift.String"
-                  moduleName = "Daily Meeting"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/stepanokivan/Developer/MyProjects/Daily%20Meeting/Daily%20Meeting/Managers/OpenAiManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "700">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -583,8 +490,8 @@
             filePath = "Daily Meeting/Views/MainView/MainView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -667,6 +574,22 @@
                   offsetFromSymbolStart = "200">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5C557A4F-D569-40CC-9DAF-B33DA4155B8E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Daily Meeting/Managers/OpenAiManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "getFeedback()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

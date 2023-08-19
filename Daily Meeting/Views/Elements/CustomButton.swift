@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct CustomButton: View {
     
@@ -24,6 +25,10 @@ struct CustomButton: View {
     var body: some View {
         ZStack {
             Button(action: {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+                
                 action()
             }, label: {
                 ZStack {
@@ -44,7 +49,6 @@ struct CustomButton: View {
                 }
             })
         }.fixedSize(horizontal: !flexible, vertical: true)
-//        .frame(minWidth: 0, maxWidth: .infinity)
     }
 }
 

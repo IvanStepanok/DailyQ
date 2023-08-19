@@ -307,8 +307,8 @@ struct MainView: View {
                                      description: meeting.description(),
                                      isPremiumMeeting: meeting.isPremium(),
                                      isPremiumUser: $viewModel.isPremium,
-                                     membersAvatars: meeting.meeting(persistence: self.viewModel.persistence,
-                                                                     openAI: self.viewModel.openAI).members.map({ $0.avatarName ?? "" }),
+                                     members: meeting.meeting(persistence: self.viewModel.persistence,
+                                                              openAI: self.viewModel.openAI).members,
                                      timeLeft: viewModel.isPremium ? .constant(nil) : $viewModel.timeLeftString,
                                      buttonClicked: {
                                 if viewModel.isPremium {
@@ -395,38 +395,39 @@ struct MainView: View {
                 },
                           cancelClicked: { showDailyChallengesAlert = false })
             }
-            AdminPanelView(content: {
-                Text(viewModel.isPremium ? "Premium" : "Free")
-                Text("Visited: \(viewModel.persistence.getTodayMeetingVisited())")
-                Button("change Premium", action: {
-                    viewModel.settings.isPremium.toggle()
-                    viewModel.isPremium.toggle()
-                    Task {
-                        await viewModel.persistence.saveSettings(viewModel.settings)
-                        viewModel.settings = viewModel.persistence.loadSettings()
-                    }
-                    viewModel.refreshPage.toggle()
-                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
-                
-                Button("Add visit", action: {
-                    viewModel.persistence.saveNewMeetingVisiting()
-                    viewModel.refreshPage.toggle()
-                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
-                
-                Button("Reset views", action: {
-                    KeychainSwift().set("0", forKey: "visitedMeetings")
-                    viewModel.refreshPage.toggle()
-                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
-                
-                Button("Reset onBoarding", action: {
-                    viewModel.settings.userOnboarded.toggle()
-                    Task {
-                        await viewModel.persistence.saveSettings(viewModel.settings)
-                        viewModel.settings = viewModel.persistence.loadSettings()
-                    }
-                    viewModel.refreshPage.toggle()
-                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
-            })
+            
+//            AdminPanelView(content: {
+//                Text(viewModel.isPremium ? "Premium" : "Free")
+//                Text("Visited: \(viewModel.persistence.getTodayMeetingVisited())")
+//                Button("change Premium", action: {
+//                    viewModel.settings.isPremium.toggle()
+//                    viewModel.isPremium.toggle()
+//                    Task {
+//                        await viewModel.persistence.saveSettings(viewModel.settings)
+//                        viewModel.settings = viewModel.persistence.loadSettings()
+//                    }
+//                    viewModel.refreshPage.toggle()
+//                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+//
+//                Button("Add visit", action: {
+//                    viewModel.persistence.saveNewMeetingVisiting()
+//                    viewModel.refreshPage.toggle()
+//                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+//
+//                Button("Reset views", action: {
+//                    KeychainSwift().set("0", forKey: "visitedMeetings")
+//                    viewModel.refreshPage.toggle()
+//                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+//
+//                Button("Reset onBoarding", action: {
+//                    viewModel.settings.userOnboarded.toggle()
+//                    Task {
+//                        await viewModel.persistence.saveSettings(viewModel.settings)
+//                        viewModel.settings = viewModel.persistence.loadSettings()
+//                    }
+//                    viewModel.refreshPage.toggle()
+//                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
+//            })
         }.navigationBarHidden(true)
             .onAppear {
                 viewModel.router.checkSubscriptionStatus(isPremium: {
@@ -450,7 +451,7 @@ struct MeetView: View {
     var description: String
     var isPremiumMeeting: Bool
     @Binding var isPremiumUser: Bool
-    var membersAvatars: [String]
+    var members: [UserSettings]
     @Binding var timeLeft: String?
     var buttonClicked: () -> Void
     
@@ -480,8 +481,24 @@ struct MeetView: View {
                     .font(.system(size: 13, weight: .thin, design: .default))
                 Spacer()
                 HStack(spacing: -20) {
-                    ForEach(Array(membersAvatars.enumerated()), id: \.offset) { _, avatar in
-                        Avatar(image: avatar)
+                    ForEach(Array(members.enumerated()), id: \.offset) { _, member in
+                        ZStack {
+                            if let avatarName = member.avatarName {
+                                Image(avatarName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 48, height: 48)
+                                    .cornerRadius(24)
+                            } else {
+                                Circle()
+                                    .foregroundColor(Color(uiColor: member.color))
+                                Text(member.userName.prefix(1))
+                                    .font(.system(size: 16, weight: .medium, design: .default))
+                                    .scaledToFit()
+                                    .foregroundColor(Color.white)
+                                    
+                            }
+                        }.frame(width: 50, height: 50)
                     }
                     
                     Spacer()
@@ -502,25 +519,6 @@ struct MeetView: View {
             
         }.opacity(isPremiumUser ? 1 : (isPremiumMeeting ? 0.5 : 1))
     }
-}
-
-struct Avatar: View {
-    
-var image: String
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .foregroundColor(.white)
-                
-            Image(image)
-                .resizable()
-                .scaledToFit()
-                .clipShape(Circle())
-                .frame(width: 49)
-        }.frame(width: 50)
-    }
-    
 }
 
 struct UserStatistic: View {

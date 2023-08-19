@@ -34,7 +34,7 @@ struct SettingsView: View {
                                 .foregroundStyle(.white)
                                 .font(.system(size: 14, weight: .thin, design: .default))
                             LazyVGrid(columns: columns, spacing: 8) {
-                                ForEach(viewModel.users.sorted(by: {$0.id < $1.id}), id: \.id) { user in
+                                ForEach(viewModel.users.sorted(by: { $0.id < $1.id }), id: \.id) { user in
                                     Button(action: {
                                         viewModel.router.showUserSettingsView(userSettings: user,
                                                                               updatedUser: { updatedData in
@@ -97,10 +97,23 @@ struct SettingsView: View {
                                         .fill(.white.opacity(0.1))
                                 )
                         }
+                        if let support = viewModel.contactSupport() {
+                            Spacer(minLength: 100)
+                            Button(action: {
+                                UIApplication.shared.open(support)
+                            }, label: {
+                                HStack {
+                                    Text(Localized("settingsViewAuthor"))
+                                        .font(.system(size: 14, weight: .thin, design: .default))
+                                        .underline()
+                                }
+                            })
+                    }
                         Spacer(minLength: 100)
                     }.padding(.horizontal, 16)
+                        
                         .ipadWidthLimit()
-                }
+                }.avoidKeyboard(dismissKeyboardByTap: true)
             }
         }.navigationBarHidden(false) //.toolbar(.visible)
             .navigationTitle(Localized("settingsViewTitle"))
@@ -160,13 +173,6 @@ struct RainbowBackgroundView: View {
         Image("avatar_16")
     ]
     
-//    Image("gradient-1"),
-//    Image("gradient-2"),
-//    Image("gradient-3"),
-//    Image("gradient-4"),
-//    Image("gradient-5"),
-//    Image("gradient-6")
-    
     func updateImageIndex() {
         Timer.scheduledTimer(withTimeInterval: timeInterval / 2, repeats: true) { timer in
             withAnimation(.linear(duration: timeInterval )) {
@@ -189,15 +195,12 @@ struct RainbowBackgroundView: View {
                     .clipped()
                     .scaledToFit()
                     .blur(radius: 100)
-//                    .scaleEffect(1.5)
                     .frame(width: reader.size.width, height: reader.size.height / 1)
                     .offset(y: -reader.size.height / 4)
                     .clipped()
-//                    .opacity(0.5)
-//                    .saturation(0.6)
-                    
             }
-        }.onAppear(perform: updateImageIndex)
+        }.onFirstAppear { updateImageIndex() }
             .ignoresSafeArea()
     }
 }
+

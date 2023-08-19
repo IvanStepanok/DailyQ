@@ -130,7 +130,7 @@ struct PremiumView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(Localized("premiumYearlySub"))
-                                    Text("47,99$")
+                                    Text("49,99$")
                                 }.font(.system(size: 15, weight: .regular, design: .default))
                                 Spacer()
                                 SelectorView(isSelected: $isYearAccess)
@@ -245,6 +245,9 @@ struct PremiumView: View {
             if isLoading {
                 Color.black.opacity(0.7)
                     .ignoresSafeArea()
+                    .onTapGesture {
+                        isLoading = false
+                    }
                     ZStack {
                         VisualEffectView(effect: UIBlurEffect(style: .dark))
                             .cornerRadius(16)

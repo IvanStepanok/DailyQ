@@ -6,7 +6,7 @@
   
 */
 
-"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? Use markdowns";
+"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? Write Original, Corrected and Explanation by using markdowns. Note: The user inputs the text using voice, so occasional punctuation gaps are acceptable.";
 
 //MARK: - DailyMeetingOnboarding
 "onBoarding1" = "Ласкаво просимо на наш перший мітинг. Його успішність в значній мірі залежить від вас. Намагайтесь надавати максимально розгорнуті відповіді, проявляйте уяву, а інші учасники команди вас підтримають.";
@@ -61,10 +61,11 @@
 //MARK: - SettingsView
 "settingsViewSetupTeam" = "Налаштуйте свою команду:";
 "settingsViewVoiceOver" = "Озвучувати голосом";
-"settingsViewUserStackDescription" = "Опис вашої посади або стек технологій:";
+"settingsViewUserStackDescription" = "Опис посади або стеку технологій:";
 "settingsViewProjectDescription" = "Опис проекту:";
 "settingsViewSaveButton" = "Зберегти налаштування";
 "settingsViewTitle" = "Налаштування";
+"settingsViewAuthor" = "Написати автору";
 
 //MARK: - IntroView
 
@@ -79,7 +80,7 @@
 "introViewProjectTitle" = "Над яким проєктом ви працюєте?";
 "introViewProjectDescription" = "Ми згенерували для вас опис проєкту, можете залишити його, або ж написати власноруч.";
 "introViewRoleTitle" = "Опишіть свою роль";
-"introViewRoleDescription" = "Ми вже трошки написали за вас, виправте або ж залиште як є. Коротко і бажано англійською.";
+"introViewRoleDescription" = "Коротке резюме (можете взяти з вашого CV). Бажано англійською.";
 "introViewTeamSetup" = "Налаштуйте вашу команду:";
 "introViewStartFirstMeeting" = "Розпочати перший мітинг";
 

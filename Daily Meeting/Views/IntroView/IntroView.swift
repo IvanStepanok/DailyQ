@@ -262,7 +262,7 @@ struct IntroView: View {
                                 .foregroundStyle(.white)
                                 .font(.system(size: 18, weight: .thin, design: .default))
                             LazyVGrid(columns: columns, spacing: 8) {
-                                ForEach(viewModel.teamSettings, id: \.id) { user in
+                                ForEach(viewModel.teamSettings.sorted(by: { $0.id < $1.id }), id: \.id) { user in
                                     Button(action: {
                                         viewModel.router.showUserSettingsView(userSettings: user,
                                                                               updatedUser: { updatedData in

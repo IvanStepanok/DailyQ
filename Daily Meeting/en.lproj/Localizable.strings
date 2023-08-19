@@ -6,7 +6,7 @@
   
 */
 
-"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? Use markdowns";
+"feedbackPromt" = "I am English learner. Can you explain me what mistakes I made in each of these sentences? Write Original, Corrected and Explanation by using markdowns. Note: The user inputs the text using voice, so occasional punctuation gaps are acceptable.";
 
 //MARK: - DailyMeetingOnboarding
 "onBoarding1" = "Welcome to our first meeting. Its success depends largely on you. Try to give detailed answers, use your imagination, and other team members will support you.";
@@ -65,6 +65,7 @@
 "settingsViewProjectDescription" = "Project Description:";
 "settingsViewSaveButton" = "Save Settings";
 "settingsViewTitle" = "Settings";
+"settingsViewAuthor" = "Сontact an author";
 
 //MARK: - IntroView
 
@@ -79,7 +80,7 @@
 "introViewProjectTitle" = "What project are you working on?";
 "introViewProjectDescription" = "We have created a project description for you. You can leave it as is or write your own.";
 "introViewRoleTitle" = "Describe Your Role";
-"introViewRoleDescription" = "We've written a bit for you already, edit or leave as is. Briefly and preferably in English.";
+"introViewRoleDescription" = "Brief summary (You can take it from your CV). Preferably in English.";
 "introViewTeamSetup" = "Set Up Your Team:";
 "introViewStartFirstMeeting" = "Start First Meeting";
 
