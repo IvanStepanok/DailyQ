@@ -9,6 +9,7 @@ import Foundation
 import OpenAISwift
 import Swinject
 import Mixpanel
+import QAHelper
 
 class OpenAiManager: ObservableObject {
 //    static let apiKey = "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"
@@ -70,10 +71,12 @@ Language: English.
         }.joined(separator: " \n \n")
         
         let promt = Localized("feedbackPromt") + messages
+        QA.Print(">>>> promt getFeedback() \(promt)")
         
         do {
             let result = try await openAI.sendChat(with: [ChatMessage(role: .assistant, content: promt), ChatMessage(role: .user, content: " ")])
             print(result)
+            QA.Print(result.choices.first?.message.content)
             return result.choices.first?.message.content ?? "Content creation error"
         } catch {
             print(">>>> 🤡", error.localizedDescription)
@@ -89,6 +92,7 @@ Language: English.
         do {
             let result = try await openAI.sendChat(with: chatHistory, maxTokens: 200)
             guard let response = result.choices.first?.message else { return }
+            QA.Print(">>>> response openAI() \(response.content)")
             if !oneTry {
                 if response.content.count < 300 {
                     DispatchQueue.main.async {

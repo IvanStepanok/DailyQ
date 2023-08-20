@@ -9,6 +9,7 @@ import SwiftUI
 import Swinject
 import OpenAISwift
 import KeychainSwift
+import QAHelper
 
 class MainViewModel: ObservableObject {
     
@@ -396,7 +397,7 @@ struct MainView: View {
                           cancelClicked: { showDailyChallengesAlert = false })
             }
             
-//            AdminPanelView(content: {
+//            QAPanelView {
 //                Text(viewModel.isPremium ? "Premium" : "Free")
 //                Text("Visited: \(viewModel.persistence.getTodayMeetingVisited())")
 //                Button("change Premium", action: {
@@ -427,7 +428,7 @@ struct MainView: View {
 //                    }
 //                    viewModel.refreshPage.toggle()
 //                }).padding(1).background(RoundedRectangle(cornerRadius: 2).foregroundColor(.black.opacity(0.4)))
-//            })
+//            }
         }.navigationBarHidden(true)
             .onAppear {
                 viewModel.router.checkSubscriptionStatus(isPremium: {

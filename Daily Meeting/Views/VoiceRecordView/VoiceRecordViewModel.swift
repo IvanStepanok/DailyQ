@@ -7,6 +7,7 @@
 
 import Foundation
 import Speech
+import QAHelper
 
 class VoiceRecordViewModel: ObservableObject {
     
@@ -36,11 +37,13 @@ class VoiceRecordViewModel: ObservableObject {
         guard let recognitionRequest else { return }
         
         guard let recognizer = speechRecognizer else {
+            QA.Print("Speech recognition not supported for current locale.")
             print("Speech recognition not supported for current locale.")
             return
         }
         
         if !recognizer.isAvailable {
+            QA.Print("Speech recognition is not available at the moment.")
             print("Speech recognition is not available at the moment.")
             return
         }
@@ -52,6 +55,8 @@ class VoiceRecordViewModel: ObservableObject {
                     try audioSession.setCategory(.record, mode: .default)
                     try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
                 } catch {
+                    QA.Print("Audio session setup failed: \(error)")
+
                     print("Audio session setup failed: \(error)")
                 }
                 DispatchQueue.main.async {
@@ -68,6 +73,8 @@ class VoiceRecordViewModel: ObservableObject {
                         let transcribedText = result.bestTranscription.formattedString
                         self.recognizedText = transcribedText
                     } else if let error = error {
+                        QA.Print("Recognition task error: \(error)")
+
                         print("Recognition task error: \(error)")
                     }
                 }
@@ -82,6 +89,8 @@ class VoiceRecordViewModel: ObservableObject {
                 do {
                     try audioEngine?.start()
                 } catch {
+                    QA.Print("Audio engine start error: \(error)")
+
                     print("Audio engine start error: \(error)")
                 }
                 

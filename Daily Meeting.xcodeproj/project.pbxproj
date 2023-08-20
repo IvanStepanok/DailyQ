@@ -47,7 +47,6 @@
 		0274BF992A7C559900DA7849 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 0274BF982A7C559900DA7849 /* Swinject */; };
 		0274BF9C2A7C55E700DA7849 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0274BF9B2A7C55E700DA7849 /* AppAssembly.swift */; };
 		0277E94E2A83ECA000DD0DA2 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 0277E94D2A83ECA000DD0DA2 /* SwiftUIIntrospect */; };
-		027DBF022A87F3EA003678B4 /* AdminPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027DBF012A87F3EA003678B4 /* AdminPanelView.swift */; };
 		0285A7EE2A80F83D00E4BA7B /* MeetingCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0285A7ED2A80F83D00E4BA7B /* MeetingCompleted.swift */; };
 		0285A7F02A80F8B400E4BA7B /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0285A7EF2A80F8B400E4BA7B /* RatingView.swift */; };
 		0285A7F32A80FB4000E4BA7B /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0285A7F22A80FB4000E4BA7B /* ConfettiSwiftUI */; };
@@ -59,6 +58,7 @@
 		029041552A8F52DB001C95CD /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 029041542A8F52DB001C95CD /* Mixpanel */; };
 		029041582A8F66C3001C95CD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 029041572A8F66C3001C95CD /* RevenueCat */; };
 		0290415A2A8F81F7001C95CD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029041592A8F81F7001C95CD /* StoreKit.framework */; };
+		02AB80322A921CB000E966B7 /* QAHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 02AB80312A921CB000E966B7 /* QAHelper */; };
 		02D7B2292A86E5710067F118 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02D7B2282A86E5710067F118 /* KeychainSwift */; };
 		02D7B22B2A86E9F10067F118 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7B22A2A86E9F10067F118 /* DateExtension.swift */; };
 		02E701A62A823B76003C6B40 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E701A52A823B76003C6B40 /* CalendarView.swift */; };
@@ -106,7 +106,6 @@
 		0274BF922A7C130F00DA7849 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		0274BF952A7C54CE00DA7849 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		0274BF9B2A7C55E700DA7849 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
-		027DBF012A87F3EA003678B4 /* AdminPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPanelView.swift; sourceTree = "<group>"; };
 		0285A7ED2A80F83D00E4BA7B /* MeetingCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCompleted.swift; sourceTree = "<group>"; };
 		0285A7EF2A80F8B400E4BA7B /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		0285A7F42A812FCA00E4BA7B /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
@@ -132,6 +131,7 @@
 				0290415A2A8F81F7001C95CD /* StoreKit.framework in Frameworks */,
 				0285A7F32A80FB4000E4BA7B /* ConfettiSwiftUI in Frameworks */,
 				02D7B2292A86E5710067F118 /* KeychainSwift in Frameworks */,
+				02AB80322A921CB000E966B7 /* QAHelper in Frameworks */,
 				0274BF992A7C559900DA7849 /* Swinject in Frameworks */,
 				0277E94E2A83ECA000DD0DA2 /* SwiftUIIntrospect in Frameworks */,
 			);
@@ -239,7 +239,6 @@
 			isa = PBXGroup;
 			children = (
 				023A5EFC2A8827190045C39E /* Onboardings */,
-				027DBF002A87F3D0003678B4 /* AdminPanelView */,
 				0274BF642A7BBBAC00DA7849 /* Elements */,
 				02529E622A8037EE00233857 /* MainView */,
 				0285A7EC2A80F82700E4BA7B /* MeetingCompleted */,
@@ -386,14 +385,6 @@
 			path = DI;
 			sourceTree = "<group>";
 		};
-		027DBF002A87F3D0003678B4 /* AdminPanelView */ = {
-			isa = PBXGroup;
-			children = (
-				027DBF012A87F3EA003678B4 /* AdminPanelView.swift */,
-			);
-			path = AdminPanelView;
-			sourceTree = "<group>";
-		};
 		0285A7EC2A80F82700E4BA7B /* MeetingCompleted */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,6 +436,7 @@
 				02D7B2282A86E5710067F118 /* KeychainSwift */,
 				029041542A8F52DB001C95CD /* Mixpanel */,
 				029041572A8F66C3001C95CD /* RevenueCat */,
+				02AB80312A921CB000E966B7 /* QAHelper */,
 			);
 			productName = "Daily Meeting";
 			productReference = 0225285E2A7ABA2C0048BEDD /* Daily Meeting.app */;
@@ -484,6 +476,7 @@
 				02D7B2272A86E5710067F118 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				029041532A8F52DB001C95CD /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 				029041562A8F66C3001C95CD /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				02AB80302A921CB000E966B7 /* XCRemoteSwiftPackageReference "QAHelper" */,
 			);
 			productRefGroup = 0225285F2A7ABA2C0048BEDD /* Products */;
 			projectDirPath = "";
@@ -526,7 +519,6 @@
 				022528742A7AEDF90048BEDD /* OpenAiManager.swift in Sources */,
 				02E701A62A823B76003C6B40 /* CalendarView.swift in Sources */,
 				0287FDDF2A85358100C97FD6 /* SalaryReview.swift in Sources */,
-				027DBF022A87F3EA003678B4 /* AdminPanelView.swift in Sources */,
 				02529E642A8037FF00233857 /* MainView.swift in Sources */,
 				0274BF632A7BBB3700DA7849 /* UserSettingsViewModel.swift in Sources */,
 				0274BF9C2A7C55E700DA7849 /* AppAssembly.swift in Sources */,
@@ -843,6 +835,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		02AB80302A921CB000E966B7 /* XCRemoteSwiftPackageReference "QAHelper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/IvanStepanok/QAHelper";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		02D7B2272A86E5710067F118 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
@@ -883,6 +883,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 029041562A8F66C3001C95CD /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCat;
+		};
+		02AB80312A921CB000E966B7 /* QAHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02AB80302A921CB000E966B7 /* XCRemoteSwiftPackageReference "QAHelper" */;
+			productName = QAHelper;
 		};
 		02D7B2282A86E5710067F118 /* KeychainSwift */ = {
 			isa = XCSwiftPackageProductDependency;

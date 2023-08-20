@@ -12,6 +12,7 @@ import OpenAISwift
 import Speech
 import Mixpanel
 import RevenueCat
+import QAHelper
 
 protocol RouterProtocol {
     func configureNavigationController()
@@ -65,6 +66,7 @@ class Router: RouterProtocol {
         Purchases.shared.getCustomerInfo { [weak self] customerInfo, error in
             guard let self else { return }
             if let customerInfo {
+                QA.Print(customerInfo.description)
                 if customerInfo.entitlements["Pro"]?.isActive == true {
                     self.updatePremiumState(isPremium: true)
                     isPremium(true)
@@ -80,6 +82,7 @@ class Router: RouterProtocol {
         Purchases.shared.restorePurchases { [weak self] customerInfo, error in
             guard let self else { return }
             if let customerInfo {
+                QA.Print(customerInfo.description)
                 if customerInfo.entitlements["Pro"]?.isActive == true {
                     self.updatePremiumState(isPremium: true)
                     isPremium(true)
@@ -94,6 +97,7 @@ class Router: RouterProtocol {
     func getPremium(isYearAccess: Bool) async -> Bool {
         do {
             let offerings = try await Purchases.shared.offerings()
+            QA.Print(offerings.current?.description ?? "")
             print(">>>", offerings)
             if let packages = offerings.current?.availablePackages {
                 let result = try await Purchases.shared.purchase(package: isYearAccess ? packages[1] : packages[0])
@@ -108,6 +112,7 @@ class Router: RouterProtocol {
                 return false
             }
         } catch {
+            QA.Print(error.localizedDescription)
             print(">>>>> ⛔️ checkPremium Error: ", error.localizedDescription)
             updatePremiumState(isPremium: false)
             return false
