@@ -213,7 +213,7 @@ struct PremiumView: View {
                             .underline()
                     }.font(.system(size: 10, weight: .thin, design: .default))
                         
-                    Text(Localized("premiumDescription"))
+                    Text(isYearAccess ? Localized("premiumDescriptionYear") : Localized("premiumDescriptionMonth"))
                         .padding(.top, 30)
                         .multilineTextAlignment(.center)
                         .font(.system(size: 14, weight: .thin, design: .default))
