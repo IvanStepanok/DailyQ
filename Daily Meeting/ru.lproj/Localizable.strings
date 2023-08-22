@@ -139,3 +139,13 @@
 "completedCompleted2" = " и словили звездочку! Теперь давайте разберем допущенные ошибки.";
 "completedSummary" = "Итоги митинга:";
 "completedGetFullReview" = "Получить полный разбор";
+
+//MARK: - Privacy and EULA
+
+"privacyTitle" = "Политика конфиденциальности";
+"urlPrivacy" = "https://stepanok.com/privacy-and-policy-ru.html";
+
+"termsTitle" = "Правила и условия";
+"urlTerms" = "https://stepanok.com/terms-and-conditions-ru.html";
+
+"restorePurchases" = "Восстановить покупки";

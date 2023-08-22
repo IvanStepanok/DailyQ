@@ -98,7 +98,13 @@ struct SettingsView: View {
                                 )
                         }
                         if let support = viewModel.contactSupport() {
-                            Spacer(minLength: 100)
+                            Spacer(minLength: 30)
+                            Link(destination: URL(string: Localized("urlPrivacy"))!, label: {
+                            Text(Localized("privacyTitle")).underline()
+                        })
+                            Link(destination: URL(string: Localized("urlTerms"))!, label: {
+                                Text(Localized("termsTitle")).underline()
+                            })
                             Button(action: {
                                 UIApplication.shared.open(support)
                             }, label: {

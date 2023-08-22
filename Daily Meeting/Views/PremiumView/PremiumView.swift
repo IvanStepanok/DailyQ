@@ -186,8 +186,8 @@ struct PremiumView: View {
                     }.padding(.top, -10)
                     
                     HStack {
-                        Link(destination: URL(string: "https://stepanok.com/privacy-and-policy.html")!, label: {
-                        Text("Privacy Policy").underline()
+                        Link(destination: URL(string: Localized("urlPrivacy"))!, label: {
+                        Text(Localized("privacyTitle")).underline()
                     })
                         Spacer()
                         Button {
@@ -202,13 +202,13 @@ struct PremiumView: View {
                                 }
                             })
                         } label: {
-                            Text("Resote Purchases").underline()
+                            Text(Localized("restorePurchases")).underline()
                         }
 
                         
                         Spacer()
-                        Link(destination: URL(string: "https://stepanok.com/terms-and-conditions.html")!, label: {
-                            Text("Terms of Service").underline()
+                        Link(destination: URL(string: Localized("urlTerms"))!, label: {
+                            Text(Localized("termsTitle")).underline()
                         })
                             .underline()
                     }.font(.system(size: 10, weight: .thin, design: .default))

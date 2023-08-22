@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  Daily Meeting
+
+  Created by  Stepanok Ivan on 21.08.2023.
+  
+*/
+
+"NSMicrophoneUsageDescription" = "Для распознавания голоса требуется доступ к микрофону";
+
+"NSSpeechRecognitionUsageDescription" = "Для обработки голосовых запросов требуется разрешение на распознавание голоса";

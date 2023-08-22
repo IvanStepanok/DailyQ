@@ -139,3 +139,13 @@
 "completedCompleted2" = " and caught a star! Now, let's go over the mistakes.";
 "completedSummary" = "Meeting Summary:";
 "completedGetFullReview" = "Get Full Review";
+
+//MARK: - Privacy and EULA
+
+"privacyTitle" = "Privacy Policy";
+"urlPrivacy" = "https://stepanok.com/privacy-and-policy.html";
+
+"termsTitle" = "Terms of Service";
+"urlTerms" = "https://stepanok.com/terms-and-conditions.html";
+
+"restorePurchases" = "Restore Purchases";

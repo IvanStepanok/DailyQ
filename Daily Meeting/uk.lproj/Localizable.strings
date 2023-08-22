@@ -140,3 +140,12 @@
 "completedSummary" = "Підсумок мітингу:";
 "completedGetFullReview" = "Отримати повний розбір";
 
+//MARK: - Privacy and EULA
+
+"privacyTitle" = "Політика конфіденційності";
+"urlPrivacy" = "https://stepanok.com/privacy-and-policy-ua.html";
+
+"termsTitle" = "Правила та умови користування";
+"urlTerms" = "https://stepanok.com/terms-and-conditions-ua.html";
+
+"restorePurchases" = "Відновити покупки";
